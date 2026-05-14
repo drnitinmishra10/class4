@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths Worksheet - Lakshya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #f5f5f0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .worksheet-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border: 2px solid #333;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px double #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 28px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .header .subtitle {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 5px;
+        }
+        .header .details {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+        .student-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fafafa;
+            border: 1px solid #ddd;
+        }
+        .info-box {
+            flex: 1;
+            margin: 0 10px;
+        }
+        .info-box label {
+            display: block;
+            font-weight: bold;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .info-box .line {
+            border-bottom: 1px solid #333;
+            height: 25px;
+        }
+        .instructions {
+            background: #fff8e1;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #5d4037;
+        }
+        .instructions strong {
+            color: #e65100;
+        }
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 5px;
+            border-left: 4px solid #4CAF50;
+        }
+        .question-number {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        .question-text {
+            font-size: 16px;
+            color: #333;
+            display: inline;
+        }
+        .topic-tag {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1565c0;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .answer-space {
+            margin-top: 15px;
+            padding: 10px;
+            background: white;
+            border: 1px dashed #ccc;
+            min-height: 40px;
+        }
+        .answer-space label {
+            font-size: 12px;
+            color: #888;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .worksheet-container {
+                box-shadow: none;
+                border: none;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="worksheet-container">
+        <div class="header">
+            <h1>📚 MATHEMATICS WORKSHEET</h1>
+            <div class="subtitle">Worksheet for Lakshya — Student Class 4</div>
+            <div class="details">CBSE Curriculum | Word Problems Practice</div>
+        </div>
+
+        <div class="student-info">
+            <div class="info-box">
+                <label>Name</label>
+                <div class="line"></div>
+            </div>
+            <div class="info-box">
+                <label>Roll Number</label>
+                <div class="line"></div>
+            </div>
+            <div class="info-box">
+                <label>Date</label>
+                <div class="line"></div>
+            </div>
+            <div class="info-box">
+                <label>Marks Obtained</label>
+                <div class="line"></div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <strong>Instructions:</strong> Read each question carefully. Show your working in the space provided. 
+            Each question carries equal marks. Topics included: Addition, Subtraction, Multiplication, Division, LCM, and HCF.
+        </div>
+
+        <div class="question">
+            <span class="question-number">1</span>
+            <span class="question-text">There are 144 apples to be packed in boxes of 12. How many boxes are needed?</span>
+            <span class="topic-tag">Division</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">2</span>
+            <span class="question-text">₹850 is to be divided equally among 5 friends. How much will each friend get?</span>
+            <span class="topic-tag">Division</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">3</span>
+            <span class="question-text">A bus can carry 45 passengers. How many passengers can 12 such buses carry?</span>
+            <span class="topic-tag">Multiplication</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">4</span>
+            <span class="question-text">A shopkeeper sold 345 apples on Monday and 456 apples on Tuesday. How many apples did he sell in two days?</span>
+            <span class="topic-tag">Addition</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">5</span>
+            <span class="question-text">Find the LCM of 5, 10, and 15.</span>
+            <span class="topic-tag">LCM</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">6</span>
+            <span class="question-text">A box contains 24 crayons. How many crayons are there in 15 such boxes?</span>
+            <span class="topic-tag">Multiplication</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">7</span>
+            <span class="question-text">A school library has 456 story books and 387 science books. How many books are there in total?</span>
+            <span class="topic-tag">Addition</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">8</span>
+            <span class="question-text">A rope of 156 metres is cut into 13 equal pieces. What is the length of each piece?</span>
+            <span class="topic-tag">Division</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">9</span>
+            <span class="question-text">Find the LCM of 4, 6, and 8.</span>
+            <span class="topic-tag">LCM</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">10</span>
+            <span class="question-text">Find the HCF of 54 and 72.</span>
+            <span class="topic-tag">HCF</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">11</span>
+            <span class="question-text">A train has 850 passengers. 325 passengers got off at a station. How many passengers are left?</span>
+            <span class="topic-tag">Subtraction</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">12</span>
+            <span class="question-text">A factory makes 125 toys every day. How many toys will it make in 8 days?</span>
+            <span class="topic-tag">Multiplication</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">13</span>
+            <span class="question-text">Find the LCM of 12 and 18.</span>
+            <span class="topic-tag">LCM</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">14</span>
+            <span class="question-text">Find the HCF of 15, 25, and 35.</span>
+            <span class="topic-tag">HCF</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">15</span>
+            <span class="question-text">Rahul has 245 marbles. His friend gave him 178 more marbles. How many marbles does Rahul have now?</span>
+            <span class="topic-tag">Addition</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">16</span>
+            <span class="question-text">A water tank contains 1,000 litres of water. 456 litres were used. How much water is left?</span>
+            <span class="topic-tag">Subtraction</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">17</span>
+            <span class="question-text">Riya had ₹500. She spent ₹275 on books. How much money does she have left?</span>
+            <span class="topic-tag">Subtraction</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">18</span>
+            <span class="question-text">Find the HCF of 28 and 42.</span>
+            <span class="topic-tag">HCF</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">19</span>
+            <span class="question-text">Find the LCM of 6 and 8.</span>
+            <span class="topic-tag">LCM</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">20</span>
+            <span class="question-text">A packet has 36 biscuits. How many biscuits are there in 25 packets?</span>
+            <span class="topic-tag">Multiplication</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">21</span>
+            <span class="question-text">A farmer harvested 534 kg of wheat and 267 kg of rice. What is the total weight of the harvest?</span>
+            <span class="topic-tag">Addition</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">22</span>
+            <span class="question-text">There are 1,234 students in a school. 567 new students joined. How many students are there now?</span>
+            <span class="topic-tag">Addition</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">23</span>
+            <span class="question-text">A garden has 18 rows of plants with 24 plants in each row. How many plants are there in total?</span>
+            <span class="topic-tag">Multiplication</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">24</span>
+            <span class="question-text">Find the LCM of 9 and 12.</span>
+            <span class="topic-tag">LCM</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">25</span>
+            <span class="question-text">Find the HCF of 36 and 48.</span>
+            <span class="topic-tag">HCF</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">26</span>
+            <span class="question-text">Find the HCF of 18 and 24.</span>
+            <span class="topic-tag">HCF</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">27</span>
+            <span class="question-text">A teacher has 96 pencils to distribute equally among 8 students. How many pencils will each student get?</span>
+            <span class="topic-tag">Division</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">28</span>
+            <span class="question-text">There were 600 balloons at a party. 234 balloons burst. How many balloons are left?</span>
+            <span class="topic-tag">Subtraction</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">29</span>
+            <span class="question-text">A shop had 750 chocolates. They sold 489 chocolates. How many chocolates are remaining?</span>
+            <span class="topic-tag">Subtraction</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <span class="question-number">30</span>
+            <span class="question-text">A baker made 180 cupcakes. He wants to pack them in boxes of 15. How many boxes will he need?</span>
+            <span class="topic-tag">Division</span>
+            <div class="answer-space">
+                <label>Your Answer / Working:</label>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Good Luck! 🌟 | Practice makes perfect!</p>
+            <p style="margin-top: 10px; font-size: 10px;">Worksheet generated for Lakshya — Class 4 CBSE Maths</p>
+        </div>
+    </div>
+</body>
+</html>
