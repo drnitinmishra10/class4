@@ -1,0 +1,305 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Class 4 Science - Plants & Animals MCQ Quiz</title>
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#d4fc79,#96e6a1);
+    padding:20px;
+    color:#222;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    color:#1b5e20;
+    margin-bottom:10px;
+    font-size:2rem;
+}
+
+.subtitle{
+    text-align:center;
+    margin-bottom:25px;
+    color:#555;
+}
+
+.question-box{
+    background:#f7fff7;
+    border:2px solid #c8e6c9;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:25px;
+}
+
+.question-box img{
+    width:100%;
+    max-height:250px;
+    object-fit:cover;
+    border-radius:12px;
+    margin:12px 0;
+}
+
+.question{
+    font-size:1.15rem;
+    font-weight:bold;
+    margin-bottom:12px;
+    color:#2e7d32;
+}
+
+.options label{
+    display:block;
+    background:#ffffff;
+    border:2px solid #ddd;
+    padding:12px;
+    margin:10px 0;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.options label:hover{
+    background:#f1f8e9;
+    border-color:#66bb6a;
+}
+
+.correct{
+    background:#c8f7c5 !important;
+    border-color:#2e7d32 !important;
+    color:#1b5e20;
+    font-weight:bold;
+}
+
+.wrong{
+    background:#ffcdd2 !important;
+    border-color:#c62828 !important;
+    color:#b71c1c;
+    font-weight:bold;
+}
+
+.result{
+    margin-top:10px;
+    font-weight:bold;
+    font-size:1rem;
+}
+
+.score-box{
+    text-align:center;
+    background:#1b5e20;
+    color:white;
+    padding:20px;
+    border-radius:16px;
+    margin-top:20px;
+    display:none;
+}
+
+button{
+    display:block;
+    width:100%;
+    padding:15px;
+    font-size:1.1rem;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:14px;
+    cursor:pointer;
+    margin-top:20px;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1b5e20;
+}
+
+@media(max-width:600px){
+    h1{
+        font-size:1.6rem;
+    }
+
+    .question{
+        font-size:1rem;
+    }
+
+    .options label{
+        font-size:0.95rem;
+    }
+}
+
+</style>
+</head>
+<body><div class="container">
+    <h1>🌿 Plants & Animals MCQ Quiz 🐾</h1>
+    <p class="subtitle">Class 4 Science Interactive Worksheet</p><form id="quizForm">
+
+    <div class="question-box">
+        <div class="question">1. Which part of the plant absorbs water from the soil?</div>
+        <img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1200&auto=format&fit=crop" alt="Plant roots">
+        <div class="options">
+            <label><input type="radio" name="q1" value="Leaf"> Leaf</label>
+            <label><input type="radio" name="q1" value="Root"> Root</label>
+            <label><input type="radio" name="q1" value="Flower"> Flower</label>
+            <label><input type="radio" name="q1" value="Fruit"> Fruit</label>
+        </div>
+        <div class="result" id="r1"></div>
+    </div>
+
+    <div class="question-box">
+        <div class="question">2. Which animal eats only plants?</div>
+        <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?q=80&w=1200&auto=format&fit=crop" alt="Cow grazing">
+        <div class="options">
+            <label><input type="radio" name="q2" value="Lion"> Lion</label>
+            <label><input type="radio" name="q2" value="Cow"> Cow</label>
+            <label><input type="radio" name="q2" value="Tiger"> Tiger</label>
+            <label><input type="radio" name="q2" value="Cat"> Cat</label>
+        </div>
+        <div class="result" id="r2"></div>
+    </div>
+
+    <div class="question-box">
+        <div class="question">3. Which of these is a climber plant?</div>
+        <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=1200&auto=format&fit=crop" alt="Climber plant">
+        <div class="options">
+            <label><input type="radio" name="q3" value="Money Plant"> Money Plant</label>
+            <label><input type="radio" name="q3" value="Mango Tree"> Mango Tree</label>
+            <label><input type="radio" name="q3" value="Rose"> Rose</label>
+            <label><input type="radio" name="q3" value="Grass"> Grass</label>
+        </div>
+        <div class="result" id="r3"></div>
+    </div>
+
+    <div class="question-box">
+        <div class="question">4. Which animal is known as the king of the jungle?</div>
+        <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?q=80&w=1200&auto=format&fit=crop" alt="Lion">
+        <div class="options">
+            <label><input type="radio" name="q4" value="Elephant"> Elephant</label>
+            <label><input type="radio" name="q4" value="Lion"> Lion</label>
+            <label><input type="radio" name="q4" value="Monkey"> Monkey</label>
+            <label><input type="radio" name="q4" value="Deer"> Deer</label>
+        </div>
+        <div class="result" id="r4"></div>
+    </div>
+
+    <div class="question-box">
+        <div class="question">5. Which part of the plant makes food?</div>
+        <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1200&auto=format&fit=crop" alt="Leaves">
+        <div class="options">
+            <label><input type="radio" name="q5" value="Leaf"> Leaf</label>
+            <label><input type="radio" name="q5" value="Stem"> Stem</label>
+            <label><input type="radio" name="q5" value="Root"> Root</label>
+            <label><input type="radio" name="q5" value="Seed"> Seed</label>
+        </div>
+        <div class="result" id="r5"></div>
+    </div>
+
+    <div class="question-box">
+        <div class="question">6. Which animal can live both on land and in water?</div>
+        <img src="https://images.unsplash.com/photo-1516934024742-b461fba47600?q=80&w=1200&auto=format&fit=crop" alt="Frog">
+        <div class="options">
+            <label><input type="radio" name="q6" value="Camel"> Camel</label>
+            <label><input type="radio" name="q6" value="Frog"> Frog</label>
+            <label><input type="radio" name="q6" value="Horse"> Horse</label>
+            <label><input type="radio" name="q6" value="Monkey"> Monkey</label>
+        </div>
+        <div class="result" id="r6"></div>
+    </div>
+
+    <div class="question-box">
+        <div class="question">7. Which of these is a herbivore?</div>
+        <img src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?q=80&w=1200&auto=format&fit=crop" alt="Deer">
+        <div class="options">
+            <label><input type="radio" name="q7" value="Tiger"> Tiger</label>
+            <label><input type="radio" name="q7" value="Wolf"> Wolf</label>
+            <label><input type="radio" name="q7" value="Deer"> Deer</label>
+            <label><input type="radio" name="q7" value="Lion"> Lion</label>
+        </div>
+        <div class="result" id="r7"></div>
+    </div>
+
+    <div class="question-box">
+        <div class="question">8. Which plant grows into a big tree?</div>
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1200&auto=format&fit=crop" alt="Big tree">
+        <div class="options">
+            <label><input type="radio" name="q8" value="Mango"> Mango</label>
+            <label><input type="radio" name="q8" value="Mint"> Mint</label>
+            <label><input type="radio" name="q8" value="Grass"> Grass</label>
+            <label><input type="radio" name="q8" value="Pumpkin"> Pumpkin</label>
+        </div>
+        <div class="result" id="r8"></div>
+    </div>
+
+    <button type="button" onclick="checkAnswers()">✅ Check Answers</button>
+
+    <div class="score-box" id="scoreBox"></div>
+
+</form>
+
+</div><script>
+function checkAnswers(){
+
+    const answers = {
+        q1:'Root',
+        q2:'Cow',
+        q3:'Money Plant',
+        q4:'Lion',
+        q5:'Leaf',
+        q6:'Frog',
+        q7:'Deer',
+        q8:'Mango'
+    };
+
+    let score = 0;
+
+    for(let i=1;i<=8;i++){
+        const q = 'q'+i;
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        const result = document.getElementById('r'+i);
+        const labels = document.querySelectorAll(`input[name="${q}"]`);
+
+        labels.forEach(option=>{
+            option.parentElement.classList.remove('correct','wrong');
+        });
+
+        if(selected){
+            if(selected.value === answers[q]){
+                score++;
+                result.innerHTML = '✅ Correct!';
+                result.style.color = 'green';
+                selected.parentElement.classList.add('correct');
+            }else{
+                result.innerHTML = '❌ Wrong! Correct answer: ' + answers[q];
+                result.style.color = 'red';
+                selected.parentElement.classList.add('wrong');
+
+                labels.forEach(option=>{
+                    if(option.value === answers[q]){
+                        option.parentElement.classList.add('correct');
+                    }
+                });
+            }
+        }else{
+            result.innerHTML = '⚠️ Please select an answer.';
+            result.style.color = '#ef6c00';
+        }
+    }
+
+    const scoreBox = document.getElementById('scoreBox');
+    scoreBox.style.display = 'block';
+    scoreBox.innerHTML = `🎉 Your Score: <strong>${score} / 8</strong>`;
+
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+</script></body>
+</html>
