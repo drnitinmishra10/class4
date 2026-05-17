@@ -1,0 +1,261 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plants & Animals MCQ Set 2</title>
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}body{ background:linear-gradient(135deg,#a8edea,#fed6e3); padding:20px; }
+
+.container{ max-width:900px; margin:auto; background:white; padding:20px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.2); }
+
+h1{ text-align:center; color:#1565c0; margin-bottom:10px; }
+
+.subtitle{ text-align:center; margin-bottom:25px; color:#555; }
+
+.question-box{ padding:18px; border:2px solid #bbdefb; border-radius:16px; margin-bottom:20px; background:#f8fbff; }
+
+.question{ font-size:1.1rem; font-weight:bold; margin-bottom:10px; color:#0d47a1; }
+
+img{ width:100%; max-height:240px; object-fit:cover; border-radius:12px; margin:10px 0; }
+
+.options label{ display:block; padding:12px; margin:8px 0; border:2px solid #ddd; border-radius:12px; cursor:pointer; transition:0.3s; background:white; }
+
+.options label:hover{ background:#e3f2fd; }
+
+.correct{ background:#c8e6c9 !important; border-color:#2e7d32 !important; }
+
+.wrong{ background:#ffcdd2 !important; border-color:#c62828 !important; }
+
+.result{ margin-top:10px; font-weight:bold; }
+
+button{ width:100%; padding:15px; font-size:1.1rem; background:#1565c0; color:white; border:none; border-radius:14px; cursor:pointer; margin-top:20px; }
+
+button:hover{ background:#0d47a1; }
+
+.score{ display:none; margin-top:25px; padding:20px; text-align:center; background:#1565c0; color:white; font-size:1.3rem; border-radius:16px; }
+
+@media(max-width:600px){ .question{ font-size:1rem; } } </style>
+
+</head>
+<body><div class="container">
+<h1>🌿 Plants & Animals MCQ Quiz - Set 2 🐾</h1>
+<p class="subtitle">Class 4 Science Interactive Worksheet</p><form id="quizForm"><div class="question-box">
+<div class="question">1. Which animal is known for its black and white stripes?</div>
+<img src="https://images.unsplash.com/photo-1549366021-9f761d450615?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q1" value="Zebra"> Zebra</label>
+<label><input type="radio" name="q1" value="Lion"> Lion</label>
+<label><input type="radio" name="q1" value="Elephant"> Elephant</label>
+<label><input type="radio" name="q1" value="Camel"> Camel</label>
+</div>
+<div class="result" id="r1"></div>
+</div><div class="question-box">
+<div class="question">2. Which part of a plant is usually green?</div>
+<img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q2" value="Leaf"> Leaf</label>
+<label><input type="radio" name="q2" value="Root"> Root</label>
+<label><input type="radio" name="q2" value="Seed"> Seed</label>
+<label><input type="radio" name="q2" value="Flower"> Flower</label>
+</div>
+<div class="result" id="r2"></div>
+</div><div class="question-box">
+<div class="question">3. Which animal gives us milk?</div>
+<img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q3" value="Cow"> Cow</label>
+<label><input type="radio" name="q3" value="Tiger"> Tiger</label>
+<label><input type="radio" name="q3" value="Fox"> Fox</label>
+<label><input type="radio" name="q3" value="Monkey"> Monkey</label>
+</div>
+<div class="result" id="r3"></div>
+</div><div class="question-box">
+<div class="question">4. Which plant has thorns?</div>
+<img src="https://images.unsplash.com/photo-1468327768560-75b778cbb551?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q4" value="Rose"> Rose</label>
+<label><input type="radio" name="q4" value="Grass"> Grass</label>
+<label><input type="radio" name="q4" value="Lotus"> Lotus</label>
+<label><input type="radio" name="q4" value="Mint"> Mint</label>
+</div>
+<div class="result" id="r4"></div>
+</div><div class="question-box">
+<div class="question">5. Which animal hops?</div>
+<img src="https://images.unsplash.com/photo-1516934024742-b461fba47600?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q5" value="Frog"> Frog</label>
+<label><input type="radio" name="q5" value="Cat"> Cat</label>
+<label><input type="radio" name="q5" value="Cow"> Cow</label>
+<label><input type="radio" name="q5" value="Horse"> Horse</label>
+</div>
+<div class="result" id="r5"></div>
+</div><div class="question-box">
+<div class="question">6. Which plant grows in water?</div>
+<img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q6" value="Lotus"> Lotus</label>
+<label><input type="radio" name="q6" value="Neem"> Neem</label>
+<label><input type="radio" name="q6" value="Rose"> Rose</label>
+<label><input type="radio" name="q6" value="Mango"> Mango</label>
+</div>
+<div class="result" id="r6"></div>
+</div><div class="question-box">
+<div class="question">7. Which animal lives in the desert?</div>
+<img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q7" value="Camel"> Camel</label>
+<label><input type="radio" name="q7" value="Fish"> Fish</label>
+<label><input type="radio" name="q7" value="Penguin"> Penguin</label>
+<label><input type="radio" name="q7" value="Frog"> Frog</label>
+</div>
+<div class="result" id="r7"></div>
+</div><div class="question-box">
+<div class="question">8. Which plant is very tall and strong?</div>
+<img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q8" value="Tree"> Tree</label>
+<label><input type="radio" name="q8" value="Grass"> Grass</label>
+<label><input type="radio" name="q8" value="Mint"> Mint</label>
+<label><input type="radio" name="q8" value="Bush"> Bush</label>
+</div>
+<div class="result" id="r8"></div>
+</div><div class="question-box">
+<div class="question">9. Which bird can mimic human speech?</div>
+<img src="https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q9" value="Parrot"> Parrot</label>
+<label><input type="radio" name="q9" value="Crow"> Crow</label>
+<label><input type="radio" name="q9" value="Duck"> Duck</label>
+<label><input type="radio" name="q9" value="Hen"> Hen</label>
+</div>
+<div class="result" id="r9"></div>
+</div><div class="question-box">
+<div class="question">10. Which part of the plant holds it upright?</div>
+<img src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q10" value="Stem"> Stem</label>
+<label><input type="radio" name="q10" value="Leaf"> Leaf</label>
+<label><input type="radio" name="q10" value="Flower"> Flower</label>
+<label><input type="radio" name="q10" value="Fruit"> Fruit</label>
+</div>
+<div class="result" id="r10"></div>
+</div><div class="question-box">
+<div class="question">11. Which animal has feathers?</div>
+<img src="https://images.unsplash.com/photo-1444464666168-49d633b86797?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q11" value="Bird"> Bird</label>
+<label><input type="radio" name="q11" value="Dog"> Dog</label>
+<label><input type="radio" name="q11" value="Cat"> Cat</label>
+<label><input type="radio" name="q11" value="Fish"> Fish</label>
+</div>
+<div class="result" id="r11"></div>
+</div><div class="question-box">
+<div class="question">12. Which plant gives us mangoes?</div>
+<img src="https://images.unsplash.com/photo-1591073113125-e46713c829ed?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q12" value="Mango Tree"> Mango Tree</label>
+<label><input type="radio" name="q12" value="Rose Plant"> Rose Plant</label>
+<label><input type="radio" name="q12" value="Grass"> Grass</label>
+<label><input type="radio" name="q12" value="Lotus"> Lotus</label>
+</div>
+<div class="result" id="r12"></div>
+</div><div class="question-box">
+<div class="question">13. Which animal can swim in water?</div>
+<img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q13" value="Fish"> Fish</label>
+<label><input type="radio" name="q13" value="Lion"> Lion</label>
+<label><input type="radio" name="q13" value="Camel"> Camel</label>
+<label><input type="radio" name="q13" value="Monkey"> Monkey</label>
+</div>
+<div class="result" id="r13"></div>
+</div><div class="question-box">
+<div class="question">14. Which plant is used in cooking as a herb?</div>
+<img src="https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q14" value="Mint"> Mint</label>
+<label><input type="radio" name="q14" value="Banyan"> Banyan</label>
+<label><input type="radio" name="q14" value="Cactus"> Cactus</label>
+<label><input type="radio" name="q14" value="Rose"> Rose</label>
+</div>
+<div class="result" id="r14"></div>
+</div><div class="question-box">
+<div class="question">15. Which animal is the largest land animal?</div>
+<img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?q=80&w=1200&auto=format&fit=crop">
+<div class="options">
+<label><input type="radio" name="q15" value="Elephant"> Elephant</label>
+<label><input type="radio" name="q15" value="Tiger"> Tiger</label>
+<label><input type="radio" name="q15" value="Dog"> Dog</label>
+<label><input type="radio" name="q15" value="Monkey"> Monkey</label>
+</div>
+<div class="result" id="r15"></div>
+</div><button type="button" onclick="checkAnswers()">✅ Check Answers</button>
+
+<div class="score" id="scoreBox"></div></form>
+</div><script>
+function checkAnswers(){
+
+const answers={
+q1:'Zebra',
+q2:'Leaf',
+q3:'Cow',
+q4:'Rose',
+q5:'Frog',
+q6:'Lotus',
+q7:'Camel',
+q8:'Tree',
+q9:'Parrot',
+q10:'Stem',
+q11:'Bird',
+q12:'Mango Tree',
+q13:'Fish',
+q14:'Mint',
+q15:'Elephant'
+};
+
+let score=0;
+
+for(let i=1;i<=15;i++){
+const q='q'+i;
+const selected=document.querySelector(`input[name="${q}"]:checked`);
+const result=document.getElementById('r'+i);
+const labels=document.querySelectorAll(`input[name="${q}"]`);
+
+labels.forEach(option=>{
+option.parentElement.classList.remove('correct','wrong');
+});
+
+if(selected){
+if(selected.value===answers[q]){
+score++;
+result.innerHTML='✅ Correct!';
+result.style.color='green';
+selected.parentElement.classList.add('correct');
+}else{
+result.innerHTML='❌ Wrong! Correct answer: '+answers[q];
+result.style.color='red';
+selected.parentElement.classList.add('wrong');
+
+labels.forEach(option=>{
+if(option.value===answers[q]){
+option.parentElement.classList.add('correct');
+}
+});
+}
+}else{
+result.innerHTML='⚠️ Please select an answer.';
+result.style.color='orange';
+}
+}
+
+const scoreBox=document.getElementById('scoreBox');
+scoreBox.style.display='block';
+scoreBox.innerHTML=`🎉 Your Score: <strong>${score} / 15</strong>`;
+}
+</script></body>
+</html>
