@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌍 Our Environment & Earth Science - Class 4 Worksheet 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #ff6b6b 100%);
+            min-height: 100vh;
+            padding: 20px 10px;
+            overflow-x: hidden;
+        }
+
+        /* Floating bubbles animation */
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+            animation: bubbleFloat 20s infinite ease-in-out;
+        }
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); }
+            25% { transform: translateY(-40px) translateX(20px) scale(1.1); }
+            50% { transform: translateY(-20px) translateX(-20px) scale(0.9); }
+            75% { transform: translateY(-50px) translateX(10px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 35px 25px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 40px rgba(17, 153, 142, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: slideDown 0.8s ease-out;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+            background-size: 25px 25px;
+            animation: moveBackground 25s linear infinite;
+        }
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(25px, 25px); }
+        }
+        .header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
+            color: #fff;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            margin-top: 8px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+        .header .emoji-float {
+            font-size: 2rem;
+            display: inline-block;
+            animation: wobble 2s infinite;
+            margin: 0 5px;
+        }
+        @keyframes wobble {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* Question Card */
+        .question-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        .question-card:nth-child(1) { animation-delay: 0.1s; }
+        .question-card:nth-child(2) { animation-delay: 0.15s; }
+        .question-card:nth-child(3) { animation-delay: 0.2s; }
+        .question-card:nth-child(4) { animation-delay: 0.25s; }
+        .question-card:nth-child(5) { animation-delay: 0.3s; }
+        .question-card:nth-child(6) { animation-delay: 0.35s; }
+        .question-card:nth-child(7) { animation-delay: 0.4s; }
+        .question-card:nth-child(8) { animation-delay: 0.45s; }
+        .question-card:nth-child(9) { animation-delay: 0.5s; }
+        .question-card:nth-child(10) { animation-delay: 0.55s; }
+        .question-card:nth-child(11) { animation-delay: 0.6s; }
+        .question-card:nth-child(12) { animation-delay: 0.65s; }
+        .question-card:nth-child(13) { animation-delay: 0.7s; }
+        .question-card:nth-child(14) { animation-delay: 0.75s; }
+        .question-card:nth-child(15) { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.3rem;
+            border-radius: 50%;
+            margin-right: 12px;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+            flex-shrink: 0;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2d3748;
+            line-height: 1.5;
+            flex: 1;
+            padding-top: 8px;
+        }
+
+        .question-image {
+            width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            border-radius: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #f8f9fa;
+            padding: 10px;
+            transition: transform 0.3s ease;
+        }
+        .question-image:hover {
+            transform: scale(1.02);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #4a5568;
+            position: relative;
+            overflow: hidden;
+        }
+        .option::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #11998e, #38ef7d);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .option:hover {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-color: #11998e;
+            transform: translateX(5px);
+        }
+        .option:hover::before {
+            opacity: 1;
+        }
+        .option.selected {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            border-color: #11998e;
+            color: #065f46;
+        }
+        .option.selected::before {
+            opacity: 1;
+        }
+        .option.correct {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%) !important;
+            border-color: #48bb78 !important;
+            color: #22543d !important;
+            animation: correctPulse 0.5s ease;
+        }
+        .option.correct::before {
+            background: #48bb78;
+            opacity: 1;
+        }
+        .option.wrong {
+            background: linear-gradient(135deg, #fed7d7 0%, #fc8181 100%) !important;
+            border-color: #f56565 !important;
+            color: #742a2a !important;
+            animation: shake 0.5s ease;
+        }
+        .option.wrong::before {
+            background: #f56565;
+            opacity: 1;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+
+        .option-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            font-family: 'Fredoka One', cursive;
+            font-size: 0.95rem;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        .option:hover .option-letter {
+            transform: rotate(360deg);
+        }
+        .option.correct .option-letter {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        .option.wrong .option-letter {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+
+        .feedback {
+            margin-top: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .feedback.show {
+            display: flex;
+        }
+        .feedback.correct-msg {
+            background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+            color: #22543d;
+            border-left: 5px solid #48bb78;
+        }
+        .feedback.wrong-msg {
+            background: linear-gradient(135deg, #fed7d7, #fc8181);
+            color: #742a2a;
+            border-left: 5px solid #f56565;
+        }
+
+        /* Check Button */
+        .check-btn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 30px auto;
+            padding: 18px 40px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.4rem;
+            color: white;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ff6b6b 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4); }
+            50% { box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6); }
+        }
+        .check-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+        }
+        .check-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+        .check-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+        .check-btn:hover::after {
+            transform: scale(1);
+        }
+
+        /* Score Card */
+        .score-card {
+            display: none;
+            text-align: center;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 25px;
+            margin-top: 30px;
+            box-shadow: 0 15px 50px rgba(17, 153, 142, 0.3);
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .score-card.show {
+            display: block;
+        }
+        .score-emoji {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: rotateEmoji 2s ease-in-out infinite;
+        }
+        @keyframes rotateEmoji {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+        .score-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .score-number {
+            font-family: 'Fredoka One', cursive;
+            font-size: 4rem;
+            color: #ffd700;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+            margin: 10px 0;
+        }
+        .score-message {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        .score-stars {
+            font-size: 2.5rem;
+            margin: 15px 0;
+            letter-spacing: 5px;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall 3s linear forwards;
+            z-index: 1000;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: white;
+            border-radius: 15px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .progress-bar {
+            flex: 1;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #11998e, #38ef7d, #f093fb);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        .progress-text {
+            font-family: 'Fredoka One', cursive;
+            font-size: 0.95rem;
+            color: #11998e;
+            white-space: nowrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .header .subtitle {
+                font-size: 0.95rem;
+            }
+            .question-text {
+                font-size: 1rem;
+            }
+            .option {
+                font-size: 0.95rem;
+                padding: 12px 14px;
+            }
+            .check-btn {
+                font-size: 1.1rem;
+                padding: 15px 30px;
+            }
+            .score-number {
+                font-size: 3rem;
+            }
+            .question-image {
+                max-height: 160px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #11998e, #38ef7d);
+            border-radius: 10px;
+        }
+
+        /* Decorative corner shapes */
+        .corner-decoration {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        .corner-tl { top: -10px; left: -10px; border-top: 4px solid #11998e; border-left: 4px solid #11998e; border-radius: 15px 0 0 0; }
+        .corner-tr { top: -10px; right: -10px; border-top: 4px solid #f5576c; border-right: 4px solid #f5576c; border-radius: 0 15px 0 0; }
+        .corner-bl { bottom: -10px; left: -10px; border-bottom: 4px solid #48bb78; border-left: 4px solid #48bb78; border-radius: 0 0 0 15px; }
+        .corner-br { bottom: -10px; right: -10px; border-bottom: 4px solid #ed8936; border-right: 4px solid #ed8936; border-radius: 0 0 15px 0; }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <!-- Floating Bubbles -->
+    <div class="bubble" style="width:30px;height:30px;background:#ff6b6b;left:5%;top:10%;animation-delay:0s;"></div>
+    <div class="bubble" style="width:20px;height:20px;background:#4ecdc4;left:85%;top:30%;animation-delay:3s;"></div>
+    <div class="bubble" style="width:35px;height:35px;background:#ffe66d;left:50%;top:60%;animation-delay:6s;"></div>
+    <div class="bubble" style="width:25px;height:25px;background:#a8e6cf;left:20%;top:45%;animation-delay:2s;"></div>
+    <div class="bubble" style="width:28px;height:28px;background:#ffd3b6;left:75%;top:75%;animation-delay:5s;"></div>
+    <div class="bubble" style="width:22px;height:22px;background:#c7ceea;left:40%;top:20%;animation-delay:1s;"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <span class="emoji-float">🌿</span>
+                Our Environment & Earth Science
+                <span class="emoji-float">🌍</span>
+            </h1>
+            <p class="subtitle">Class 4 Worksheet #2 • 15 Brand New Questions!</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <span class="progress-text">📊 Progress</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-text" id="progressText">0/15</span>
+        </div>
+
+        <!-- Questions -->
+        <div id="questionsContainer">
+            <!-- Q1: Water Cycle -->
+            <div class="question-card" data-q="1">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">1</span>
+                    <span class="question-text">What is the process called when water turns into vapor and rises into the air?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/www.timeforkids.com/b3b4ed6651db2022ad916ed39de73a2a9c9cc50d.jpg" alt="Water Cycle" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(1, 'A', 'B')">
+                        <span class="option-letter">A</span> Condensation
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(1, 'B', 'B')">
+                        <span class="option-letter">B</span> Evaporation
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(1, 'C', 'B')">
+                        <span class="option-letter">C</span> Precipitation
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(1, 'D', 'B')">
+                        <span class="option-letter">D</span> Collection
+                    </div>
+                </div>
+                <div class="feedback" id="feedback1"></div>
+            </div>
+
+            <!-- Q2: Greenhouse Effect -->
+            <div class="question-card" data-q="2">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">2</span>
+                    <span class="question-text">What does the greenhouse effect do to Earth's temperature?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/assets.science.nasa.gov/4548cd3435a2628d57a5d7b9ff6f1744052978d0.png" alt="Greenhouse Effect" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(2, 'A', 'A')">
+                        <span class="option-letter">A</span> It makes the Earth warmer
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(2, 'B', 'A')">
+                        <span class="option-letter">B</span> It makes the Earth colder
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(2, 'C', 'A')">
+                        <span class="option-letter">C</span> It has no effect on temperature
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(2, 'D', 'A')">
+                        <span class="option-letter">D</span> It cools down the oceans
+                    </div>
+                </div>
+                <div class="feedback" id="feedback2"></div>
+            </div>
+
+            <!-- Q3: Recycling Bins -->
+            <div class="question-card" data-q="3">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">3</span>
+                    <span class="question-text">Which color bin is usually used for recycling plastic?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/41b00507e4b7ab9d14a7058acea0c49dd9f6a314.jpg" alt="Recycling Bins" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(3, 'A', 'C')">
+                        <span class="option-letter">A</span> Red
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(3, 'B', 'C')">
+                        <span class="option-letter">B</span> Green
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(3, 'C', 'C')">
+                        <span class="option-letter">C</span> Yellow
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(3, 'D', 'C')">
+                        <span class="option-letter">D</span> Black
+                    </div>
+                </div>
+                <div class="feedback" id="feedback3"></div>
+            </div>
+
+            <!-- Q4: Solar Energy -->
+            <div class="question-card" data-q="4">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">4</span>
+                    <span class="question-text">Solar panels need which of these to work?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/static.vecteezy.com/b836a77180e20db060e09d7e93845d8b24c88190.jpg" alt="Solar Energy" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(4, 'A', 'A')">
+                        <span class="option-letter">A</span> Sunlight
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(4, 'B', 'A')">
+                        <span class="option-letter">B</span> Rain
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(4, 'C', 'A')">
+                        <span class="option-letter">C</span> Snow
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(4, 'D', 'A')">
+                        <span class="option-letter">D</span> Wind
+                    </div>
+                </div>
+                <div class="feedback" id="feedback4"></div>
+            </div>
+
+            <!-- Q5: Water Pollution -->
+            <div class="question-card" data-q="5">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">5</span>
+                    <span class="question-text">Throwing plastic bottles into the river causes what type of pollution?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/media.istockphoto.com/68f2764fa4c558fff991237cd2c073521b848800.jpg" alt="Water Pollution" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(5, 'A', 'C')">
+                        <span class="option-letter">A</span> Air pollution
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(5, 'B', 'C')">
+                        <span class="option-letter">B</span> Noise pollution
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(5, 'C', 'C')">
+                        <span class="option-letter">C</span> Water pollution
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(5, 'D', 'C')">
+                        <span class="option-letter">D</span> Soil pollution
+                    </div>
+                </div>
+                <div class="feedback" id="feedback5"></div>
+            </div>
+
+            <!-- Q6: Rainforest Animals -->
+            <div class="question-card" data-q="6">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">6</span>
+                    <span class="question-text">Which animal lives in the rainforest canopy layer?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/www.sciencewithme.com/13617dcbb951daff032662a3c39ce6c9a65c6589.jpg" alt="Rainforest Animals" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(6, 'A', 'A')">
+                        <span class="option-letter">A</span> Sloth
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(6, 'B', 'A')">
+                        <span class="option-letter">B</span> Camel
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(6, 'C', 'A')">
+                        <span class="option-letter">C</span> Penguin
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(6, 'D', 'A')">
+                        <span class="option-letter">D</span> Kangaroo
+                    </div>
+                </div>
+                <div class="feedback" id="feedback6"></div>
+            </div>
+
+            <!-- Q7: Renewable Energy -->
+            <div class="question-card" data-q="7">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">7</span>
+                    <span class="question-text">Which of these is a renewable energy source?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/images.stockcake.com/96d3ef7c9d6cdc53f1901114a27e336f4b8e935a.jpg" alt="Renewable Energy" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(7, 'A', 'B')">
+                        <span class="option-letter">A</span> Coal
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(7, 'B', 'B')">
+                        <span class="option-letter">B</span> Wind
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(7, 'C', 'B')">
+                        <span class="option-letter">C</span> Oil
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(7, 'D', 'B')">
+                        <span class="option-letter">D</span> Natural Gas
+                    </div>
+                </div>
+                <div class="feedback" id="feedback7"></div>
+            </div>
+
+            <!-- Q8: Composting -->
+            <div class="question-card" data-q="8">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">8</span>
+                    <span class="question-text">What can you put in a compost bin?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/86e91ccfa0d8949bff6b8a0bcd89b43b5f46cde2.jpg" alt="Composting" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(8, 'A', 'A')">
+                        <span class="option-letter">A</span> Fruit peels and vegetable scraps
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(8, 'B', 'A')">
+                        <span class="option-letter">B</span> Plastic bags
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(8, 'C', 'A')">
+                        <span class="option-letter">C</span> Glass bottles
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(8, 'D', 'A')">
+                        <span class="option-letter">D</span> Metal cans
+                    </div>
+                </div>
+                <div class="feedback" id="feedback8"></div>
+            </div>
+
+            <!-- Q9: Planting Trees -->
+            <div class="question-card" data-q="9">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">9</span>
+                    <span class="question-text">Trees help clean the air by absorbing which gas?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/078b958ff88eff2a30d285fe9e9b403083982371.jpg" alt="Planting Trees" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(9, 'A', 'C')">
+                        <span class="option-letter">A</span> Oxygen
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(9, 'B', 'C')">
+                        <span class="option-letter">B</span> Nitrogen
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(9, 'C', 'C')">
+                        <span class="option-letter">C</span> Carbon Dioxide
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(9, 'D', 'C')">
+                        <span class="option-letter">D</span> Hydrogen
+                    </div>
+                </div>
+                <div class="feedback" id="feedback9"></div>
+            </div>
+
+            <!-- Q10: Air Pollution -->
+            <div class="question-card" data-q="10">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">10</span>
+                    <span class="question-text">What can we do to reduce air pollution?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/static.vecteezy.com/b5b4059cfd02783a7a8e5c7c53ca202ff291e27c.jpg" alt="Air Pollution" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(10, 'A', 'B')">
+                        <span class="option-letter">A</span> Burn more garbage
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(10, 'B', 'B')">
+                        <span class="option-letter">B</span> Walk or cycle instead of using cars
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(10, 'C', 'B')">
+                        <span class="option-letter">C</span> Cut down more trees
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(10, 'D', 'B')">
+                        <span class="option-letter">D</span> Use more plastic
+                    </div>
+                </div>
+                <div class="feedback" id="feedback10"></div>
+            </div>
+
+            <!-- Q11: Endangered Animals -->
+            <div class="question-card" data-q="11">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">11</span>
+                    <span class="question-text">Which of these animals is endangered due to habitat loss?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/static.vecteezy.com/3e4d0cceb847e2f9970fe04e0241095ef5a12411.jpg" alt="Endangered Animals" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(11, 'A', 'B')">
+                        <span class="option-letter">A</span> Dog
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(11, 'B', 'B')">
+                        <span class="option-letter">B</span> Panda
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(11, 'C', 'B')">
+                        <span class="option-letter">C</span> Cat
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(11, 'D', 'B')">
+                        <span class="option-letter">D</span> Cow
+                    </div>
+                </div>
+                <div class="feedback" id="feedback11"></div>
+            </div>
+
+            <!-- Q12: Deforestation -->
+            <div class="question-card" data-q="12">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">12</span>
+                    <span class="question-text">What happens when too many trees are cut down?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/learningmole.com/bc3aa87c701261de47aa8bce5d402de3dcda90a2.webp" alt="Deforestation" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(12, 'A', 'A')">
+                        <span class="option-letter">A</span> Animals lose their homes
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(12, 'B', 'A')">
+                        <span class="option-letter">B</span> More oxygen is produced
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(12, 'C', 'A')">
+                        <span class="option-letter">C</span> The air becomes cleaner
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(12, 'D', 'A')">
+                        <span class="option-letter">D</span> More rain falls
+                    </div>
+                </div>
+                <div class="feedback" id="feedback12"></div>
+            </div>
+
+            <!-- Q13: Ozone Layer -->
+            <div class="question-card" data-q="13">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">13</span>
+                    <span class="question-text">What does the ozone layer protect us from?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/study.com/8de64e4d11add54b64dd6a425e775e2d9ce98c90.png" alt="Ozone Layer" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(13, 'A', 'B')">
+                        <span class="option-letter">A</span> Rain
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(13, 'B', 'B')">
+                        <span class="option-letter">B</span> Harmful UV rays from the Sun
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(13, 'C', 'B')">
+                        <span class="option-letter">C</span> Wind
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(13, 'D', 'B')">
+                        <span class="option-letter">D</span> Snow
+                    </div>
+                </div>
+                <div class="feedback" id="feedback13"></div>
+            </div>
+
+            <!-- Q14: Saving Water -->
+            <div class="question-card" data-q="14">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">14</span>
+                    <span class="question-text">Which of these is a good way to save water?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/946c9e4b50e203e7f5266e2af7999591d52e1298.jpg" alt="Save Water" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(14, 'A', 'C')">
+                        <span class="option-letter">A</span> Taking long baths every day
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(14, 'B', 'C')">
+                        <span class="option-letter">B</span> Washing the car with a hose for hours
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(14, 'C', 'C')">
+                        <span class="option-letter">C</span> Fixing leaky taps quickly
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(14, 'D', 'C')">
+                        <span class="option-letter">D</span> Running the tap while soaping hands
+                    </div>
+                </div>
+                <div class="feedback" id="feedback14"></div>
+            </div>
+
+            <!-- Q15: Food Chain -->
+            <div class="question-card" data-q="15">
+                <div class="corner-decoration corner-tl"></div>
+                <div class="corner-decoration corner-tr"></div>
+                <div class="corner-decoration corner-bl"></div>
+                <div class="corner-decoration corner-br"></div>
+                <div class="question-header">
+                    <span class="question-number">15</span>
+                    <span class="question-text">In a food chain, which organism breaks down dead plants and animals?</span>
+                </div>
+                <img src="https://kimi-web-img.moonshot.cn/img/www.eurokidsindia.com/e1db6ad3f0362377cb57c3675cbc281c13ad04e2.jpg" alt="Food Chain" class="question-image">
+                <div class="options">
+                    <div class="option" data-value="A" onclick="selectOption(15, 'A', 'C')">
+                        <span class="option-letter">A</span> Producers
+                    </div>
+                    <div class="option" data-value="B" onclick="selectOption(15, 'B', 'C')">
+                        <span class="option-letter">B</span> Consumers
+                    </div>
+                    <div class="option" data-value="C" onclick="selectOption(15, 'C', 'C')">
+                        <span class="option-letter">C</span> Decomposers
+                    </div>
+                    <div class="option" data-value="D" onclick="selectOption(15, 'D', 'C')">
+                        <span class="option-letter">D</span> Predators
+                    </div>
+                </div>
+                <div class="feedback" id="feedback15"></div>
+            </div>
+        </div>
+
+        <!-- Check Button -->
+        <button class="check-btn" id="checkBtn" onclick="checkAnswers()">
+            🎯 Check My Answers!
+        </button>
+
+        <!-- Score Card -->
+        <div class="score-card" id="scoreCard">
+            <div class="score-emoji" id="scoreEmoji">🎉</div>
+            <div class="score-title">Your Score</div>
+            <div class="score-number" id="scoreNumber">0/15</div>
+            <div class="score-stars" id="scoreStars">⭐⭐⭐</div>
+            <div class="score-message" id="scoreMessage">Great job!</div>
+        </div>
+    </div>
+
+    <script>
+        // Track answers
+        const answers = {};
+        const correctAnswers = {
+            1: 'B', 2: 'A', 3: 'C', 4: 'A', 5: 'C',
+            6: 'A', 7: 'B', 8: 'A', 9: 'C', 10: 'B',
+            11: 'B', 12: 'A', 13: 'B', 14: 'C', 15: 'C'
+        };
+        const correctTexts = {
+            1: 'Evaporation', 2: 'It makes the Earth warmer', 3: 'Yellow', 4: 'Sunlight', 5: 'Water pollution',
+            6: 'Sloth', 7: 'Wind', 8: 'Fruit peels and vegetable scraps', 9: 'Carbon Dioxide',
+            10: 'Walk or cycle instead of using cars', 11: 'Panda', 12: 'Animals lose their homes',
+            13: 'Harmful UV rays from the Sun', 14: 'Fixing leaky taps quickly', 15: 'Decomposers'
+        };
+
+        function selectOption(qNum, selected, correct) {
+            // Remove previous selection
+            const card = document.querySelector(`[data-q="${qNum}"]`);
+            const options = card.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+
+            // Add selection
+            const selectedOpt = card.querySelector(`[data-value="${selected}"]`);
+            selectedOpt.classList.add('selected');
+
+            // Store answer
+            answers[qNum] = selected;
+
+            // Update progress
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).length;
+            const percent = (answered / 15) * 100;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = answered + '/15';
+        }
+
+        function checkAnswers() {
+            let score = 0;
+            let answeredCount = Object.keys(answers).length;
+
+            if (answeredCount < 15) {
+                alert('🌟 Please answer all 15 questions before checking! You have ' + (15 - answeredCount) + ' left.');
+                return;
+            }
+
+            for (let i = 1; i <= 15; i++) {
+                const card = document.querySelector(`[data-q="${i}"]`);
+                const options = card.querySelectorAll('.option');
+                const feedback = document.getElementById('feedback' + i);
+                const userAnswer = answers[i];
+                const correct = correctAnswers[i];
+
+                options.forEach(opt => {
+                    const val = opt.getAttribute('data-value');
+                    opt.style.pointerEvents = 'none';
+                    opt.classList.remove('selected');
+
+                    if (val === correct) {
+                        opt.classList.add('correct');
+                    } else if (val === userAnswer && userAnswer !== correct) {
+                        opt.classList.add('wrong');
+                    }
+                });
+
+                if (userAnswer === correct) {
+                    score++;
+                    feedback.className = 'feedback correct-msg show';
+                    feedback.innerHTML = '✅ <strong>Correct!</strong> Great job! 🌟';
+                } else {
+                    feedback.className = 'feedback wrong-msg show';
+                    feedback.innerHTML = '❌ <strong>Wrong!</strong> The correct answer is: <strong>' + correctTexts[i] + '</strong> 📚';
+                }
+            }
+
+            // Show score
+            showScore(score);
+
+            // Disable button
+            document.getElementById('checkBtn').style.display = 'none';
+
+            // Scroll to score
+            setTimeout(() => {
+                document.getElementById('scoreCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        }
+
+        function showScore(score) {
+            const scoreCard = document.getElementById('scoreCard');
+            const scoreNumber = document.getElementById('scoreNumber');
+            const scoreEmoji = document.getElementById('scoreEmoji');
+            const scoreStars = document.getElementById('scoreStars');
+            const scoreMessage = document.getElementById('scoreMessage');
+
+            scoreNumber.textContent = score + '/15';
+
+            if (score === 15) {
+                scoreEmoji.textContent = '🏆';
+                scoreStars.textContent = '⭐⭐⭐⭐⭐';
+                scoreMessage.textContent = 'Perfect Score! You are an Earth Science Expert! 🌍✨';
+                createConfetti();
+            } else if (score >= 12) {
+                scoreEmoji.textContent = '🌟';
+                scoreStars.textContent = '⭐⭐⭐⭐';
+                scoreMessage.textContent = 'Excellent work! You know a lot about our environment! 🌱';
+                createConfetti();
+            } else if (score >= 8) {
+                scoreEmoji.textContent = '😊';
+                scoreStars.textContent = '⭐⭐⭐';
+                scoreMessage.textContent = 'Good job! Keep learning about our Earth! 📚';
+            } else if (score >= 5) {
+                scoreEmoji.textContent = '💪';
+                scoreStars.textContent = '⭐⭐';
+                scoreMessage.textContent = 'Not bad! Try again to improve your score! 🎯';
+            } else {
+                scoreEmoji.textContent = '📖';
+                scoreStars.textContent = '⭐';
+                scoreMessage.textContent = 'Keep studying! You will do better next time! 🌈';
+            }
+
+            scoreCard.classList.add('show');
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf', '#ffd3b6', '#ff8b94', '#c7ceea', '#b5ead7'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
