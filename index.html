@@ -1,787 +1,696 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample 10th class Papers Repository</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BLOOM — Class 4 CBSE Worksheet Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;0,800;0,900;1,700;1,900&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --rose:#c2185b;
+  --rose-light:#fce4ec;
+  --rose-mid:#f48fb1;
+  --teal:#00796b;
+  --teal-light:#e0f2f1;
+  --amber:#f57f17;
+  --amber-light:#fff8e1;
+  --indigo:#283593;
+  --indigo-light:#e8eaf6;
+  --violet:#6a1b9a;
+  --green:#2e7d32;
+  --ink:#1c1b18;
+  --paper:#fdf8f2;
+  --paper2:#f5ede0;
+  --paper3:#ecddd0;
+  --muted:#6b5d52;
+  --faint:#a08878;
+  --serif:'Fraunces',Georgia,serif;
+  --round:'Nunito',sans-serif;
+  --mono:'DM Mono',monospace;
+  --radius:16px;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--round);
+  line-height:1.65;
+  overflow-x:hidden;
+}
 
-        :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --secondary: #8b5cf6;
-            --accent: #06b6d4;
-            --bg-dark: #0f172a;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.1);
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --success: #10b981;
-            --error: #ef4444;
-        }
+/* ── GRADIENT TOP BAR ── */
+.topbar{
+  height:7px;
+  background:linear-gradient(90deg,
+    #c2185b 0%,#e91e63 14%,#f57f17 28%,
+    #fdd835 42%,#2e7d32 56%,#0288d1 70%,
+    #6a1b9a 84%,#c2185b 100%);
+}
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e1b4b 50%, #312e81 100%);
-            background-attachment: fixed;
-            color: var(--text);
-            min-height: 100vh;
-            padding: 20px;
-            line-height: 1.6;
-        }
+/* ── TICKER ── */
+.ticker{
+  background:var(--rose);color:#fff;
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.13em;text-transform:uppercase;
+  padding:0.42rem 0;overflow:hidden;white-space:nowrap;
+}
+.ticker-track{display:inline-block;animation:tick 32s linear infinite;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+/* ── HEADER ── */
+header{
+  background:var(--paper);
+  border-bottom:3px solid var(--ink);
+  padding:0 2.5rem;
+}
+.hdr-top{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0.5rem 0;
+  border-bottom:1px dashed var(--rose-mid);
+  font-family:var(--mono);font-size:0.57rem;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);
+}
+.hdr-main{
+  display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;gap:1.5rem;padding:1.2rem 0 1rem;
+}
+.hdr-badge{
+  background:var(--rose);
+  border:2.5px solid var(--ink);
+  border-radius:var(--radius);
+  padding:0.85rem 1.1rem;
+  text-align:center;min-width:110px;
+}
+.badge-sup{
+  font-family:var(--mono);font-size:0.52rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--rose-light);display:block;margin-bottom:0.15rem;
+}
+.badge-num{
+  font-family:var(--serif);font-weight:900;
+  font-size:2.2rem;line-height:1;color:#fff;display:block;
+}
+.badge-sub{
+  font-family:var(--mono);font-size:0.5rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--rose-light);display:block;margin-top:0.15rem;
+}
+.logo-block{text-align:center;}
+.logo-flower{font-size:3rem;line-height:1;display:block;margin-bottom:0.05rem;animation:sway 4s ease-in-out infinite;}
+@keyframes sway{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(4deg);}}
+.logo-name{
+  font-family:var(--serif);font-weight:900;font-style:italic;
+  font-size:clamp(3.5rem,9vw,7rem);
+  line-height:0.88;letter-spacing:-0.02em;
+  color:var(--rose);display:block;
+}
+.logo-tagline{
+  font-family:var(--round);font-weight:700;
+  font-size:0.82rem;color:var(--teal);
+  letter-spacing:0.06em;margin-top:0.35rem;display:block;
+}
+.hdr-info{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.07em;color:var(--muted);
+  text-transform:uppercase;line-height:2.2;text-align:right;
+}
+.hdr-rule{
+  display:flex;align-items:center;gap:0.5rem;padding:0.45rem 0 0;
+}
+.hr{flex:1;height:2px;background:var(--ink);}
+.petal{color:var(--rose);font-size:1rem;flex-shrink:0;}
 
-        /* Header */
-        header {
-            text-align: center;
-            padding: 60px 20px 40px;
-            position: relative;
-        }
+/* ── NAV ── */
+nav{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  border-bottom:2px solid var(--ink);
+  background:var(--rose-light);
+}
+nav a{
+  font-family:var(--round);font-weight:700;font-size:0.72rem;
+  letter-spacing:0.06em;text-transform:uppercase;
+  text-decoration:none;color:var(--ink);
+  padding:0.65rem 1.4rem;
+  border-right:1px solid rgba(0,0,0,0.1);
+  transition:background 0.2s,color 0.2s;white-space:nowrap;
+}
+nav a:first-child{border-left:1px solid rgba(0,0,0,0.1);}
+nav a:hover{background:var(--rose);color:#fff;}
+nav a.active{background:var(--rose);color:#fff;}
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            opacity: 0.15;
-            pointer-events: none;
-            border-radius: 50%;
-        }
+/* ── HERO ── */
+.hero{
+  display:grid;grid-template-columns:1fr 2px 310px;
+  border-bottom:2px solid var(--ink);min-height:480px;
+}
+.hero-main{padding:2.5rem;}
+.hero-divider{background:var(--ink);}
+.hero-side{display:flex;flex-direction:column;}
 
-        h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-        }
+.kicker{
+  display:inline-flex;align-items:center;gap:0.45rem;
+  background:var(--amber);color:var(--ink);
+  font-family:var(--round);font-weight:800;font-size:0.65rem;
+  letter-spacing:0.07em;text-transform:uppercase;
+  padding:0.3rem 0.9rem;border-radius:999px;
+  margin-bottom:1rem;border:1.5px solid var(--ink);
+}
+.hero-headline{
+  font-family:var(--serif);font-weight:900;font-style:italic;
+  font-size:clamp(2.2rem,5vw,3.6rem);
+  line-height:1.05;color:var(--ink);margin-bottom:1rem;
+}
+.hero-headline em{color:var(--rose);font-style:normal;}
+.hero-dek{
+  font-family:var(--round);font-weight:400;
+  font-size:1rem;line-height:1.8;
+  color:var(--muted);max-width:500px;margin-bottom:1.8rem;
+}
+.subject-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.6rem;}
+.chip{
+  font-family:var(--round);font-weight:700;font-size:0.62rem;
+  letter-spacing:0.04em;text-transform:uppercase;
+  padding:0.28rem 0.8rem;border-radius:999px;
+  border:1.5px solid currentColor;
+}
+.chip.math{color:var(--indigo);background:var(--indigo-light);}
+.chip.eng{color:#880e4f;background:#fce4ec;}
+.chip.evs{color:var(--green);background:#e8f5e9;}
+.chip.hindi{color:var(--amber);background:var(--amber-light);}
+.chip.sci{color:var(--teal);background:var(--teal-light);}
+.chip.ss{color:var(--violet);background:#f3e5f5;}
+.chip.comp{color:#01579b;background:#e1f5fe;}
 
-        .subtitle {
-            color: var(--text-muted);
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            max-width: 600px;
-            margin: 0 auto 30px;
-        }
+.hero-byline{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);
+  display:flex;align-items:center;gap:0.7rem;
+}
+.hero-byline::before{content:'';flex:0 0 32px;height:1.5px;background:var(--faint);}
 
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
+/* hero side */
+.side-banner{
+  background:var(--rose);flex:1;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:0.4rem;padding:1.5rem;min-height:190px;
+}
+.side-banner-num{
+  font-family:var(--serif);font-weight:900;font-style:italic;
+  font-size:5.5rem;line-height:1;color:#fff;
+}
+.side-banner-label{
+  font-family:var(--mono);font-size:0.55rem;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--rose-mid);text-align:center;
+}
+.side-list{border-top:2px solid var(--ink);}
+.side-item{
+  padding:0.9rem 1.2rem;
+  border-bottom:1px dashed rgba(0,0,0,0.12);
+  text-decoration:none;color:inherit;
+  display:block;transition:background 0.2s;
+}
+.side-item:hover{background:var(--rose-light);}
+.side-num{
+  font-family:var(--mono);font-size:0.52rem;
+  letter-spacing:0.12em;color:var(--rose);
+  text-transform:uppercase;margin-bottom:0.2rem;
+}
+.side-title{
+  font-family:var(--round);font-weight:700;
+  font-size:0.88rem;line-height:1.3;
+}
 
-        .stat {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 12px 24px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
+/* ── SECTION HEADER ── */
+.section-hdr{
+  display:flex;align-items:stretch;
+  border-top:3px solid var(--ink);border-bottom:1.5px solid var(--ink);
+}
+.sec-label{
+  font-family:var(--round);font-weight:800;font-size:0.65rem;
+  letter-spacing:0.16em;text-transform:uppercase;
+  padding:0.6rem 2rem;border-right:1.5px solid var(--ink);
+  display:flex;align-items:center;gap:0.5rem;white-space:nowrap;
+}
+.sec-label.rose{background:var(--rose);color:#fff;}
+.sec-space{flex:1;}
+.sec-meta{
+  font-family:var(--mono);font-size:0.55rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--faint);padding:0.6rem 2rem;
+  border-left:1.5px solid var(--ink);
+  display:flex;align-items:center;white-space:nowrap;
+}
 
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
+/* ── STATUS ── */
+.status-bar{
+  display:flex;align-items:center;gap:0.7rem;
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--muted);padding:1.8rem 2.5rem 0;
+}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--amber);flex-shrink:0;
+  animation:blink 2s infinite;
+}
+.dot.ok{background:var(--teal);animation:none;}
+.dot.err{background:var(--rose);animation:none;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
 
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
+/* ── LEGEND ── */
+.legend{
+  display:flex;flex-wrap:wrap;align-items:center;gap:0.6rem;
+  padding:1rem 2.5rem 0;
+}
+.leg-label{
+  font-family:var(--mono);font-size:0.52rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--faint);margin-right:0.2rem;
+}
+.leg-item{
+  display:flex;align-items:center;gap:0.35rem;
+  font-family:var(--round);font-weight:600;font-size:0.63rem;
+  letter-spacing:0.04em;color:var(--muted);
+}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
 
-        /* Search & Filter */
-        .controls {
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-        }
+/* ── GRID ── */
+.grid-section{padding:1.5rem 2.5rem 3rem;}
+.worksheet-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(255px,1fr));
+  gap:1.2rem;
+}
+.ws-card{
+  background:#fff;
+  border:2px solid var(--ink);
+  border-radius:var(--radius);
+  padding:1.5rem 1.4rem 1.3rem;
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;gap:0.5rem;
+  transition:transform 0.18s,box-shadow 0.18s;
+  position:relative;overflow:hidden;
+}
+/* coloured left stripe */
+.ws-card::after{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;width:5px;
+  border-radius:var(--radius) 0 0 var(--radius);
+}
+.ws-card.c0::after{background:var(--indigo);}
+.ws-card.c1::after{background:var(--rose);}
+.ws-card.c2::after{background:var(--teal);}
+.ws-card.c3::after{background:var(--amber);}
+.ws-card.c4::after{background:var(--violet);}
+.ws-card.c5::after{background:#01579b;}
+.ws-card{padding-left:1.8rem;}
+.ws-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 28px rgba(0,0,0,0.11);
+}
+.card-icon{font-size:1.7rem;line-height:1;}
+.card-num{
+  font-family:var(--mono);font-size:0.52rem;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);
+}
+.card-title{
+  font-family:var(--round);font-weight:800;
+  font-size:1.05rem;line-height:1.3;color:var(--ink);flex:1;
+}
+.card-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:0.6rem;padding-top:0.6rem;
+  border-top:1px dashed rgba(0,0,0,0.12);
+  font-family:var(--mono);font-size:0.52rem;
+  color:var(--faint);
+}
+.card-btn{
+  background:var(--rose);color:#fff;
+  font-family:var(--round);font-weight:700;font-size:0.6rem;
+  letter-spacing:0.04em;text-transform:uppercase;
+  padding:0.28rem 0.75rem;border-radius:999px;
+  transition:background 0.2s;flex-shrink:0;
+}
+.ws-card:hover .card-btn{background:var(--ink);}
 
-        .search-box {
-            width: 100%;
-            padding: 16px 24px 16px 50px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            color: var(--text);
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
-        }
+/* SKELETON */
+.skel-card{
+  background:#fff;border:2px solid var(--paper2);
+  border-radius:var(--radius);padding:1.5rem 1.4rem;
+}
+.skel{
+  background:linear-gradient(90deg,var(--paper2) 25%,var(--paper3) 50%,var(--paper2) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:6px;margin-bottom:0.7rem;
+}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
-        .search-box:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
+/* EMPTY / ERROR */
+.msg-box{
+  background:#fff;border:2px dashed var(--rose-mid);
+  border-radius:var(--radius);padding:3.5rem 2rem;
+  text-align:center;grid-column:1/-1;
+}
+.msg-icon{font-size:3rem;display:block;margin-bottom:0.8rem;}
+.msg-title{font-family:var(--serif);font-style:italic;font-size:1.5rem;font-weight:900;margin-bottom:0.4rem;}
+.msg-text{font-family:var(--round);font-size:0.88rem;color:var(--muted);line-height:1.9;}
 
-        .search-box::placeholder {
-            color: var(--text-muted);
-        }
+/* ── FOOTER ── */
+footer{
+  background:var(--ink);color:var(--paper);
+  padding:2rem 2.5rem;
+  display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:1.5rem;
+}
+.foot-logo{
+  display:flex;align-items:center;gap:0.4rem;
+  font-family:var(--serif);font-weight:900;font-style:italic;
+  font-size:2rem;color:var(--rose-mid);
+}
+.foot-text{
+  font-family:var(--mono);font-size:0.57rem;
+  letter-spacing:0.07em;text-transform:uppercase;
+  color:#7a6a62;text-align:right;line-height:2.3;
+}
+.foot-text a{color:var(--rose-mid);text-decoration:none;}
+.foot-text a:hover{text-decoration:underline;}
 
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            pointer-events: none;
-        }
-
-        /* Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-            margin-bottom: 60px;
-        }
-
-        /* Card */
-        .card {
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 28px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-6px) scale(1.02);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .card h2 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #fff;
-            word-break: break-word;
-        }
-
-        .card-meta {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 16px;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 24px;
-            flex-grow: 1;
-        }
-
-        .card-footer {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 0.95rem;
-            border: none;
-            cursor: pointer;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
-            filter: brightness(1.1);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            flex: 0 0 auto;
-            padding: 12px;
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            box-shadow: none;
-        }
-
-        /* Loading State */
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-            grid-column: 1 / -1;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            grid-column: 1 / -1;
-        }
-
-        .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .empty-state h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--text-muted);
-        }
-
-        .empty-state p {
-            color: var(--text-muted);
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        /* Error State */
-        .error-state {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 16px;
-            padding: 30px;
-            text-align: center;
-            grid-column: 1 / -1;
-        }
-
-        .error-state h3 {
-            color: var(--error);
-            margin-bottom: 10px;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            margin-top: 40px;
-        }
-
-        footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 640px) {
-            body {
-                padding: 10px;
-            }
-
-            header {
-                padding: 40px 10px 30px;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .stats {
-                gap: 15px;
-            }
-
-            .stat {
-                padding: 10px 16px;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-dark);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
-        }
-    </style>
+/* ── RESPONSIVE ── */
+@media(max-width:840px){
+  .hero{grid-template-columns:1fr;}
+  .hero-divider{display:none;}
+  .hero-side{border-top:2px solid var(--ink);}
+  .hdr-main{grid-template-columns:1fr;}
+  .hdr-badge,.hdr-info{display:none;}
+}
+@media(max-width:500px){
+  header,.grid-section,.status-bar,.legend,footer{padding-left:1rem;padding-right:1rem;}
+  .hero-main{padding:1.5rem 1rem;}
+  .worksheet-grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
 <body>
 
-<div class="container">
+<div class="topbar"></div>
 
-    <header>
-        <h1>CBSE 4th Class Sample papers</h1>
-        <p class="subtitle">
-         Collection of Sample papers 4th  Class CBSE
-        </p>
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-value" id="paperCount">0</div>
-                <div class="stat-label">Papers</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value" id="fileCount">0</div>
-                <div class="stat-label">HTML Files</div>
-            </div>
-        </div>
-    </header>
-
-    <div class="controls">
-        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-        </svg>
-        <input type="text" class="search-box" id="searchInput" placeholder="Search papers by name..." autocomplete="off">
-    </div>
-
-    <div class="grid" id="papersGrid">
-        <div class="loading">
-            <div class="spinner"></div>
-            <p>Dr. Nitin Mishra</p>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 Dr. Nitin Mishra | Research Repository</p>
-        <p style="margin-top: 8px; font-size: 0.9rem;">
-            Automatically indexes all HTML files in the repository
-        </p>
-    </footer>
-
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    🌸 BLOOM · CLASS 4 CBSE WORKSHEETS &nbsp;·&nbsp; MATHS · ENGLISH · SCIENCE · EVS · HINDI · SOCIAL STUDIES &nbsp;·&nbsp; FREE PRINTABLE WORKSHEETS &nbsp;·&nbsp; AUTO-UPDATED FROM GITHUB &nbsp;·&nbsp; DRNITINMISHRA10/CLASS4 &nbsp;·&nbsp; PRACTISE · BLOOM · EXCEL &nbsp;&nbsp;&nbsp;&nbsp;
+    🌸 BLOOM · CLASS 4 CBSE WORKSHEETS &nbsp;·&nbsp; MATHS · ENGLISH · SCIENCE · EVS · HINDI · SOCIAL STUDIES &nbsp;·&nbsp; FREE PRINTABLE WORKSHEETS &nbsp;·&nbsp; AUTO-UPDATED FROM GITHUB &nbsp;·&nbsp; DRNITINMISHRA10/CLASS4 &nbsp;·&nbsp; PRACTISE · BLOOM · EXCEL &nbsp;&nbsp;&nbsp;&nbsp;
+  </div>
 </div>
 
+<!-- HEADER -->
+<header>
+  <div class="hdr-top">
+    <span>CBSE Curriculum · Class 4</span>
+    <span id="dateTop">—</span>
+    <span>drnitinmishra10 / class4</span>
+  </div>
+  <div class="hdr-main">
+    <div class="hdr-badge">
+      <span class="badge-sup">Class</span>
+      <span class="badge-num">4th</span>
+      <span class="badge-sub">CBSE</span>
+    </div>
+    <div class="logo-block">
+      <span class="logo-flower">🌸</span>
+      <span class="logo-name">BLOOM</span>
+      <span class="logo-tagline">Class 4 CBSE Worksheet Library</span>
+      <div class="hdr-rule">
+        <div class="hr"></div>
+        <span class="petal">❋</span>
+        <span class="petal">❋</span>
+        <span class="petal">❋</span>
+        <div class="hr"></div>
+      </div>
+    </div>
+    <div class="hdr-info">
+      Free Worksheets<br>
+      Printable PDFs<br>
+      NCERT Aligned<br>
+      Updated Live
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="active">🏠 Home</a>
+  <a href="#worksheets">📄 All Worksheets</a>
+  <a href="https://github.com/drnitinmishra10/class4" target="_blank">📁 Repository ↗</a>
+  <a href="https://github.com/drnitinmishra10/class4/issues/new" target="_blank">💡 Suggest Topic ↗</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-main">
+    <div class="kicker">🌸 Class 4 · CBSE · 2025–26</div>
+    <h1 class="hero-headline">
+      Worksheets Where<br><em>Curiosity</em> Blooms
+    </h1>
+    <p class="hero-dek">
+      Thoughtfully crafted CBSE worksheets for Class 4 — covering Maths, Science, English, EVS, Hindi, Social Studies and more. Designed to challenge, inspire and make every student thrive.
+    </p>
+    <div class="subject-chips">
+      <span class="chip math">📐 Maths</span>
+      <span class="chip sci">🔬 Science</span>
+      <span class="chip eng">📖 English</span>
+      <span class="chip evs">🌿 EVS</span>
+      <span class="chip hindi">🇮🇳 Hindi</span>
+      <span class="chip ss">🗺️ Soc. Studies</span>
+      <span class="chip comp">💻 Computer</span>
+    </div>
+    <div class="hero-byline">
+      Dr. Nitin Mishra &nbsp;·&nbsp; CBSE Class 4 &nbsp;·&nbsp; <span id="heroYear">2026</span>
+    </div>
+  </div>
+  <div class="hero-divider"></div>
+  <div class="hero-side">
+    <div class="side-banner">
+      <span class="side-banner-num" id="countDisplay">…</span>
+      <span class="side-banner-label">Worksheets<br>available</span>
+    </div>
+    <div class="side-list" id="heroSide"></div>
+  </div>
+</section>
+
+<!-- STATUS -->
+<div class="status-bar">
+  <div class="dot" id="dot"></div>
+  <span id="statusMsg">Fetching worksheets from GitHub…</span>
+</div>
+
+<!-- SECTION HEADER -->
+<div class="section-hdr" id="worksheets">
+  <div class="sec-label rose"><span>📄</span> All Worksheets</div>
+  <div class="sec-space"></div>
+  <div class="sec-meta" id="countMeta">Loading…</div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="leg-label">Subjects →</span>
+  <div id="legend"></div>
+</div>
+
+<!-- GRID -->
+<div class="grid-section">
+  <div class="worksheet-grid" id="grid">
+    <div class="skel-card"><div class="skel" style="height:28px;width:28%;"></div><div class="skel" style="height:11px;width:50%;"></div><div class="skel" style="height:20px;width:85%;margin-top:.5rem;"></div><div class="skel" style="height:20px;width:62%;"></div><div class="skel" style="height:10px;width:42%;margin-top:1rem;"></div></div>
+    <div class="skel-card"><div class="skel" style="height:28px;width:28%;"></div><div class="skel" style="height:11px;width:42%;"></div><div class="skel" style="height:20px;width:78%;margin-top:.5rem;"></div><div class="skel" style="height:20px;width:55%;"></div><div class="skel" style="height:10px;width:38%;margin-top:1rem;"></div></div>
+    <div class="skel-card"><div class="skel" style="height:28px;width:28%;"></div><div class="skel" style="height:11px;width:55%;"></div><div class="skel" style="height:20px;width:80%;margin-top:.5rem;"></div><div class="skel" style="height:20px;width:68%;"></div><div class="skel" style="height:10px;width:44%;margin-top:1rem;"></div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">🌸 BLOOM</div>
+  <div class="foot-text">
+    Auto-fetched from <a href="https://github.com/drnitinmishra10/class4" target="_blank">github.com/drnitinmishra10/class4</a><br>
+    New worksheets appear automatically when uploaded to the repo · Refreshes every 5 min<br>
+    © 2026 · CBSE Class 4 Worksheet Library · Free for all learners
+  </div>
+</footer>
+
 <script>
-    const papersGrid = document.getElementById('papersGrid');
-    const searchInput = document.getElementById('searchInput');
-    const paperCountEl = document.getElementById('paperCount');
-    const fileCountEl = document.getElementById('fileCount');
+/* ─── CONFIG ─────────────────────────────────── */
+const USER   = 'drnitinmishra10';
+const REPO   = 'class4';
+const BRANCH = 'main';
+const EXCLUDE = ['index.html'];
+const PAGES_BASE = `https://${USER}.github.io/${REPO}/`;
+const RAW_BASE   = `https://raw.githubusercontent.com/${USER}/${REPO}/${BRANCH}/`;
+const TREE_API   = `https://api.github.com/repos/${USER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
 
-    let allPapers = [];
+const COLORS = ['c0','c1','c2','c3','c4','c5'];
 
-    // Extract title from HTML content
-    async function getPageTitle(url) {
-        try {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 5000);
-            
-            const response = await fetch(url, { signal: controller.signal });
-            clearTimeout(timeout);
-            
-            if (!response.ok) return null;
-            
-            const html = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            
-            const title = doc.querySelector('title');
-            return title ? title.textContent.trim() : null;
-        } catch (error) {
-            return null;
-        }
+/* Subject detection — Class 4 has more subjects */
+const SUBJECTS = [
+  {keys:['math','number','fraction','decimal','multiplication','division','geometry','algebra','mensuration','area','perimeter'], label:'Maths',   icon:'📐', dot:'#283593'},
+  {keys:['science','scientif','force','motion','light','sound','electricity','magnet','matter','plant','animal','body'],           label:'Science', icon:'🔬', dot:'#00796b'},
+  {keys:['english','grammar','comprehension','alphabet','poem','story','noun','verb','adjective','tense','sentence','reading'],   label:'English', icon:'📖', dot:'#880e4f'},
+  {keys:['evs','environment','nature','soil','water','air','weather','food','shelter'],                                            label:'EVS',     icon:'🌿', dot:'#2e7d32'},
+  {keys:['hindi','हिंदी','vyakaran','kavita'],                                                                                     label:'Hindi',   icon:'🇮🇳', dot:'#f57f17'},
+  {keys:['social','history','geography','civics','civic','map','river','mountain','state','capital','citizen'],                   label:'Soc. St.', icon:'🗺️', dot:'#6a1b9a'},
+  {keys:['computer','digital','internet','keyboard','mouse','software','hardware','ms word','paint'],                              label:'Computer',icon:'💻', dot:'#01579b'},
+  {keys:['gk','general knowledge','quiz'],                                                                                         label:'GK',      icon:'🌍', dot:'#4e342e'},
+];
+
+function detectSubject(text){
+  const t = text.toLowerCase();
+  for(const s of SUBJECTS){
+    if(s.keys.some(k => t.includes(k))) return s;
+  }
+  return {icon:'📄', dot:'#6b5d52', label:'Worksheet'};
+}
+
+/* ─── DATES ─────────────────────────────────── */
+const now = new Date();
+document.getElementById('dateTop').textContent =
+  now.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+document.getElementById('heroYear').textContent = now.getFullYear();
+
+/* ─── HELPERS ────────────────────────────────── */
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function setStatus(msg, state){
+  document.getElementById('statusMsg').textContent = msg;
+  const d = document.getElementById('dot');
+  d.className = 'dot'+(state==='ok'?' ok':state==='err'?' err':'');
+}
+
+async function getTitle(path){
+  try{
+    const r = await fetch(RAW_BASE + path);
+    if(!r.ok) throw 0;
+    const txt = await r.text();
+    const m = txt.match(/<title[^>]*>([^<]+)<\/title>/i);
+    return m ? m[1].trim() : path.replace(/\.html$/i,'').replace(/[-_]/g,' ');
+  } catch {
+    return path.replace(/\.html$/i,'').replace(/[-_]/g,' ');
+  }
+}
+
+function makeCard(n, path, title){
+  const sub = detectSubject(title+' '+path);
+  const col = COLORS[n % COLORS.length];
+  const card = document.createElement('a');
+  card.className = `ws-card ${col}`;
+  card.href = PAGES_BASE + path;
+  card.target = '_blank'; card.rel = 'noopener noreferrer';
+  card.innerHTML = `
+    <div class="card-icon">${sub.icon}</div>
+    <div class="card-num">Worksheet No. ${String(n).padStart(2,'0')}</div>
+    <div class="card-title">${esc(title)}</div>
+    <div class="card-foot">
+      <span>${esc(path)}</span>
+      <span class="card-btn">Open →</span>
+    </div>`;
+  return card;
+}
+
+function makeSide(n, path, title){
+  const sub = detectSubject(title+' '+path);
+  const el = document.createElement('a');
+  el.className = 'side-item';
+  el.href = PAGES_BASE + path;
+  el.target = '_blank'; el.rel = 'noopener noreferrer';
+  el.innerHTML = `
+    <div class="side-num">${sub.icon} Worksheet ${String(n).padStart(2,'0')}</div>
+    <div class="side-title">${esc(title)}</div>`;
+  return el;
+}
+
+function buildLegend(files, titles){
+  const seen = new Set(), items = [];
+  files.forEach((f,i)=>{
+    const s = detectSubject(titles[i]+' '+f);
+    if(!seen.has(s.label)){ seen.add(s.label); items.push(s); }
+  });
+  const leg = document.getElementById('legend');
+  leg.innerHTML = '';
+  leg.style.display = 'flex';
+  leg.style.flexWrap = 'wrap';
+  leg.style.gap = '0.6rem';
+  items.forEach(s=>{
+    const el = document.createElement('div');
+    el.className = 'leg-item';
+    el.innerHTML = `<span class="leg-dot" style="background:${s.dot}"></span>${s.label}`;
+    leg.appendChild(el);
+  });
+}
+
+/* ─── MAIN LOADER ────────────────────────────── */
+async function load(){
+  const grid = document.getElementById('grid');
+  const side = document.getElementById('heroSide');
+  try{
+    setStatus('Connecting to GitHub…');
+    const res = await fetch(TREE_API);
+    if(!res.ok) throw new Error(`GitHub API ${res.status}`);
+    const data = await res.json();
+
+    const files = (data.tree||[])
+      .filter(f => f.type==='blob' && /\.html$/i.test(f.path) && !EXCLUDE.includes(f.path))
+      .map(f => f.path)
+      .sort();
+
+    if(!files.length){
+      grid.innerHTML = `<div class="msg-box">
+        <span class="msg-icon">🌱</span>
+        <div class="msg-title">No worksheets yet</div>
+        <div class="msg-text">
+          Upload <code>.html</code> worksheet files to<br>
+          <strong>github.com/${USER}/${REPO}</strong><br>
+          and they will appear here automatically.
+        </div></div>`;
+      document.getElementById('countDisplay').textContent = '0';
+      document.getElementById('countMeta').textContent = '0 worksheets';
+      document.getElementById('legend').innerHTML = '';
+      setStatus('No worksheets found in repository','ok');
+      return;
     }
 
-    // Strategy 1: Try to fetch directory listing (works on some servers)
-    async function fetchDirectoryListing() {
-        try {
-            const response = await fetch('./');
-            if (!response.ok) return [];
-            
-            const html = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            
-            const links = doc.querySelectorAll('a[href]');
-            const htmlFiles = [];
-            
-            links.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && href.endsWith('.html') && href !== 'index.html' && !href.startsWith('http')) {
-                    htmlFiles.push({
-                        name: href.replace('.html', '').replace(/-/g, ' ').replace(/_/g, ' '),
-                        file: href,
-                        title: null
-                    });
-                }
-            });
-            
-            return htmlFiles;
-        } catch (e) {
-            return [];
-        }
-    }
+    setStatus(`Found ${files.length} worksheet${files.length>1?'s':''} — fetching titles…`);
+    document.getElementById('countDisplay').textContent = files.length;
+    document.getElementById('countMeta').textContent =
+      `${files.length} worksheet${files.length!==1?'s':''} · auto-updated`;
 
-    // Strategy 2: Probe for common HTML files
-    async function probeForFiles() {
-        const commonNames = [
-            'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10',
-            'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19', 'c20',
-            'paper1', 'paper2', 'paper3', 'paper4', 'paper5',
-            'research1', 'research2', 'research3',
-            'publication1', 'publication2', 'publication3',
-            'index', 'about', 'contact', 'cv', 'resume',
-            'project1', 'project2', 'project3',
-            'thesis', 'dissertation', 'monograph'
-        ];
-        
-        const extensions = ['.html', '.htm'];
-        const found = [];
-        
-        const batchSize = 5;
-        for (let i = 0; i < commonNames.length; i += batchSize) {
-            const batch = commonNames.slice(i, i + batchSize);
-            const checks = batch.flatMap(name => 
-                extensions.map(ext => checkFileExists(`${name}${ext}`))
-            );
-            
-            const results = await Promise.all(checks);
-            
-            results.forEach((result, idx) => {
-                if (result.exists) {
-                    const fileName = batch[Math.floor(idx / extensions.length)] + extensions[idx % extensions.length];
-                    found.push({
-                        name: fileName.replace(/\.html?/, '').replace(/-/g, ' ').replace(/_/g, ' '),
-                        file: fileName,
-                        title: null
-                    });
-                }
-            });
-        }
-        
-        return found;
-    }
+    const titles = await Promise.all(files.map(getTitle));
+    buildLegend(files, titles);
 
-    async function checkFileExists(url) {
-        try {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), 3000);
-            
-            const response = await fetch(url, { 
-                method: 'HEAD',
-                signal: controller.signal
-            });
-            
-            clearTimeout(timeout);
-            return { exists: response.ok, url };
-        } catch (error) {
-            return { exists: false, url };
-        }
-    }
-
-    // Strategy 3: If GitHub Pages, try API
-    async function fetchGitHubFiles() {
-        const hostname = window.location.hostname;
-        if (!hostname.includes('github.io')) return [];
-        
-        const username = hostname.split('.')[0];
-        const repoName = window.location.pathname.split('/')[1] || `${username}.github.io`;
-        
-        try {
-            const apiUrl = `https://api.github.com/repos/${username}/${repoName}/contents/`;
-            const response = await fetch(apiUrl);
-            if (!response.ok) return [];
-            
-            const data = await response.json();
-            return data
-                .filter(item => item.name.endsWith('.html') && item.name !== 'index.html')
-                .map(item => ({
-                    name: item.name.replace('.html', '').replace(/-/g, ' ').replace(/_/g, ' '),
-                    file: item.name,
-                    title: null
-                }));
-        } catch (e) {
-            return [];
-        }
-    }
-
-    function formatTitle(name) {
-        return name
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
-    }
-
-    function getPaperIcon(name) {
-        const icons = ['📄', '📑', '📊', '🔬', '🧪', '📖', '🎓', '🔍', '💡', '📝'];
-        let hash = 0;
-        for (let i = 0; i < name.length; i++) {
-            hash = name.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        return icons[Math.abs(hash) % icons.length];
-    }
-
-    async function renderPapers(papers) {
-        papersGrid.innerHTML = '';
-        
-        if (papers.length === 0) {
-            papersGrid.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">📂</div>
-                    <h3>No HTML files found</h3>
-                    <p>No research papers were discovered in this repository. Add HTML files to see them listed here automatically.</p>
-                </div>
-            `;
-            paperCountEl.textContent = '0';
-            fileCountEl.textContent = '0';
-            return;
-        }
-
-        // Fetch titles for all papers in parallel
-        const titlePromises = papers.map(async (paper) => {
-            const title = await getPageTitle(paper.file);
-            paper.title = title || formatTitle(paper.name);
-            return paper;
-        });
-
-        allPapers = await Promise.all(titlePromises);
-        
-        paperCountEl.textContent = allPapers.length;
-        fileCountEl.textContent = allPapers.length;
-
-        allPapers.forEach((paper, index) => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.style.animationDelay = `${index * 0.05}s`;
-            
-            const displayTitle = paper.title || formatTitle(paper.name);
-            const icon = getPaperIcon(paper.name);
-            
-            card.innerHTML = `
-                <div class="card-icon">${icon}</div>
-                <h2>${displayTitle}</h2>
-                <div class="card-meta">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                    </svg>
-                    <span>${paper.file}</span>
-                </div>
-                <p>${displayTitle}</p>
-                <div class="card-footer">
-                    <a class="btn" href="${paper.file}" target="_blank" rel="noopener noreferrer">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                        Open Paper
-                    </a>
-                    <a class="btn btn-secondary" href="${paper.file}" download title="Download">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                    </a>
-                </div>
-            `;
-            
-            papersGrid.appendChild(card);
-        });
-    }
-
-    function filterPapers(query) {
-        const filtered = allPapers.filter(paper => 
-            (paper.title && paper.title.toLowerCase().includes(query.toLowerCase())) ||
-            paper.name.toLowerCase().includes(query.toLowerCase()) ||
-            paper.file.toLowerCase().includes(query.toLowerCase())
-        );
-        
-        papersGrid.innerHTML = '';
-        
-        if (filtered.length === 0) {
-            papersGrid.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-icon">🔍</div>
-                    <h3>No matching papers</h3>
-                    <p>No papers match your search query. Try different keywords.</p>
-                </div>
-            `;
-            return;
-        }
-
-        filtered.forEach((paper, index) => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.style.animationDelay = `${index * 0.05}s`;
-            
-            const displayTitle = paper.title || formatTitle(paper.name);
-            const icon = getPaperIcon(paper.name);
-            
-            card.innerHTML = `
-                <div class="card-icon">${icon}</div>
-                <h2>${displayTitle}</h2>
-                <div class="card-meta">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                    </svg>
-                    <span>${paper.file}</span>
-                </div>
-                <p>${displayTitle}</p>
-                <div class="card-footer">
-                    <a class="btn" href="${paper.file}" target="_blank" rel="noopener noreferrer">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
-                        Open Paper
-                    </a>
-                    <a class="btn btn-secondary" href="${paper.file}" download title="Download">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                            <polyline points="7 10 12 15 17 10"></polyline>
-                            <line x1="12" y1="15" x2="12" y2="3"></line>
-                        </svg>
-                    </a>
-                </div>
-            `;
-            
-            papersGrid.appendChild(card);
-        });
-    }
-
-    async function loadPapers() {
-        let papers = await fetchDirectoryListing();
-        
-        if (papers.length === 0) {
-            papers = await fetchGitHubFiles();
-        }
-        
-        if (papers.length === 0) {
-            papers = await probeForFiles();
-        }
-        
-        // Remove duplicates based on filename
-        const seen = new Set();
-        papers = papers.filter(paper => {
-            if (seen.has(paper.file)) return false;
-            seen.add(paper.file);
-            return true;
-        });
-        
-        // Sort alphabetically by filename
-        papers.sort((a, b) => a.file.localeCompare(b.file));
-        
-        await renderPapers(papers);
-    }
-
-    // Search functionality
-    searchInput.addEventListener('input', (e) => {
-        filterPapers(e.target.value);
+    grid.innerHTML = '';
+    side.innerHTML = '';
+    files.forEach((path, i) => {
+      grid.appendChild(makeCard(i+1, path, titles[i]));
+      if(i < 4) side.appendChild(makeSide(i+1, path, titles[i]));
     });
 
-    // Initial load
-    loadPapers();
-</script>
+    setStatus(
+      `${files.length} worksheet${files.length>1?'s':''} loaded · refreshes every 5 min · last updated ${new Date().toLocaleTimeString('en-IN')}`,
+      'ok'
+    );
+  } catch(err){
+    console.error(err);
+    grid.innerHTML = `<div class="msg-box">
+      <span class="msg-icon">⚠️</span>
+      <div class="msg-title">Could not load worksheets</div>
+      <div class="msg-text">${esc(err.message)}<br>Check your connection and refresh.</div>
+    </div>`;
+    setStatus(`Error: ${err.message}`,'err');
+  }
+}
 
+load();
+/* Auto-refresh every 5 minutes — new uploads appear without page reload */
+setInterval(load, 5 * 60 * 1000);
+</script>
 </body>
 </html>
