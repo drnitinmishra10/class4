@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic LCM and HCF Worksheet</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #2c3e50;
+            margin: 0;
+            padding: 20px;
+            font-size: 11pt;
+            line-height: 1.5;
+        }
+        .header-container {
+            border-bottom: 3px solid #34495e;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 20pt;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .meta-info {
+            display: table;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .meta-field {
+            display: table-cell;
+            width: 50%;
+            font-weight: bold;
+        }
+        .meta-field span {
+            border-bottom: 1px solid #7f8c8d;
+            display: inline-block;
+            width: 70%;
+            margin-left: 5px;
+            height: 18px;
+        }
+        .instructions {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 12px 15px;
+            margin-bottom: 25px;
+            border-radius: 0 4px 4px 0;
+        }
+        .instructions p {
+            margin: 0;
+            font-size: 10.5pt;
+            color: #34495e;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        tr {
+            page-break-inside: avoid;
+        }
+        th {
+            background-color: #34495e;
+            color: #ffffff;
+            font-weight: 600;
+            text-align: center;
+            padding: 10px;
+            font-size: 10.5pt;
+            border: 1px solid #2c3e50;
+        }
+        td {
+            padding: 12px 10px;
+            border: 1px solid #bdc3c7;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .q-num {
+            font-weight: bold;
+            width: 6%;
+            background-color: #f8f9fa;
+        }
+        .q-pair {
+            font-weight: 600;
+            font-size: 11.5pt;
+            color: #2c3e50;
+            width: 20%;
+            background-color: #fcfcfc;
+        }
+        .input-cell {
+            width: 22%;
+        }
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px 30px 8px 10px;
+            font-size: 11pt;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            text-align: center;
+            -moz-appearance: textfield;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        .status-icon {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            font-size: 12pt;
+        }
+        .actions-bar {
+            text-align: center;
+            margin: 25px 0;
+        }
+        .btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 12pt;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn:hover {
+            background-color: #27ae60;
+        }
+        .btn-reset {
+            background-color: #e74c3c;
+        }
+        .btn-reset:hover {
+            background-color: #c0392b;
+        }
+        .score-summary {
+            display: none;
+            text-align: center;
+            font-size: 14pt;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .score-good {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .score-try {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .answer-key-section {
+            margin-top: 40px;
+            border-top: 2px dashed #bdc3c7;
+            padding-top: 30px;
+            page-break-before: always;
+        }
+        .answer-key-table th {
+            background-color: #7f8c8d;
+            border: 1px solid #95a5a6;
+        }
+        .tip-cell {
+            text-align: left;
+            color: #555555;
+            font-style: italic;
+            padding-left: 12px;
+        }
+        .correct-ans {
+            font-weight: bold;
+            color: #27ae60;
+        }
+        .formula-box {
+            background-color: #eaeded;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        @media print {
+            .actions-bar, .status-icon, input, .score-summary {
+                display: none !important;
+            }
+            input[type="number"] {
+                border: none !important;
+                background: transparent !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-container">
+    <h1>LCM & HCF Practice Worksheet</h1>
+    <div class="meta-info">
+        <div class="meta-field">Name:<span></span></div>
+        <div class="meta-field">Date:<span></span></div>
+    </div>
+</div>
+
+<div class="instructions">
+    <p><strong>Directions:</strong> Calculate the Least Common Multiple (LCM) and the Highest Common Factor (HCF) for each number pair. Fill in your answers below and click <strong>"Check Answers"</strong> for live evaluation.</p>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Number Pair</th>
+            <th>Least Common Multiple (LCM)</th>
+            <th>Highest Common Factor (HCF)</th>
+        </tr>
+    </thead>
+    <tbody id="worksheet-body">
+        <!-- Questions are generated completely dynamically here -->
+    </tbody>
+</table>
+
+<div class="actions-bar">
+    <button class="btn" onclick="checkWorksheet()">Check Answers</button>
+    <button class="btn btn-reset" onclick="generateWorksheet()">New Random Questions</button>
+</div>
+
+<div id="score-display" class="score-summary"></div>
+
+<div class="answer-key-section">
+    <h2>Answer Key & Solutions</h2>
+    <p style="font-size: 10.5pt; color: #7f8c8d; margin-bottom: 15px;">This answer key automatically syncs and recalculates to match whatever numbers are generated above!</p>
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Pair</th>
+                <th>Correct LCM</th>
+                <th>Correct HCF</th>
+                <th>Mathematical Strategy / Tip</th>
+            </tr>
+        </thead>
+        <tbody id="answer-key-body">
+            <!-- Solutions sync dynamically here -->
+        </tbody>
+    </table>
+
+    <div class="formula-box">
+        <strong>Handy Verification Rule:</strong> For any two numbers <em>a</em> and <em>b</em>, it is always true that: 
+        <span style="font-family: 'Times New Roman', serif; font-weight: bold; margin-left: 10px; font-size: 11.5pt;">LCM(a, b) × HCF(a, b) = a × b</span>
+    </div>
+</div>
+
+<script>
+    let currentQuestions = [];
+
+    function findHCF(a, b) {
+        while (b !== 0) {
+            let temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    function findLCM(a, b, hcf) {
+        return (a * b) / hcf;
+    }
+
+    function generateWorksheet() {
+        currentQuestions = [];
+        const wsBody = document.getElementById('worksheet-body');
+        const akBody = document.getElementById('answer-key-body');
+        
+        wsBody.innerHTML = '';
+        akBody.innerHTML = '';
+        document.getElementById('score-display').style.display = 'none';
+
+        for (let i = 0; i < 10; i++) {
+            // Generate a random pair of numbers between 4 and 25
+            let n1 = Math.floor(Math.random() * 22) + 4;
+            let n2 = Math.floor(Math.random() * 22) + 4;
+            
+            // Avoid generating identical twins for a more interesting challenge
+            if (n1 === n2) n2 += 3;
+
+            const hcfAns = findHCF(n1, n2);
+            const lcmAns = findLCM(n1, n2, hcfAns);
+            let tip = "";
+
+            // Dynamic rule-based tips generation
+            if (hcfAns === 1) {
+                tip = "These numbers are co-prime; the HCF is 1, so the LCM is simply their product.";
+            } else if (n1 % n2 === 0 || n2 % n1 === 0) {
+                tip = "One number divides the other completely. The larger is the LCM; the smaller is the HCF.";
+            } else {
+                tip = `Both numbers share a common factor of ${hcfAns}.`;
+            }
+
+            currentQuestions.push({ n1, n2, lcm: lcmAns, hcf: hcfAns });
+
+            // Generate Input Rows
+            const wsRow = document.createElement('tr');
+            wsRow.innerHTML = `
+                <td class="q-num">${i + 1}</td>
+                <td class="q-pair">${n1} &amp; ${n2}</td>
+                <td class="input-cell">
+                    <div class="input-wrapper">
+                        <input type="number" id="lcm-${i}" placeholder="Enter LCM">
+                        <span id="lcm-status-${i}" class="status-icon"></span>
+                    </div>
+                </td>
+                <td class="input-cell">
+                    <div class="input-wrapper">
+                        <input type="number" id="hcf-${i}" placeholder="Enter HCF">
+                        <span id="hcf-status-${i}" class="status-icon"></span>
+                    </div>
+                </td>
+            `;
+            wsBody.appendChild(wsRow);
+
+            // Generate Answer Key Rows
+            const akRow = document.createElement('tr');
+            akRow.innerHTML = `
+                <td class="q-num">${i + 1}</td>
+                <td class="q-pair" style="font-size:10.5pt;">${n1} &amp; ${n2}</td>
+                <td class="correct-ans">${lcmAns}</td>
+                <td class="correct-ans">${hcfAns}</td>
+                <td class="tip-cell">${tip}</td>
+            `;
+            akBody.appendChild(akRow);
+        }
+    }
+
+    function checkWorksheet() {
+        let correctCount = 0;
+        let totalInputs = 20;
+
+        for (let i = 0; i < 10; i++) {
+            const userLcm = parseInt(document.getElementById(`lcm-${i}`).value);
+            const userHcf = parseInt(document.getElementById(`hcf-${i}`).value);
+            
+            const lcmStatus = document.getElementById(`lcm-status-${i}`);
+            const hcfStatus = document.getElementById(`hcf-status-${i}`);
+
+            if (userLcm === currentQuestions[i].lcm) {
+                lcmStatus.innerText = "✔️";
+                lcmStatus.style.color = "#2ecc71";
+                correctCount++;
+            } else {
+                lcmStatus.innerText = "❌";
+                lcmStatus.style.color = "#e74c3c";
+            }
+
+            if (userHcf === currentQuestions[i].hcf) {
+                hcfStatus.innerText = "✔️";
+                hcfStatus.style.color = "#2ecc71";
+                correctCount++;
+            } else {
+                hcfStatus.innerText = "❌";
+                hcfStatus.style.color = "#e74c3c";
+            }
+        }
+
+        const scoreDiv = document.getElementById('score-display');
+        scoreDiv.style.display = 'block';
+        
+        if (correctCount === totalInputs) {
+            scoreDiv.className = "score-summary score-good";
+            scoreDiv.innerHTML = `🎉 Perfect! All ${correctCount} / ${totalInputs} answers are correct!`;
+        } else {
+            scoreDiv.className = "score-summary score-try";
+            scoreDiv.innerHTML = `📝 You scored ${correctCount} / ${totalInputs}. Fix the fields marked with a cross and check again!`;
+        }
+    }
+
+    // This triggers the generator immediately upon fresh reload
+    window.onload = generateWorksheet;
+</script>
+
+</body>
+</html>
