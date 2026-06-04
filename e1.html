@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 English Grammar - Interactive Worksheet</title>
+    <style>
+        :root {
+            --primary-color: #1b4d3e; /* Forest Green */
+            --secondary-color: #2e7d32; /* Leaf Green */
+            --bg-color: #f1f7f4; /* Light Sage Background */
+            --card-bg: #ffffff;
+            --text-color: #2c3e50;
+            --correct-color: #2e7d32;
+            --incorrect-color: #d32f2f;
+            --border-radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            padding: 30px 20px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 4px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 30px 0 15px 0;
+            font-size: 1.2rem;
+        }
+
+        .question-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        /* Status Colors based on instant check */
+        .question-card.correct-status { border-left-color: var(--correct-color); background-color: #f0fdf4; }
+        .question-card.incorrect-status { border-left-color: var(--incorrect-color); background-color: #fff5f5; }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+
+        /* MCQ Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .options-grid { grid-template-columns: 1fr; }
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #fafafa;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .option-label:hover { background-color: #f1f5f9; }
+
+        .option-label input {
+            margin-right: 10px;
+            accent-color: var(--primary-color);
+        }
+
+        /* Inputs for Blanks */
+        .blank-input {
+            border: none;
+            border-bottom: 2px solid var(--secondary-color);
+            background-color: transparent;
+            padding: 2px 5px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            width: 140px;
+            text-align: center;
+            outline: none;
+        }
+
+        /* Match rows */
+        .match-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .match-row { flex-direction: column; align-items: flex-start; }
+            .match-select { width: 100% !important; max-width: none !important; }
+        }
+
+        .match-left { flex: 1; font-weight: 500; }
+        .match-select {
+            flex: 1;
+            max-width: 300px;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e0;
+            outline: none;
+        }
+
+        /* Instant Feedback Indicators */
+        .feedback-mark {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .text-correct { color: var(--correct-color); }
+        .text-incorrect { color: var(--incorrect-color); }
+
+        .hint-text {
+            display: none;
+            margin-top: 8px;
+            color: var(--incorrect-color);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        /* Submit Bottom Bar */
+        .bottom-bar {
+            text-align: center;
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        #final-score-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border: 2px dashed var(--correct-color);
+            border-radius: 8px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #1b5e20;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Class 4 English Grammar</h1>
+        <p>Chapter 1: Sentences &amp; Nouns (Interactive Worksheet)</p>
+    </header>
+
+    <form id="worksheet-form" onsubmit="calculateTotal(event)">
+        
+        <!-- SECTION A: MCQs -->
+        <div class="section-title">Section A: 10 Multiple Choice Questions (Turant check honge)</div>
+
+        <!-- Q1 -->
+        <div class="question-card" id="card-q1">
+            <div class="question-text">1. Which of these is a complete sentence? <span id="mark-q1" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q1" value="A" onchange="checkMCQ('q1', 'B')"> A) in the garden</label>
+                <label class="option-label"><input type="radio" name="q1" value="B" onchange="checkMCQ('q1', 'B')"> B) The boy is flying a kite.</label>
+                <label class="option-label"><input type="radio" name="q1" value="C" onchange="checkMCQ('q1', 'B')"> C) a big elephant</label>
+                <label class="option-label"><input type="radio" name="q1" value="D" onchange="checkMCQ('q1', 'B')"> D) wants to play</label>
+            </div>
+            <div class="hint-text" id="hint-q1">Sahi Jawab: B) The boy is flying a kite.</div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question-card" id="card-q2">
+            <div class="question-text">2. Identify the Proper Noun: "We visited Delhi last week." <span id="mark-q2" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q2" value="A" onchange="checkMCQ('q2', 'C')"> A) week</label>
+                <label class="option-label"><input type="radio" name="q2" value="B" onchange="checkMCQ('q2', 'C')"> B) visited</label>
+                <label class="option-label"><input type="radio" name="q2" value="C" onchange="checkMCQ('q2', 'C')"> C) Delhi</label>
+                <label class="option-label"><input type="radio" name="q2" value="D" onchange="checkMCQ('q2', 'C')"> D) last</label>
+            </div>
+            <div class="hint-text" id="hint-q2">Sahi Jawab: C) Delhi</div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-card" id="card-q3">
+            <div class="question-text">3. Which punctuation mark ends a question? <span id="mark-q3" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q3" value="A" onchange="checkMCQ('q3', 'A')"> A) Question mark (?)</label>
+                <label class="option-label"><input type="radio" name="q3" value="B" onchange="checkMCQ('q3', 'A')"> B) Full stop (.)</label>
+                <label class="option-label"><input type="radio" name="q3" value="C" onchange="checkMCQ('q3', 'A')"> C) Comma (,)</label>
+                <label class="option-label"><input type="radio" name="q3" value="D" onchange="checkMCQ('q3', 'A')"> D) Exclamation mark (!)</label>
+            </div>
+            <div class="hint-text" id="hint-q3">Sahi Jawab: A) Question mark (?)</div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-card" id="card-q4">
+            <div class="question-text">4. A group of keys is called a ________. <span id="mark-q4" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q4" value="A" onchange="checkMCQ('q4', 'C')"> A) pack</label>
+                <label class="option-label"><input type="radio" name="q4" value="B" onchange="checkMCQ('q4', 'C')"> B) herd</label>
+                <label class="option-label"><input type="radio" name="q4" value="C" onchange="checkMCQ('q4', 'C')"> C) bunch</label>
+                <label class="option-label"><input type="radio" name="q4" value="D" onchange="checkMCQ('q4', 'C')"> D) swarm</label>
+            </div>
+            <div class="hint-text" id="hint-q4">Sahi Jawab: C) bunch</div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-card" id="card-q5">
+            <div class="question-text">5. Which of these is an Abstract Noun (bhav-vachak)? <span id="mark-q5" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q5" value="A" onchange="checkMCQ('q5', 'B')"> A) Desk</label>
+                <label class="option-label"><input type="radio" name="q5" value="B" onchange="checkMCQ('q5', 'B')"> B) Honesty</label>
+                <label class="option-label"><input type="radio" name="q5" value="C" onchange="checkMCQ('q5', 'B')"> C) Milk</label>
+                <label class="option-label"><input type="radio" name="q5" value="D" onchange="checkMCQ('q5', 'B')"> D) Ramesh</label>
+            </div>
+            <div class="hint-text" id="hint-q5">Sahi Jawab: B) Honesty</div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question-card" id="card-q6">
+            <div class="question-text">6. "Hurrah! We won the match." What kind of sentence is this? <span id="mark-q6" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q6" value="A" onchange="checkMCQ('q6', 'D')"> A) Question</label>
+                <label class="option-label"><input type="radio" name="q6" value="B" onchange="checkMCQ('q6', 'D')"> B) Statement</label>
+                <label class="option-label"><input type="radio" name="q6" value="C" onchange="checkMCQ('q6', 'D')"> C) Command</label>
+                <label class="option-label"><input type="radio" name="q6" value="D" onchange="checkMCQ('q6', 'D')"> D) Exclamatory</label>
+            </div>
+            <div class="hint-text" id="hint-q6">Sahi Jawab: D) Exclamatory</div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question-card" id="card-q7">
+            <div class="question-text">7. Find the Subject: "The little girl was crying." <span id="mark-q7" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q7" value="A" onchange="checkMCQ('q7', 'A')"> A) The little girl</label>
+                <label class="option-label"><input type="radio" name="q7" value="B" onchange="checkMCQ('q7', 'A')"> B) was crying</label>
+                <label class="option-label"><input type="radio" name="q7" value="C" onchange="checkMCQ('q7', 'A')"> C) crying</label>
+                <label class="option-label"><input type="radio" name="q7" value="D" onchange="checkMCQ('q7', 'A')"> D) girl was</label>
+            </div>
+            <div class="hint-text" id="hint-q7">Sahi Jawab: A) The little girl</div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question-card" id="card-q8">
+            <div class="question-text">8. Which word is a Common Noun? <span id="mark-q8" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q8" value="A" onchange="checkMCQ('q8', 'B')"> A) Taj Mahal</label>
+                <label class="option-label"><input type="radio" name="q8" value="B" onchange="checkMCQ('q8', 'B')"> B) River</label>
+                <label class="option-label"><input type="radio" name="q8" value="C" onchange="checkMCQ('q8', 'B')"> C) Monday</label>
+                <label class="option-label"><input type="radio" name="q8" value="D" onchange="checkMCQ('q8', 'B')"> D) India</label>
+            </div>
+            <div class="hint-text" id="hint-q8">Sahi Jawab: B) River</div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question-card" id="card-q9">
+            <div class="question-text">9. "Please give me a glass of water." This sentence is a: <span id="mark-q9" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q9" value="A" onchange="checkMCQ('q9', 'B')"> A) Question</label>
+                <label class="option-label"><input type="radio" name="q9" value="B" onchange="checkMCQ('q9', 'B')"> B) Request/Command</label>
+                <label class="option-label"><input type="radio" name="q9" value="C" onchange="checkMCQ('q9', 'B')"> C) Exclamation</label>
+                <label class="option-label"><input type="radio" name="q9" value="D" onchange="checkMCQ('q9', 'B')"> D) Noun</label>
+            </div>
+            <div class="hint-text" id="hint-q9">Sahi Jawab: B) Request/Command</div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question-card" id="card-q10">
+            <div class="question-text">10. Identify the Material Noun: "This ring is made of gold." <span id="mark-q10" class="feedback-mark"></span></div>
+            <div class="options-grid">
+                <label class="option-label"><input type="radio" name="q10" value="A" onchange="checkMCQ('q10', 'D')"> A) ring</label>
+                <label class="option-label"><input type="radio" name="q10" value="B" onchange="checkMCQ('q10', 'D')"> B) made</label>
+                <label class="option-label"><input type="radio" name="q10" value="D" onchange="checkMCQ('q10', 'D')"> C) this</label>
+                <label class="option-label"><input type="radio" name="q10" value="D" onchange="checkMCQ('q10', 'D')"> D) gold</label>
+            </div>
+            <div class="hint-text" id="hint-q10">Sahi Jawab: D) gold</div>
+        </div>
+
+
+        <!-- SECTION B: FILL IN THE BLANKS -->
+        <div class="section-title">Section B: 10 Fill in the Blanks (Type karke Enter dabayein)</div>
+
+        <div class="question-card" id="card-q11">
+            <div class="question-text">11. A sentence always begins with a <input type="text" id="q11" class="blank-input" onchange="checkBlank('q11', 'capital')" placeholder="answer"> letter. <span id="mark-q11" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q11">Sahi Jawab: capital</div>
+        </div>
+
+        <div class="question-card" id="card-q12">
+            <div class="question-text">12. A name shared by every person or thing of the same kind is a <input type="text" id="q12" class="blank-input" onchange="checkBlank('q12', 'common')" placeholder="answer"> noun. <span id="mark-q12" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q12">Sahi Jawab: common</div>
+        </div>
+
+        <div class="question-card" id="card-q13">
+            <div class="question-text">13. The special name of a particular person or place is a <input type="text" id="q13" class="blank-input" onchange="checkBlank('q13', 'proper')" placeholder="answer"> noun. <span id="mark-q13" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q13">Sahi Jawab: proper</div>
+        </div>
+
+        <div class="question-card" id="card-q14">
+            <div class="question-text">14. A group of words that makes complete sense is called a <input type="text" id="q14" class="blank-input" onchange="checkBlank('q14', 'sentence')" placeholder="answer">. <span id="mark-q14" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q14">Sahi Jawab: sentence</div>
+        </div>
+
+        <div class="question-card" id="card-q15">
+            <div class="question-text">15. A <input type="text" id="q15" class="blank-input" onchange="checkBlank('q15', 'flock')" placeholder="answer"> of birds was flying in the sky. (Collective Noun) <span id="mark-q15" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q15">Sahi Jawab: flock</div>
+        </div>
+
+        <div class="question-card" id="card-q16">
+            <div class="question-text">16. Nouns that we can only think of or feel but cannot touch are <input type="text" id="q16" class="blank-input" onchange="checkBlank('q16', 'abstract')" placeholder="answer"> nouns. <span id="mark-q16" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q16">Sahi Jawab: abstract</div>
+        </div>
+
+        <div class="question-card" id="card-q17">
+            <div class="question-text">17. The part of a sentence which tells what the subject is or does is the <input type="text" id="q17" class="blank-input" onchange="checkBlank('q17', 'predicate')" placeholder="answer">. <span id="mark-q17" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q17">Sahi Jawab: predicate</div>
+        </div>
+
+        <div class="question-card" id="card-q18">
+            <div class="question-text">18. A simple statement sentence ends with a full <input type="text" id="q18" class="blank-input" onchange="checkBlank('q18', 'stop')" placeholder="answer">. <span id="mark-q18" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q18">Sahi Jawab: stop</div>
+        </div>
+
+        <div class="question-card" id="card-q19">
+            <div class="question-text">19. Wood, iron, and cotton are examples of <input type="text" id="q19" class="blank-input" onchange="checkBlank('q19', 'material')" placeholder="answer"> nouns. <span id="mark-q19" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q19">Sahi Jawab: material</div>
+        </div>
+
+        <div class="question-card" id="card-q20">
+            <div class="question-text">20. Days of the week like "Monday" must always start with a <input type="text" id="q20" class="blank-input" onchange="checkBlank('q20', 'capital')" placeholder="answer"> letter. <span id="mark-q20" class="feedback-mark"></span></div>
+            <div class="hint-text" id="hint-q20">Sahi Jawab: capital</div>
+        </div>
+
+
+        <!-- SECTION C: MATCH THE FOLLOWING -->
+        <div class="section-title">Section C: 10 Match the Following (Option select karein)</div>
+
+        <!-- Template menu used for all dropdown items -->
+        <!-- M1=Collective Noun, M2=Ends with ?, M3=Proper Noun, M4=Abstract Noun, M5=Material Noun, M6=Tells about subject, M7=Common Noun, M8=Strong feeling, M9=Specific Mountain, M10=Command/Order -->
+        
+        <div class="question-card" id="card-q21">
+            <div class="match-row">
+                <div class="match-left">21. Team (Group of players)</div>
+                <select id="q21" class="match-select" onchange="checkMatch('q21', 'M1')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q21" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q22">
+            <div class="match-row">
+                <div class="match-left">22. Where do you live?</div>
+                <select id="q22" class="match-select" onchange="checkMatch('q22', 'M2')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q22" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q23">
+            <div class="match-row">
+                <div class="match-left">23. Rohan</div>
+                <select id="q23" class="match-select" onchange="checkMatch('q23', 'M3')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q23" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q24">
+            <div class="match-row">
+                <div class="match-left">24. Anger (Gussa)</div>
+                <select id="q24" class="match-select" onchange="checkMatch('q24', 'M4')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q24" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q25">
+            <div class="match-row">
+                <div class="match-left">25. Plastic bottle</div>
+                <select id="q25" class="match-select" onchange="checkMatch('q25', 'M5')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q25" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q26">
+            <div class="match-row">
+                <div class="match-left">26. "...is cooking food."</div>
+                <select id="q26" class="match-select" onchange="checkMatch('q26', 'M6')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q26" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q27">
+            <div class="match-row">
+                <div class="match-left">27. City / City wall</div>
+                <select id="q27" class="match-select" onchange="checkMatch('q27', 'M7')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q27" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q28">
+            <div class="match-row">
+                <div class="match-left">28. What a beautiful flower!</div>
+                <select id="q28" class="match-select" onchange="checkMatch('q28', 'M8')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q28" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q29">
+            <div class="match-row">
+                <div class="match-left">29. Mount Everest</div>
+                <select id="q29" class="match-select" onchange="checkMatch('q29', 'M9')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q29" class="feedback-mark"></span>
+            </div>
+        </div>
+
+        <div class="question-card" id="card-q30">
+            <div class="match-row">
+                <div class="match-left">30. Sit down quietly.</div>
+                <select id="q30" class="match-select" onchange="checkMatch('q30', 'M10')">
+                    <option value="">-- Choose Match --</option>
+                    <option value="M1">Collective Noun</option>
+                    <option value="M2">Ends with Question Mark (?)</option>
+                    <option value="M3">Proper Noun (Boy's name)</option>
+                    <option value="M4">Abstract Noun (Feeling)</option>
+                    <option value="M5">Material Noun</option>
+                    <option value="M6">Predicate part</option>
+                    <option value="M7">Common Noun</option>
+                    <option value="M8">Exclamatory Sentence</option>
+                    <option value="M9">Proper Noun (Mountain name)</option>
+                    <option value="M10">Imperative Sentence</option>
+                </select>
+                <span id="mark-q30" class="feedback-mark"></span>
+            </div>
+        </div>
+
+
+        <!-- SUBMIT / REPORT CARD -->
+        <div class="bottom-bar">
+            <button type="submit" class="submit-btn">Check Final Score</button>
+            <div id="final-score-box"></div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Global tracking array to help total score checking
+    const scoresTracker = {};
+    for(let i=1; i<=30; i++) { scoresTracker['q'+i] = 0; }
+
+    // 1. Instant MCQ validation
+    function checkMCQ(qId, correctVal) {
+        const selected = document.querySelector(`input[name="${qId}"]:checked`);
+        const markSlot = document.getElementById('mark-' + qId);
+        const hintSlot = document.getElementById('hint-' + qId);
+        const card = document.getElementById('card-' + qId);
+
+        if (selected.value === correctVal) {
+            scoresTracker[qId] = 1;
+            markSlot.innerHTML = '<span class="text-correct">✓ Sahi!</span>';
+            card.className = "question-card correct-status";
+            hintSlot.style.display = "none";
+        } else {
+            scoresTracker[qId] = 0;
+            markSlot.innerHTML = '<span class="text-incorrect">✗ Galat</span>';
+            card.className = "question-card incorrect-status";
+            hintSlot.style.display = "block";
+        }
+    }
+
+    // 2. Instant Input/Blank validation
+    function checkBlank(qId, correctText) {
+        const inputField = document.getElementById(qId);
+        const userText = inputField.value.trim().toLowerCase();
+        const markSlot = document.getElementById('mark-' + qId);
+        const hintSlot = document.getElementById('hint-' + qId);
+        const card = document.getElementById('card-' + qId);
+
+        if (userText === correctText) {
+            scoresTracker[qId] = 1;
+            markSlot.innerHTML = '<span class="text-correct">✓ Sahi!</span>';
+            card.className = "question-card correct-status";
+            hintSlot.style.display = "none";
+        } else {
+            scoresTracker[qId] = 0;
+            markSlot.innerHTML = '<span class="text-incorrect">✗ Galat</span>';
+            card.className = "question-card incorrect-status";
+            hintSlot.style.display = "block";
+        }
+    }
+
+    // 3. Instant Dropdown Match validation
+    function checkMatch(qId, correctKey) {
+        const selectBox = document.getElementById(qId);
+        const markSlot = document.getElementById('mark-' + qId);
+        const card = document.getElementById('card-' + qId);
+
+        if (selectBox.value === correctKey) {
+            scoresTracker[qId] = 1;
+            markSlot.innerHTML = '<span class="text-correct">✓ Sahi!</span>';
+            card.className = "question-card correct-status";
+        } else {
+            scoresTracker[qId] = 0;
+            markSlot.innerHTML = '<span class="text-incorrect">✗ Galat</span>';
+            card.className = "question-card incorrect-status";
+        }
+    }
+
+    // 4. Calculate Final report summary card
+    function calculateTotal(e) {
+        e.preventDefault();
+        let finalScore = 0;
+        
+        for (let key in scoresTracker) {
+            finalScore += scoresTracker[key];
+        }
+
+        const scoreBox = document.getElementById('final-score-box');
+        scoreBox.innerText = `Shaandar! You scored ${finalScore} out of 30`;
+        scoreBox.style.display = "block";
+        
+        scoreBox.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+</script>
+
+</body>
+</html>
