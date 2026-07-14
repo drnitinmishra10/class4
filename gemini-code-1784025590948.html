@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science - Chapter 2 Matching Activity</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 10px;
+        }
+        .instruction {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .score-board {
+            position: sticky;
+            top: 10px;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+        .match-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .item {
+            background: #fafafa;
+            border: 2px solid #dcdde1;
+            padding: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .item:hover {
+            border-color: #e67e22;
+            background: #f1f2f6;
+        }
+        .item.selected {
+            border-color: #e67e22;
+            background: #fff3e0;
+            box-shadow: 0 0 8px rgba(230, 126, 34, 0.4);
+        }
+        .item.paired {
+            border-color: #95a5a6;
+            background: #eaeded;
+            cursor: not-allowed;
+        }
+        .pair-tag {
+            font-size: 0.8rem;
+            background: #7f8c8d;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .submit-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .submit-btn {
+            background-color: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background 0.2s;
+            box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+        }
+        .submit-btn:hover {
+            background-color: #d35400;
+        }
+        .submit-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .warning-msg {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .explanation-box {
+            margin-top: 30px;
+            display: none;
+            background: #f9f9f9;
+            border-top: 3px solid #34495e;
+            padding: 20px;
+            border-radius: 4px;
+        }
+        .explanation-item {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        .text-success { color: #27ae60; border-color: #2ecc71 !important; background: #f4fbf7 !important;}
+        .text-danger { color: #c0392b; border-color: #e74c3c !important; background: #fdf5f4 !important;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Class 4 Science: Chapter 2 - Match the Following</h1>
+    <p class="instruction">Click an item on the Left, then click its corresponding match on the Right to link them together!</p>
+    
+    <div class="score-board" id="score-display"></div>
+
+    <div class="match-wrapper">
+        <div class="column" id="left-column"></div>
+        <div class="column" id="right-column"></div>
+    </div>
+
+    <div class="submit-container">
+        <div id="warning" class="warning-msg">Please match all items before submitting!</div>
+        <button class="submit-btn" id="submit-btn" onclick="submitMatching()">Submit Answers</button>
+    </div>
+
+    <div class="explanation-box" id="explanation-box">
+        <h3>📊 Answer Key & Explanations:</h3>
+        <div id="explanation-list"></div>
+    </div>
+</div>
+
+<script>
+    const matchData = [
+        { id: 1, left: "Mammals", right: "Give birth to live babies", r: "Mammals (like cows, dogs, and humans) feed their young ones with milk." },
+        { id: 2, left: "Gills", right: "Help fish breathe underwater", r: "Gills extract dissolved oxygen directly out of the passing stream." },
+        { id: 3, left: "Hibernation", right: "Winter sleep to survive cold", r: "Animals like bears go into a deep sleep to conserve body energy when food is scarce." },
+        { id: 4, left: "Arboreal Animals", right: "Live mostly on trees", r: "Monkeys and squirrels are prime examples, utilizing strong claws or prehensile tails." },
+        { id: 5, left: "Parasites", right: "Live on or inside other hosts", r: "Leeches, mosquitoes, and fleas drain blood or nutrients from other living things." },
+        { id: 6, left: "Tadpole", right: "Larva stage of a frog", r: "A tadpole hatches from an egg, has a tail, lives in water, and breathes through gills." },
+        { id: 7, left: "Albumen", right: "White layer protecting the egg yolk", r: "The albumen is rich in protein and protects the embryo growing inside the egg." },
+        { id: 8, left: "Caterpillar", right: "Larva stage of a butterfly", r: "The caterpillar hatches from an egg, feeds on leaves, and later transforms into a pupa." },
+        { id: 9, left: "Amphibians", right: "Live on land and in water", r: "Frogs and toads are amphibians; they have moist skin that helps them breathe underwater." },
+        { id: 10, left: "Blubber", right: "Thick layer of under-skin fat", r: "Polar bears and whales use blubber to insulate their bodies against freezing arctic climates." }
+    ];
+
+    let shuffledRight = [...matchData].sort(() => Math.random() - 0.5);
+
+    let selectedLeft = null;
+    let pairings = {}; 
+
+    const leftCol = document.getElementById('left-column');
+    const rightCol = document.getElementById('right-column');
+
+    matchData.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerText = `${index + 1}. ${item.left}`;
+        div.dataset.leftText = item.left;
+        div.onclick = () => selectLeftItem(div);
+        leftCol.appendChild(div);
+    });
+
+    shuffledRight.forEach((item) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerText = item.right;
+        div.dataset.rightText = item.right;
+        div.onclick = () => selectRightItem(div);
+        rightCol.appendChild(div);
+    });
+
+    function selectLeftItem(element) {
+        if (element.classList.contains('paired')) return;
+        document.querySelectorAll('#left-column .item').forEach(el => el.classList.remove('selected'));
+        selectedLeft = element;
+        element.classList.add('selected');
+    }
+
+    function selectRightItem(element) {
+        if (!selectedLeft || element.classList.contains('paired')) return;
+
+        const leftText = selectedLeft.dataset.leftText;
+        const rightText = element.dataset.rightText;
+
+        selectedLeft.classList.remove('selected');
+        selectedLeft.classList.add('paired');
+        element.classList.add('paired');
+
+        const tag = document.createElement('span');
+        tag.className = 'pair-tag';
+        tag.innerText = "Linked";
+        selectedLeft.appendChild(tag);
+
+        pairings[leftText] = rightText;
+        selectedLeft = null; 
+    }
+
+    window.submitMatching = function() {
+        if (Object.keys(pairings).length < matchData.length) {
+            document.getElementById('warning').style.display = 'block';
+            return;
+        }
+        document.getElementById('warning').style.display = 'none';
+
+        let score = 0;
+        const expList = document.getElementById('explanation-list');
+        expList.innerHTML = '';
+
+        matchData.forEach((item) => {
+            const userSelection = pairings[item.left];
+            const isCorrect = userSelection === item.right;
+            
+            const leftEl = Array.from(document.querySelectorAll('#left-column .item')).find(el => el.dataset.leftText === item.left);
+            const rightEl = Array.from(document.querySelectorAll('#right-column .item')).find(el => el.dataset.rightText === userSelection);
+
+            if (isCorrect) {
+                score++;
+                leftEl.classList.add('text-success');
+                if (rightEl) rightEl.classList.add('text-success');
+            } else {
+                leftEl.classList.add('text-danger');
+                if (rightEl) rightEl.classList.add('text-danger');
+            }
+
+            const expItem = document.createElement('div');
+            expItem.className = 'explanation-item';
+            expItem.innerHTML = `<strong>${item.left}</strong> &rarr; <span class="${isCorrect ? 'text-success' : 'text-danger'}">${item.right}</span><br><small style="color:#555;">${item.r}</small><hr style="border:0; border-top:1px solid #eee; margin:8px 0;">`;
+            expList.appendChild(expItem);
+        });
+
+        const scoreDisplay = document.getElementById('score-display');
+        scoreDisplay.style.display = 'block';
+        scoreDisplay.style.backgroundColor = score >= 7 ? "#2ecc71" : "#e67e22";
+        scoreDisplay.innerHTML = `🎉 Activity Evaluated! Total Marks: ${score} / ${matchData.length}`;
+
+        document.getElementById('submit-btn').disabled = true;
+        document.getElementById('explanation-box').style.display = 'block';
+        document.querySelectorAll('.item').forEach(el => el.style.cursor = 'not-allowed');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
