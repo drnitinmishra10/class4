@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science - Chapter 5 Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .score-board {
+            position: sticky;
+            top: 10px;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+        .question-card {
+            background: #fafafa;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            padding-right: 30px;
+        }
+        .options {
+            margin-bottom: 5px;
+        }
+        .options label {
+            cursor: pointer;
+            margin-right: 15px;
+            display: inline-block;
+        }
+        .submit-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        .correct-card {
+            border-left-color: #2ecc71;
+            background: #f4fbf7;
+        }
+        .incorrect-card {
+            border-left-color: #e74c3c;
+            background: #fdf5f4;
+        }
+        .status-icon {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .text-success { color: #27ae60; }
+        .text-danger { color: #c0392b; }
+        .explanation {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 5px;
+            font-style: italic;
+            display: none;
+        }
+        .warning-msg {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Class 4 Science: Chapter 5 (Air, Water, and Weather)</h1>
+    
+    <div class="score-board" id="score-display"></div>
+
+    <div id="quiz-container"></div>
+
+    <div class="submit-container">
+        <div id="warning" class="warning-msg">Please answer all questions before submitting!</div>
+        <button class="submit-btn" id="main-submit-btn" onclick="submitAll()">Submit All Answers</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { q: "The sun causes changes in weather condition on the Earth.", a: true, r: "The sun heats up the air, land, and water, causing wind currents and evaporation." },
+        { q: "Moving air is called wind.", a: true, r: "Gentle wind is called a breeze, while strong, fast-moving air is called a storm." },
+        { q: "The process by which water changes into water vapor upon heating is called condensation.", a: false, r: "This heating process is called evaporation; condensation is when vapor cools back into water droplets." },
+        { q: "Sea breeze blows from the land toward the sea during the daytime.", a: false, r: "During the day, land heats up faster, causing warm air to rise and cool air from the sea to blow towards the land (Sea Breeze)." },
+        { q: "Land breeze typically occurs at night.", a: true, r: "At night, land cools down faster than the sea, forcing cool air from the land to blow out toward the warmer water." },
+        { q: "Water vapor rises high into the sky because hot air is lighter than cold air.", a: true, r: "As warm air expands and rises, it carries moisture up into cooler layers of the atmosphere." },
+        { q: "Clouds are made up of millions of tiny water droplets floating together.", a: true, r: "When water vapor cools down high in the air, it condenses to form clouds." },
+        { q: "The continuous movement of water from the Earth's surface to the atmosphere and back is called the water cycle.", a: true, r: "Evaporation, condensation, and precipitation maintain the endless water cycle." },
+        { q: "Rainwater is the purest source of natural water.", a: true, r: "However, as it falls through the lower atmosphere, it can pick up dirt and pollutants." },
+        { q: "Insoluble impurities in water can be separated easily by filtration.", a: true, r: "Insoluble particles like sand do not dissolve and can be trapped using a filter paper or cloth." },
+        { q: "Sedimentation is the process where heavy insoluble particles settle at the bottom of a liquid.", a: true, r: "Leaving muddy water undisturbed allows the soil particles to sink to the bottom." },
+        { q: "Decantation is used to separate completely dissolved salts from water.", a: false, r: "Decantation means carefully pouring out clear liquid after sedimentation. Soluble salt requires evaporation." },
+        { q: "Chlorine is added to water to kill harmful germs and bacteria.", a: true, r: "This chemical chemical purification method is called chlorination." },
+        { q: "Boiling water for 15-20 minutes does not kill the germs inside it.", a: false, r: "Boiling is one of the easiest and most effective traditional ways to destroy harmful germs." },
+        { q: "The amount of water vapor present in the air is known as temperature.", a: false, r: "The moisture content in the air is called humidity. Temperature measures heat intensity." },
+        { q: "Dew forms when water vapor condenses directly on cold surfaces like leaves and grass at night.", a: true, r: "When nights are clear and cold, moisture settles as tiny drops instead of forming clouds." },
+        { q: "Frost occurs when water vapor freezes directly into ice crystals on very cold surfaces.", a: true, r: "This occurs when the surrounding ground temperature falls below the freezing mark (0°C)." },
+        { q: "Hailstones are small balls of ice that fall down as frozen rain during severe storms.", a: true, r: "Strong upward wind currents push rain into freezing atmospheric zones, forming layers of ice." },
+        { q: "Water covers roughly 50% of the Earth's surface.", a: false, r: "Water occupies approximately 71% of the surface area of our planet." },
+        { q: "We can live comfortably without water for several months.", a: false, r: "Water is vital for life; human beings can only survive a few days without it." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    quizData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card-${index}`;
+        
+        card.innerHTML = `
+            <div class="question-text">${index + 1}. ${item.q}</div>
+            <div class="status-icon" id="icon-${index}"></div>
+            <div class="options">
+                <label><input type="radio" name="q${index}" value="true"> True</label>
+                <label><input type="radio" name="q${index}" value="false"> False</label>
+            </div>
+            <div class="explanation" id="exp-${index}"><strong>Why:</strong> ${item.r}</div>
+        `;
+        container.appendChild(card);
+    });
+
+    window.submitAll = function() {
+        let totalScore = 0;
+        let allAnswered = true;
+        const warning = document.getElementById('warning');
+
+        for (let index = 0; index < quizData.length; index++) {
+            const radios = document.getElementsByName(`q${index}`);
+            let answered = false;
+            for (const radio of radios) {
+                if (radio.checked) answered = true;
+            }
+            if (!answered) {
+                allAnswered = false;
+                break;
+            }
+        }
+
+        if (!allAnswered) {
+            warning.style.display = "block";
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            return;
+        }
+
+        warning.style.display = "none";
+
+        quizData.forEach((item, index) => {
+            const radios = document.getElementsByName(`q${index}`);
+            let selectedValue = null;
+            
+            for (const radio of radios) {
+                selectedValue = radio.checked ? (radio.value === "true") : selectedValue;
+                radio.disabled = true;
+            }
+
+            const card = document.getElementById(`card-${index}`);
+            const iconDiv = document.getElementById(`icon-${index}`);
+            const expDiv = document.getElementById(`exp-${index}`);
+            
+            const isCorrect = selectedValue === item.a;
+            expDiv.style.display = "block";
+
+            if (isCorrect) {
+                totalScore++;
+                card.classList.add('correct-card');
+                iconDiv.innerHTML = '&#10004;';
+                iconDiv.className = 'status-icon text-success';
+            } else {
+                card.classList.add('incorrect-card');
+                iconDiv.innerHTML = '&#10006;';
+                iconDiv.className = 'status-icon text-danger';
+            }
+        });
+
+        const scoreDisplay = document.getElementById('score-display');
+        scoreDisplay.style.display = "block";
+        scoreDisplay.style.backgroundColor = totalScore >= 15 ? "#2ecc71" : "#e67e22";
+        scoreDisplay.innerHTML = `🎉 Quiz Completed! Final Score: ${totalScore} / ${quizData.length}`;
+
+        document.getElementById('main-submit-btn').disabled = true;
+        document.getElementById('main-submit-btn').style.backgroundColor = "#bdc3c7";
+        document.getElementById('main-submit-btn').style.cursor = "not-allowed";
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

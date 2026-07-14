@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science - Chapter 1 Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #2ecc71;
+            padding-bottom: 10px;
+        }
+        .score-board {
+            position: sticky;
+            top: 10px;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+        .question-card {
+            background: #fafafa;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            padding-right: 30px;
+        }
+        .options {
+            margin-bottom: 5px;
+        }
+        .options label {
+            cursor: pointer;
+            margin-right: 15px;
+            display: inline-block;
+        }
+        .submit-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .submit-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+        }
+        .submit-btn:hover {
+            background-color: #27ae60;
+        }
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .correct-card {
+            border-left-color: #2ecc71;
+            background: #f4fbf7;
+        }
+        .incorrect-card {
+            border-left-color: #e74c3c;
+            background: #fdf5f4;
+        }
+        .status-icon {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .text-success { color: #27ae60; }
+        .text-danger { color: #c0392b; }
+        .explanation {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 5px;
+            font-style: italic;
+            display: none;
+        }
+        .warning-msg {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Class 4 Science: Chapter 1 (Plant Life)</h1>
+    
+    <div class="score-board" id="score-display"></div>
+
+    <div id="quiz-container"></div>
+
+    <div class="submit-container">
+        <div id="warning" class="warning-msg">Please answer all questions before submitting!</div>
+        <button class="submit-btn" id="main-submit-btn" onclick="submitAll()">Submit All Answers</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { q: "Green plants can make their own food through photosynthesis.", a: true, r: "Green plants contain chlorophyll which traps sunlight to synthesize food." },
+        { q: "Roots absorb water and nutrients from the soil.", a: true, r: "The primary function of roots is to anchor the plant and pull water/minerals from the earth." },
+        { q: "Mushroom is a green plant that performs photosynthesis.", a: false, r: "Mushrooms are fungi; they lack chlorophyll and get food from decaying matter." },
+        { q: "Chlorophyll gives leaves their green color.", a: true, r: "Chlorophyll is the green pigment essential for trapping sunlight." },
+        { q: "Plants breathe in oxygen and release carbon dioxide during photosynthesis.", a: false, r: "During photosynthesis, plants take in carbon dioxide and release oxygen." },
+        { q: "The flat, broad part of a leaf is called the leaf blade or lamina.", a: true, r: "The flat surface maximizes the area available to absorb sunlight." },
+        { q: "Stomata are tiny openings found mostly on the upper side of all leaves.", a: false, r: "Stomata are generally found in larger numbers on the lower surface of leaves to reduce water loss." },
+        { q: "Cactus plants have broad leaves to store water.", a: false, r: "Cactus leaves are modified into spines to reduce water loss; their fleshy stems store water." },
+        { q: "Starch is the form in which plants store their extra food.", a: true, r: "Plants convert glucose into starch for long-term storage in roots, stems, or leaves." },
+        { q: "Underwater plants do not need carbon dioxide.", a: false, r: "They absorb dissolved carbon dioxide from the water to perform photosynthesis." },
+        { q: "Venus Flytrap is an insectivorous plant.", a: true, r: "It grows in nutrient-poor soil and traps insects to get essential minerals like nitrogen." },
+        { q: "Croton plants do not have chlorophyll because their leaves look red.", a: false, r: "They do have chlorophyll, but it is hidden by a strong red or yellow pigment." },
+        { q: "Deciduous trees shed their leaves in autumn or winter.", a: true, r: "Shedding leaves helps these trees conserve water during cold, dry seasons." },
+        { q: "Conifers or mountain trees have needle-like leaves.", a: true, r: "Needle-like leaves allow snow to slide off easily and protect the plant from freezing." },
+        { q: "Floating aquatic plants have very deep roots fixed to the riverbed.", a: false, r: "Floating plants have loose, spongy roots that float freely in the water." },
+        { q: "The stem carries prepared food from the leaves to other parts of the plant.", a: true, r: "The stem acts as a two-way transportation system for water and nutrients." },
+        { q: "Non-green plants can survive entirely without relying on any other organism.", a: false, r: "Because they cannot make food, they must live as saprophytes or parasites." },
+        { q: "Iodine solution turns blue-black when it comes into contact with starch.", a: true, r: "This is the standard laboratory chemical test used to confirm the presence of starch." },
+        { q: "Sunlight is optional for the process of photosynthesis.", a: false, r: "The word 'photo' means light; without light energy, the process cannot happen." },
+        { q: "Plants help maintain the balance of oxygen and carbon dioxide in nature.", a: true, r: "By consuming carbon dioxide and emitting oxygen, they purify the atmosphere." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    // Render questions without individual buttons
+    quizData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card-${index}`;
+        
+        card.innerHTML = `
+            <div class="question-text">${index + 1}. ${item.q}</div>
+            <div class="status-icon" id="icon-${index}"></div>
+            <div class="options">
+                <label><input type="radio" name="q${index}" value="true"> True</label>
+                <label><input type="radio" name="q${index}" value="false"> False</label>
+            </div>
+            <div class="explanation" id="exp-${index}"><strong>Why:</strong> ${item.r}</div>
+        `;
+        container.appendChild(card);
+    });
+
+    window.submitAll = function() {
+        let totalScore = 0;
+        let allAnswered = true;
+        const warning = document.getElementById('warning');
+
+        // Check if all questions are answered first
+        for (let index = 0; index < quizData.length; index++) {
+            const radios = document.getElementsByName(`q${index}`);
+            let answered = false;
+            for (const radio of radios) {
+                if (radio.checked) answered = true;
+            }
+            if (!answered) {
+                allAnswered = false;
+                break;
+            }
+        }
+
+        if (!allAnswered) {
+            warning.style.display = "block";
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            return;
+        }
+
+        warning.style.display = "none";
+
+        // Evaluate all answers
+        quizData.forEach((item, index) => {
+            const radios = document.getElementsByName(`q${index}`);
+            let selectedValue = null;
+            
+            for (const radio of radios) {
+                selectedValue = radio.checked ? (radio.value === "true") : selectedValue;
+                radio.disabled = true; // Lock choice
+            }
+
+            const card = document.getElementById(`card-${index}`);
+            const iconDiv = document.getElementById(`icon-${index}`);
+            const expDiv = document.getElementById(`exp-${index}`);
+            
+            const isCorrect = selectedValue === item.a;
+            expDiv.style.display = "block"; // Show structural explanations inline
+
+            if (isCorrect) {
+                totalScore++;
+                card.classList.add('correct-card');
+                iconDiv.innerHTML = '&#10004;';
+                iconDiv.className = 'status-icon text-success';
+            } else {
+                card.classList.add('incorrect-card');
+                iconDiv.innerHTML = '&#10006;';
+                iconDiv.className = 'status-icon text-danger';
+            }
+        });
+
+        // Display Score at Top
+        const scoreDisplay = document.getElementById('score-display');
+        scoreDisplay.style.display = "block";
+        scoreDisplay.style.backgroundColor = totalScore >= 15 ? "#2ecc71" : "#e67e22";
+        scoreDisplay.innerHTML = `🎉 Quiz Completed! Final Score: ${totalScore} / ${quizData.length}`;
+
+        // Disable submit button after run
+        document.getElementById('main-submit-btn').disabled = true;
+        document.getElementById('main-submit-btn').style.backgroundColor = "#bdc3c7";
+        document.getElementById('main-submit-btn').style.cursor = "not-allowed";
+
+        // Scroll back to top smoothly to check total score
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

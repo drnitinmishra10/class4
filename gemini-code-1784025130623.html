@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science - Chapter 4 Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #1abc9c;
+            padding-bottom: 10px;
+        }
+        .score-board {
+            position: sticky;
+            top: 10px;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+        .question-card {
+            background: #fafafa;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            padding-right: 30px;
+        }
+        .options {
+            margin-bottom: 5px;
+        }
+        .options label {
+            cursor: pointer;
+            margin-right: 15px;
+            display: inline-block;
+        }
+        .submit-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .submit-btn {
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(26, 188, 156, 0.3);
+        }
+        .submit-btn:hover {
+            background-color: #16a085;
+        }
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        .correct-card {
+            border-left-color: #2ecc71;
+            background: #f4fbf7;
+        }
+        .incorrect-card {
+            border-left-color: #e74c3c;
+            background: #fdf5f4;
+        }
+        .status-icon {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .text-success { color: #27ae60; }
+        .text-danger { color: #c0392b; }
+        .explanation {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 5px;
+            font-style: italic;
+            display: none;
+        }
+        .warning-msg {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Class 4 Science: Chapter 4 (Teeth and Microbes)</h1>
+    
+    <div class="score-board" id="score-display"></div>
+
+    <div id="quiz-container"></div>
+
+    <div class="submit-container">
+        <div id="warning" class="warning-msg">Please answer all questions before submitting!</div>
+        <button class="submit-btn" id="main-submit-btn" onclick="submitAll()">Submit All Answers</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { q: "Human beings get two sets of teeth during their lifetime.", a: true, r: "These sets are temporary teeth (milk teeth) and permanent teeth." },
+        { q: "A completely grown adult human typically has a set of 28 permanent teeth.", a: false, r: "An adult set typically contains 32 permanent teeth, 16 in each jaw." },
+        { q: "Milk teeth begin to fall out around the age of 6 years.", a: true, r: "They gradually drop out one by one to make room for permanent teeth." },
+        { q: "Incisors are flat, sharp-edged teeth used for cutting and biting food.", a: true, r: "There are 8 incisors in total, located right at the front of the mouth." },
+        { q: "Canines are broad, flat teeth used to grind food into a paste.", a: false, r: "Canines are sharp, pointed teeth used for tearing meat. Grinding is done by molars." },
+        { q: "Premolars are situated next to the canines and help crush food.", a: true, r: "There are 4 premolars in each jaw, acting as intermediate crushing blocks." },
+        { q: "Molars are narrower than incisors.", a: false, r: "Molars are the widest, largest teeth located at the back of the mouth, built for grinding heavy food." },
+        { q: "Enamel is the hard, protective white outer layer of a tooth.", a: true, r: "Enamel is the hardest material found anywhere in the entire human body." },
+        { q: "Dentin is softer than enamel and lies directly underneath it.", a: true, r: "Dentin protects the inner pulp chamber which carries nerves and blood vessels." },
+        { q: "The pulp is the outermost layer of the tooth structure.", a: false, r: "The pulp is the innermost central core containing nerves and live blood supply lines." },
+        { q: "Plaque is a sticky, invisible layer of bacteria that forms on teeth.", a: true, r: "Plaque forms when bacteria mix with food particles and sugary saliva." },
+        { q: "Bacteria produce acid when they break down sugary food particles stuck in our teeth.", a: true, r: "This acid directly dissolves enamel over time, creating dental cavities." },
+        { q: "We should brush our teeth at least three times every hour.", a: false, r: "Teeth should be brushed twice a day—once in the morning and once before bed." },
+        { q: "Microbes are tiny organisms that can only be seen through a microscope.", a: true, r: "The word 'micro' means extremely small, invisible to naked human eyes." },
+        { q: "All types of microbes existing in nature are harmful to humans.", a: false, r: "Many microbes are useful, like the bacteria used to turn milk into curd or bake bread." },
+        { q: "Viruses are a type of microbe that can cause diseases like the common cold and flu.", a: true, r: "Viruses require a host body to grow and reproduce rapidly." },
+        { q: "Fungi are microbes that help plants produce chlorophyll.", a: false, r: "Fungi lack chlorophyll and grow on dead matter; some cause skin diseases like ringworm." },
+        { q: "Protozoa cause waterborne diseases like amoebic dysentery and malaria.", a: true, r: "Protozoa are single-celled microscopic organisms found mostly in moist conditions." },
+        { q: "Calcium and Vitamin C are essential nutrients for keeping our teeth strong.", a: true, r: "Calcium builds strong bones and enamel, while Vitamin C maintains healthy gums." },
+        { q: "Using dental floss helps clean food particles trapped between the teeth.", a: true, r: "Flossing cleans hard-to-reach spaces where normal toothbrush bristles cannot reach." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    quizData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card-${index}`;
+        
+        card.innerHTML = `
+            <div class="question-text">${index + 1}. ${item.q}</div>
+            <div class="status-icon" id="icon-${index}"></div>
+            <div class="options">
+                <label><input type="radio" name="q${index}" value="true"> True</label>
+                <label><input type="radio" name="q${index}" value="false"> False</label>
+            </div>
+            <div class="explanation" id="exp-${index}"><strong>Why:</strong> ${item.r}</div>
+        `;
+        container.appendChild(card);
+    });
+
+    window.submitAll = function() {
+        let totalScore = 0;
+        let allAnswered = true;
+        const warning = document.getElementById('warning');
+
+        for (let index = 0; index < quizData.length; index++) {
+            const radios = document.getElementsByName(`q${index}`);
+            let answered = false;
+            for (const radio of radios) {
+                if (radio.checked) answered = true;
+            }
+            if (!answered) {
+                allAnswered = false;
+                break;
+            }
+        }
+
+        if (!allAnswered) {
+            warning.style.display = "block";
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            return;
+        }
+
+        warning.style.display = "none";
+
+        quizData.forEach((item, index) => {
+            const radios = document.getElementsByName(`q${index}`);
+            let selectedValue = null;
+            
+            for (const radio of radios) {
+                selectedValue = radio.checked ? (radio.value === "true") : selectedValue;
+                radio.disabled = true;
+            }
+
+            const card = document.getElementById(`card-${index}`);
+            const iconDiv = document.getElementById(`icon-${index}`);
+            const expDiv = document.getElementById(`exp-${index}`);
+            
+            const isCorrect = selectedValue === item.a;
+            expDiv.style.display = "block";
+
+            if (isCorrect) {
+                totalScore++;
+                card.classList.add('correct-card');
+                iconDiv.innerHTML = '&#10004;';
+                iconDiv.className = 'status-icon text-success';
+            } else {
+                card.classList.add('incorrect-card');
+                iconDiv.innerHTML = '&#10006;';
+                iconDiv.className = 'status-icon text-danger';
+            }
+        });
+
+        const scoreDisplay = document.getElementById('score-display');
+        scoreDisplay.style.display = "block";
+        scoreDisplay.style.backgroundColor = totalScore >= 15 ? "#2ecc71" : "#e67e22";
+        scoreDisplay.innerHTML = `🎉 Quiz Completed! Final Score: ${totalScore} / ${quizData.length}`;
+
+        document.getElementById('main-submit-btn').disabled = true;
+        document.getElementById('main-submit-btn').style.backgroundColor = "#bdc3c7";
+        document.getElementById('main-submit-btn').style.cursor = "not-allowed";
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

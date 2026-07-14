@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science - Chapter 3 Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #9b59b6;
+            padding-bottom: 10px;
+        }
+        .score-board {
+            position: sticky;
+            top: 10px;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+        .question-card {
+            background: #fafafa;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+            position: relative;
+        }
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            padding-right: 30px;
+        }
+        .options {
+            margin-bottom: 5px;
+        }
+        .options label {
+            cursor: pointer;
+            margin-right: 15px;
+            display: inline-block;
+        }
+        .submit-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .submit-btn {
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3);
+        }
+        .submit-btn:hover {
+            background-color: #8e44ad;
+        }
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        .correct-card {
+            border-left-color: #2ecc71;
+            background: #f4fbf7;
+        }
+        .incorrect-card {
+            border-left-color: #e74c3c;
+            background: #fdf5f4;
+        }
+        .status-icon {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .text-success { color: #27ae60; }
+        .text-danger { color: #c0392b; }
+        .explanation {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 5px;
+            font-style: italic;
+            display: none;
+        }
+        .warning-msg {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Class 4 Science: Chapter 3 (Food and Digestion)</h1>
+    
+    <div class="score-board" id="score-display"></div>
+
+    <div id="quiz-container"></div>
+
+    <div class="submit-container">
+        <div id="warning" class="warning-msg">Please answer all questions before submitting!</div>
+        <button class="submit-btn" id="main-submit-btn" onclick="submitAll()">Submit All Answers</button>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { q: "Carbohydrates provide our body with energy to work and play.", a: true, r: "Carbohydrates are energy-giving foods found in rice, wheat, and potatoes." },
+        { q: "Proteins help our body to grow and repair damaged cells.", a: true, r: "Proteins are body-building foods found in milk, pulses, eggs, and meat." },
+        { q: "Vitamins and minerals are required by our body in huge quantities.", a: false, r: "They are protective foods needed in very small amounts to fight off diseases." },
+        { q: "Roughage is the indigestible fiber in food that helps clear our stomach easily.", a: true, r: "Fiber doesn't provide nutrients, but it helps prevent constipation." },
+        { q: "Digestion of food begins inside the stomach.", a: false, r: "Digestion starts in the mouth, where saliva breaks down starch into simple sugars." },
+        { q: "Saliva is a digestive liquid produced in our mouth.", a: true, r: "Saliva makes food wet and slippery, making it easy to swallow while helping digest starch." },
+        { q: "The food pipe is also known as the esophagus.", a: true, r: "It pushes swallowed food down from the mouth directly into the stomach." },
+        { q: "The stomach is a J-shaped muscular bag that churns food into a fine paste.", a: true, r: "It mixes food with strong acidic juices to break down food components." },
+        { q: "The large intestine is longer than the small intestine.", a: false, r: "The small intestine is much longer, but it is narrower, which is why it gets that name." },
+        { q: "Nutrients from completely digested food are absorbed into the blood inside the small intestine.", a: true, r: "The walls of the small intestine have blood vessels that pick up nutrients." },
+        { q: "The liver and pancreas release digestive juices into the large intestine.", a: false, r: "They pour their digestive juices into the small intestine to complete digestion." },
+        { q: "Water from undigested food waste is absorbed in the large intestine.", a: true, r: "The large intestine processes what is left over, extracting excess water before removal." },
+        { q: "A balanced diet contains all the nutrients in the correct right portions.", a: true, r: "It includes the correct balance of carbs, fats, proteins, vitamins, minerals, roughage, and water." },
+        { q: "Boiling or steaming is an unhealthy method of cooking food.", a: false, r: "Boiling and steaming are healthy options because they use little to no oil." },
+        { q: "Food can be preserved for a long time by adding sugar or salt.", a: true, r: "Salt and sugar draw out moisture, preventing bacteria or mold from growing on food." },
+        { q: "Fats give less energy than carbohydrates.", a: false, r: "Fats actually provide more energy than carbohydrates, but the body finds them harder to break down." },
+        { q: "Anus is the opening through which solid waste is thrown out of the body.", a: true, r: "This completes the human digestive process." },
+        { q: "Refrigeration allows microbes to grow fast on our stored food items.", a: false, r: "Cold temperatures inside a refrigerator slow down microbe activity, keeping food fresh longer." },
+        { q: "We should chew our food properly before swallowing it.", a: true, r: "Chewing breaks food into small pieces, reducing work for the stomach." },
+        { q: "Milk is considered a complete food for infants.", a: true, r: "Milk contains almost all the essential nutrients needed for growth and energy." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    quizData.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card-${index}`;
+        
+        card.innerHTML = `
+            <div class="question-text">${index + 1}. ${item.q}</div>
+            <div class="status-icon" id="icon-${index}"></div>
+            <div class="options">
+                <label><input type="radio" name="q${index}" value="true"> True</label>
+                <label><input type="radio" name="q${index}" value="false"> False</label>
+            </div>
+            <div class="explanation" id="exp-${index}"><strong>Why:</strong> ${item.r}</div>
+        `;
+        container.appendChild(card);
+    });
+
+    window.submitAll = function() {
+        let totalScore = 0;
+        let allAnswered = true;
+        const warning = document.getElementById('warning');
+
+        for (let index = 0; index < quizData.length; index++) {
+            const radios = document.getElementsByName(`q${index}`);
+            let answered = false;
+            for (const radio of radios) {
+                if (radio.checked) answered = true;
+            }
+            if (!answered) {
+                allAnswered = false;
+                break;
+            }
+        }
+
+        if (!allAnswered) {
+            warning.style.display = "block";
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            return;
+        }
+
+        warning.style.display = "none";
+
+        quizData.forEach((item, index) => {
+            const radios = document.getElementsByName(`q${index}`);
+            let selectedValue = null;
+            
+            for (const radio of radios) {
+                selectedValue = radio.checked ? (radio.value === "true") : selectedValue;
+                radio.disabled = true;
+            }
+
+            const card = document.getElementById(`card-${index}`);
+            const iconDiv = document.getElementById(`icon-${index}`);
+            const expDiv = document.getElementById(`exp-${index}`);
+            
+            const isCorrect = selectedValue === item.a;
+            expDiv.style.display = "block";
+
+            if (isCorrect) {
+                totalScore++;
+                card.classList.add('correct-card');
+                iconDiv.innerHTML = '&#10004;';
+                iconDiv.className = 'status-icon text-success';
+            } else {
+                card.classList.add('incorrect-card');
+                iconDiv.innerHTML = '&#10006;';
+                iconDiv.className = 'status-icon text-danger';
+            }
+        });
+
+        const scoreDisplay = document.getElementById('score-display');
+        scoreDisplay.style.display = "block";
+        scoreDisplay.style.backgroundColor = totalScore >= 15 ? "#2ecc71" : "#e67e22";
+        scoreDisplay.innerHTML = `🎉 Quiz Completed! Final Score: ${totalScore} / ${quizData.length}`;
+
+        document.getElementById('main-submit-btn').disabled = true;
+        document.getElementById('main-submit-btn').style.backgroundColor = "#bdc3c7";
+        document.getElementById('main-submit-btn').style.cursor = "not-allowed";
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
