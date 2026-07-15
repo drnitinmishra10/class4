@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science: Teeth & Digestion Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f9ff; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { transform: translateX(5px); }
+        .correct { background-color: #dcfce7 !important; border-color: #22c55e !important; color: #166534 !important; }
+        .wrong { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div id="quiz-container" class="bg-white w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-blue-600 p-6 text-white text-center">
+            <h1 class="text-2xl font-bold">Class 4 Science Quiz</h1>
+            <p class="text-blue-100 mt-1">Chapter 1: Teeth and Digestion</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 h-2">
+            <div id="progress" class="bg-yellow-400 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-10">
+                <div class="mb-6 text-5xl">🦷</div>
+                <h2 class="text-2xl font-semibold mb-4">Ready to test your knowledge?</h2>
+                <p class="text-gray-600 mb-8">This quiz contains 25 questions about the human digestive system and types of teeth.</p>
+                <button onclick="startQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-full shadow-lg transition-transform active:scale-95">
+                    Start Quiz
+                </button>
+            </div>
+
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold text-blue-600 uppercase tracking-wider" id="question-number">Question 1/25</span>
+                    <span class="text-sm font-semibold text-gray-500" id="current-score">Score: 0</span>
+                </div>
+                
+                <h3 id="question-text" class="text-xl font-bold text-gray-800 mb-6 leading-tight">
+                    Loading question...
+                </h3>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be generated here -->
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-btn" onclick="handleNext()" class="hidden bg-gray-800 hover:bg-black text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                        Next Question →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden text-center py-10 fade-in">
+                <div id="result-icon" class="text-6xl mb-4">🎉</div>
+                <h2 class="text-3xl font-bold mb-2" id="result-title">Well Done!</h2>
+                <p class="text-xl text-gray-600 mb-6" id="result-score-text">You scored 0 out of 25</p>
+                <div class="w-full bg-gray-100 rounded-lg p-4 mb-8">
+                    <p id="result-comment" class="italic text-gray-700"></p>
+                </div>
+                <button onclick="restartQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "How many sets of teeth do humans have in their lifetime?", a: ["One", "Two", "Three", "Four"], c: 1 },
+            { q: "The first set of teeth a baby gets are called:", a: ["Permanent teeth", "Grinders", "Milk teeth", "Wisdom teeth"], c: 2 },
+            { q: "How many milk teeth are there in a child's mouth?", a: ["32", "28", "20", "16"], c: 2 },
+            { q: "Which type of teeth are used for biting and cutting food?", a: ["Canines", "Incisors", "Molars", "Premolars"], c: 1 },
+            { q: "How many permanent teeth does an adult usually have?", a: ["20", "28", "32", "30"], c: 2 },
+            { q: "These teeth are sharp and pointed for tearing food (like meat):", a: ["Canines", "Incisors", "Molars", "Premolars"], c: 0 },
+            { q: "Which teeth are broad and flat for grinding food?", a: ["Incisors", "Canines", "Molars", "Wisdom teeth"], c: 2 },
+            { q: "The hard, white, outer layer of the tooth is called:", a: ["Pulp", "Dentine", "Enamel", "Gum"], c: 2 },
+            { q: "Which part of the tooth contains nerves and blood vessels?", a: ["Enamel", "Crown", "Dentine", "Pulp"], c: 3 },
+            { q: "Digestion of food begins in the:", a: ["Stomach", "Mouth", "Small Intestine", "Food Pipe"], c: 1 },
+            { q: "The liquid in our mouth that helps soften food and digest starch is:", a: ["Water", "Bile", "Saliva", "Acid"], c: 2 },
+            { q: "The long tube that carries food from the mouth to the stomach is the:", a: ["Small Intestine", "Windpipe", "Esophagus (Food Pipe)", "Large Intestine"], c: 2 },
+            { q: "The J-shaped muscular bag that churns food with juices is the:", a: ["Liver", "Stomach", "Pancreas", "Heart"], c: 1 },
+            { q: "Where does most of the digestion take place?", a: ["Stomach", "Large Intestine", "Mouth", "Small Intestine"], c: 3 },
+            { q: "What is the longest part of the digestive system?", a: ["Large Intestine", "Small Intestine", "Stomach", "Esophagus"], c: 1 },
+            { q: "The largest gland in our body is the:", a: ["Pancreas", "Stomach", "Liver", "Salivary Gland"], c: 2 },
+            { q: "The liver produces a juice called:", a: ["Saliva", "Insulin", "Bile", "Acid"], c: 2 },
+            { q: "Water from undigested food is absorbed in the:", a: ["Small Intestine", "Large Intestine", "Stomach", "Liver"], c: 1 },
+            { q: "Undigested solid waste is thrown out of the body through the:", a: ["Anus", "Kidneys", "Stomach", "Skin"], c: 0 },
+            { q: "Holes formed in teeth due to improper cleaning are called:", a: ["Pores", "Cavities", "Cracks", "Dents"], c: 1 },
+            { q: "Which of these is a healthy habit for teeth?", a: ["Eating many sweets", "Brushing once a week", "Rinsing mouth after meals", "Drinking cold soda"], c: 2 },
+            { q: "How many incisors are there in a permanent set of teeth?", a: ["4", "8", "12", "6"], c: 1 },
+            { q: "Premolars are used for:", a: ["Tearing", "Biting", "Crushing and Grinding", "Only chewing"], c: 2 },
+            { q: "The part of the tooth inside the gum is called the:", a: ["Crown", "Neck", "Root", "Pulp"], c: 2 },
+            { q: "What should we use to clean between two teeth?", a: ["Toothpick", "Dental Floss", "Safety Pin", "Brush handle"], c: 1 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `Question ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('next-btn').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-blue-400 font-medium text-gray-700 bg-gray-50";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const correctIndex = questions[currentQuestion].c;
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach((opt, idx) => {
+                opt.disabled = true;
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                document.getElementById('current-score').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleNext() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress').style.width = `100%`;
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('result-score-text').innerText = `You scored ${score} out of ${questions.length} (${Math.round(percentage)}%)`;
+            
+            let title = "";
+            let icon = "";
+            let comment = "";
+
+            if (percentage === 100) {
+                title = "Perfect Score!";
+                icon = "🏆";
+                comment = "Amazing! You are a Science superstar!";
+            } else if (percentage >= 80) {
+                title = "Excellent!";
+                icon = "🌟";
+                comment = "Great job! You have a strong understanding of the human body.";
+            } else if (percentage >= 50) {
+                title = "Good Effort!";
+                icon = "👍";
+                comment = "Well done, but try reviewing the parts of the tooth again.";
+            } else {
+                title = "Keep Practicing!";
+                icon = "📚";
+                comment = "Don't give up! Read the chapter one more time and try again.";
+            }
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-icon').innerText = icon;
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('current-score').innerText = `Score: 0`;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

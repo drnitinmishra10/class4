@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science: Our Universe Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0b132b; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { transform: translateX(5px); }
+        .correct { background-color: #064e3b !important; border-color: #10b981 !important; color: #ecfdf5 !important; }
+        .wrong { background-color: #7f1d1d !important; border-color: #ef4444 !important; color: #fef2f2 !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
+    <!-- Starry background decoration -->
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+        <div class="absolute top-10 left-10 text-white text-xs">★</div>
+        <div class="absolute top-40 right-20 text-white text-sm">✦</div>
+        <div class="absolute bottom-20 left-1/4 text-white text-xs">✦</div>
+        <div class="absolute bottom-40 right-1/3 text-white text-lg">🪐</div>
+        <div class="absolute top-1/3 left-3/4 text-white text-sm">★</div>
+    </div>
+
+    <div id="quiz-container" class="bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden border border-indigo-900/50 z-10 text-slate-100">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-950 p-6 text-center border-b border-indigo-500/20">
+            <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-300">Class 4 Science Quiz</h1>
+            <p class="text-indigo-200 mt-1">Chapter 6: Our Universe</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-800 h-2">
+            <div id="progress" class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-10">
+                <div class="mb-6 text-6xl animate-bounce">🚀</div>
+                <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-indigo-200 mb-4">Ready to Journey into Space?</h2>
+                <p class="text-slate-400 mb-8 max-w-md mx-auto">Prepare for lift-off! Challenge yourself with 25 questions on the solar system, planets, and Earth's movements.</p>
+                <button onclick="startQuiz()" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold py-3 px-10 rounded-full shadow-lg shadow-indigo-500/20 transition-transform active:scale-95">
+                    Launch Quiz ☄️
+                </button>
+            </div>
+
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold text-cyan-400 uppercase tracking-wider" id="question-number">Question 1/25</span>
+                    <span class="text-sm font-semibold text-indigo-300" id="current-score">Score: 0</span>
+                </div>
+                
+                <h3 id="question-text" class="text-xl font-bold text-slate-100 mb-6 leading-tight">
+                    Loading question...
+                </h3>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be dynamically generated -->
+                </div>
+
+                <!-- Explanation Area -->
+                <div id="explanation-box" class="hidden mt-6 p-4 rounded-xl border border-indigo-500/30 bg-indigo-950/40 text-sm text-slate-300 fade-in">
+                    <strong class="text-cyan-400 block mb-1">Did you know?</strong>
+                    <span id="explanation-text">Explanation here...</span>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-btn" onclick="handleNext()" class="hidden bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-md shadow-indigo-500/10">
+                        Next Distance →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden text-center py-10 fade-in">
+                <div id="result-icon" class="text-7xl mb-4">🏆</div>
+                <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-500 mb-2" id="result-title">Well Done!</h2>
+                <p class="text-xl text-indigo-200 mb-6" id="result-score-text">You scored 0 out of 25</p>
+                <div class="w-full bg-indigo-950/50 border border-indigo-500/20 rounded-xl p-5 mb-8">
+                    <p id="result-comment" class="italic text-slate-300"></p>
+                </div>
+                <button onclick="restartQuiz()" class="bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
+                    Explore Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                q: "What is the huge, continuous space that contains all the stars, planets, moons, and other heavenly bodies called?", 
+                a: ["Atmosphere", "Universe", "Galaxy", "Orbit"], 
+                c: 1,
+                e: "The universe is defined as the whole body of things and space containing everything that exists, including all matter."
+            },
+            { 
+                q: "The Sun and the eight planets that move around it together form the:", 
+                a: ["Star System", "Solar System", "Constellation", "Milky Way"], 
+                c: 1,
+                e: "The term 'solar' relates to the Sun. Therefore, the Sun and its orbiting bodies make up the Solar System."
+            },
+            { 
+                q: "Which of the following bodies is situated at the very center of the Solar System?", 
+                a: ["Earth", "The Moon", "Jupiter", "The Sun"], 
+                c: 3,
+                e: "The Sun is a massive star at the very center. Its immense gravitational force keeps all eight planets orbiting around it."
+            },
+            { 
+                q: "What is the fixed, oval-shaped path along which a planet travels around the Sun called?", 
+                a: ["Axis", "Orbit", "Equator", "Rotation"], 
+                c: 1,
+                e: "An orbit is the curved trajectory followed by a planet revolving around a star like our Sun."
+            },
+            { 
+                q: "Which planet is closest to the Sun?", 
+                a: ["Venus", "Mercury", "Earth", "Mars"], 
+                c: 1,
+                e: "Mercury is the first planet in order of distance, orbiting closest to the Sun."
+            },
+            { 
+                q: "Which planet is known as the brightest and the hottest planet in our solar system?", 
+                a: ["Mercury", "Venus", "Mars", "Jupiter"], 
+                c: 1,
+                e: "Venus has a thick atmosphere of greenhouse gases that traps heat, making it much hotter than even Mercury!"
+            },
+            { 
+                q: "Why is Earth called the 'Blue Planet' when viewed from space?", 
+                a: ["Because its atmosphere is made of blue gases", "Because about three-fourths of its surface is covered with water", "Because it contains large forests that look blue", "Because it is covered with blue rocks"], 
+                c: 1,
+                e: "Water in Earth's vast oceans reflects sunlight, giving it its beautiful blue color when seen from space."
+            },
+            { 
+                q: "Which planet is commonly referred to as the 'Red Planet' due to the presence of iron oxide (rust) on its surface?", 
+                a: ["Mercury", "Mars", "Saturn", "Neptune"], 
+                c: 1,
+                e: "Mars is covered in iron-rich rust particles, giving its surface and atmosphere a distinct reddish-orange look."
+            },
+            { 
+                q: "What is the largest planet in our solar system?", 
+                a: ["Saturn", "Jupiter", "Uranus", "Earth"], 
+                c: 1,
+                e: "Jupiter is a giant of gas, so massive that over 1,300 Earths could fit inside it!"
+            },
+            { 
+                q: "Which planet is famous for having beautiful, wide, and easily visible rings made of ice, rocks, and dust around it?", 
+                a: ["Jupiter", "Saturn", "Uranus", "Neptune"], 
+                c: 1,
+                e: "Saturn has the most spectacular and highly reflective ring system in the solar system, made largely of water-ice."
+            },
+            { 
+                q: "What is unique about the planet Uranus's rotation?", 
+                a: ["It does not rotate at all", "It rotates completely on its side", "It rotates faster than any other planet", "It changes its direction of rotation every year"], 
+                c: 1,
+                e: "Uranus spins at an extreme axial tilt of nearly 98 degrees, making it roll around the sun on its side like a bowling ball."
+            },
+            { 
+                q: "Which planet is the farthest away from the Sun in our solar system?", 
+                a: ["Saturn", "Uranus", "Neptune", "Pluto"], 
+                c: 2,
+                e: "Neptune is the eighth and outermost planet. Pluto was reclassified as a dwarf planet in 2006."
+            },
+            { 
+                q: "A natural heavenly body that revolves around a planet is called a:", 
+                a: ["Star", "Satellite", "Asteroid", "Meteor"], 
+                c: 1,
+                e: "Moons are called natural satellites. Artificial satellites are man-made objects launched to orbit a planet."
+            },
+            { 
+                q: "How many days does the Moon take to complete one revolution around the Earth?", 
+                a: ["365 days", "24 days", "About 28 days", "7 days"], 
+                c: 2,
+                e: "The Moon takes roughly 27.3 to 28 days to complete one full orbit around Earth."
+            },
+            { 
+                q: "The imaginary straight line passing through the center of the Earth from the North Pole to the South Pole is the:", 
+                a: ["Equator", "Axis", "Orbit", "Orbit line"], 
+                c: 1,
+                e: "The Earth spins around this central line, which is tilted at an angle of 23.5 degrees."
+            },
+            { 
+                q: "The spinning movement of the Earth on its own axis is called:", 
+                a: ["Revolution", "Rotation", "Circumference", "Gravitation"], 
+                c: 1,
+                e: "Rotation describes an object spinning around itself, while revolution is movement around an external point."
+            },
+            { 
+                q: "How long does the Earth take to complete one full rotation on its axis?", 
+                a: ["12 hours", "24 hours", "30 days", "365 days"], 
+                c: 1,
+                e: "One rotation takes exactly 24 hours, giving us a standard calendar day."
+            },
+            { 
+                q: "Earth's rotation on its axis directly causes:", 
+                a: ["Changes in seasons", "Day and night", "Tides in the ocean", "Volcanic eruptions"], 
+                c: 1,
+                e: "As Earth spins, the half facing the sun has day, while the opposite half is in dark night."
+            },
+            { 
+                q: "The movement of the Earth along its orbit around the Sun is known as:", 
+                a: ["Rotation", "Revolution", "Migration", "Evolution"], 
+                c: 1,
+                e: "The journey of the Earth traveling along its orbit around the Sun is called its revolution."
+            },
+            { 
+                q: "How long does the Earth take to complete one full revolution around the Sun?", 
+                a: ["24 hours", "7 days", "365 and 1/4 days", "30 days"], 
+                c: 2,
+                e: "Earth takes roughly 365 days and 6 hours (1/4 of a day) to circle the Sun, defining one year."
+            },
+            { 
+                q: "What two factors combined cause the changing of seasons on Earth?", 
+                a: ["Earth's rotation and the Moon's gravity", "Earth's tilted axis and its revolution around the Sun", "The distance of the Sun and the speed of winds", "Air pollution and cloud formation"], 
+                c: 1,
+                e: "The tilted axis keeps one pole tilted toward or away from the Sun as the Earth completes its year-long orbit."
+            },
+            { 
+                q: "When the Northern Hemisphere is tilted toward the Sun, what season does it experience?", 
+                a: ["Winter", "Summer", "Autumn", "Monsoon"], 
+                c: 1,
+                e: "The hemisphere tilting towards the Sun gets direct, intense solar radiation, giving us Summer."
+            },
+            { 
+                q: "Why does a Leap Year have 366 days instead of 365 days every four years?", 
+                a: ["Because the Earth rotates slower every fourth year", "To add up the extra 1/4 day from 4 years (1/4 + 1/4 + 1/4 + 1/4 = 1 day)", "Because the Moon orbits faster during that year", "To make up for lost time during winter nights"], 
+                c: 1,
+                e: "Four quarters (6 hours per year) sum up to 24 hours (1 whole day). We add this day to February every 4 years!"
+            },
+            { 
+                q: "If a hemisphere is tilted away from the Sun, it receives slanted sun rays and experiences:", 
+                a: ["Summer", "Winter", "Spring", "Equinox"], 
+                c: 1,
+                e: "Slanted rays distribute warmth over a wider surface area, lowering overall heat and causing Winter."
+            },
+            { 
+                q: "Which statement is true regarding the positions of the planets?", 
+                a: ["Jupiter is closer to the sun than Mars", "Earth is positioned between Venus and Mars", "Saturn is the closest planet to the Sun", "Neptune sits closer to the Sun than Uranus"], 
+                c: 1,
+                e: "The order of planets starting from the Sun is: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `Question ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('explanation-box').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-700 hover:border-cyan-500 hover:bg-slate-800/80 font-medium text-slate-200 bg-slate-800/40 focus:outline-none";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const correctIndex = questions[currentQuestion].c;
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach((opt, idx) => {
+                opt.disabled = true;
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                document.getElementById('current-score').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            // Display Explanation Box
+            const expText = document.getElementById('explanation-text');
+            expText.innerText = questions[currentQuestion].e;
+            document.getElementById('explanation-box').classList.remove('hidden');
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleNext() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress').style.width = `100%`;
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('result-score-text').innerText = `You scored ${score} out of ${questions.length} (${Math.round(percentage)}%)`;
+            
+            let title = "";
+            let icon = "";
+            let comment = "";
+
+            if (percentage === 100) {
+                title = "Galaxy Overlord!";
+                icon = "🌌";
+                comment = "Outstanding cosmic wisdom! You have a flawless score! You are ready to captain an interstellar voyage across our solar system!";
+            } else if (percentage >= 80) {
+                title = "Astronomer Expert!";
+                icon = "🪐";
+                comment = "Superb! You answered nearly all questions correctly. You clearly understand Earth's movements, the moon's orbit, and outer space properties!";
+            } else if (percentage >= 50) {
+                title = "Space Explorer!";
+                icon = "🚀";
+                comment = "Good effort! You know a lot about our planetary neighbors. Double-check the difference between rotation and revolution, and you will hit 100% soon!";
+            } else {
+                title = "Earth Cadet!";
+                icon = "🌍";
+                comment = "Keep looking up! Review Chapter 6 about seasons, tilt angles, and the planetary arrangements, and launch into the test again!";
+            }
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-icon').innerText = icon;
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('current-score').innerText = `Score: 0`;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

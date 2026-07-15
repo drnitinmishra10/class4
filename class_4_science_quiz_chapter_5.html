@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science: Matter, Materials, and Forces Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f5f3ff; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { transform: translateX(5px); }
+        .correct { background-color: #e0e7ff !important; border-color: #4f46e5 !important; color: #3730a3 !important; }
+        .wrong { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div id="quiz-container" class="bg-white w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden border border-indigo-100">
+        <div class="bg-indigo-600 p-6 text-white text-center">
+            <h1 class="text-2xl font-bold">Class 4 Science Quiz</h1>
+            <p class="text-indigo-100 mt-1">Chapter 5: Matter, Materials, and Forces</p>
+        </div>
+
+        <div class="w-full bg-gray-200 h-2">
+            <div id="progress" class="bg-indigo-400 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <div id="start-screen" class="text-center py-10">
+                <div class="mb-6 text-5xl">⚛️</div>
+                <h2 class="text-2xl font-semibold mb-4">Ready to discover Matter and Forces?</h2>
+                <p class="text-gray-600 mb-8">Test your skills with 25 interactive questions about molecules, states of matter, gravity, friction, and energy transformation!</p>
+                <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-full shadow-lg transition-transform active:scale-95">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="question-screen" class="hidden fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold text-indigo-600 uppercase tracking-wider" id="question-number">Question 1/25</span>
+                    <span class="text-sm font-semibold text-gray-500" id="current-score">Score: 0</span>
+                </div>
+                
+                <h3 id="question-text" class="text-xl font-bold text-gray-800 mb-6 leading-tight">
+                    Loading question...
+                </h3>
+
+                <div id="options-container" class="space-y-3">
+                    </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-btn" onclick="handleNext()" class="hidden bg-indigo-800 hover:bg-indigo-950 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                        Next Question →
+                    </button>
+                </div>
+            </div>
+
+            <div id="result-screen" class="hidden text-center py-10 fade-in">
+                <div id="result-icon" class="text-6xl mb-4">⚡</div>
+                <h2 class="text-3xl font-bold mb-2" id="result-title">Well Done!</h2>
+                <p class="text-xl text-gray-600 mb-6" id="result-score-text">You scored 0 out of 25</p>
+                <div class="w-full bg-indigo-50 border border-indigo-100 rounded-lg p-4 mb-8">
+                    <p id="result-comment" class="italic text-gray-700"></p>
+                </div>
+                <button onclick="restartQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "Anything that has mass (weight) and occupies space is called:", a: ["Force", "Matter", "Energy", "Work"], c: 1 },
+            { q: "What are the tiny particles or building blocks that make up all matter called?", a: ["Crystals", "Molecules", "Grains", "Drops"], c: 1 },
+            { q: "In which state of matter are the molecules very tightly packed with almost no space between them?", a: ["Liquid", "Gas", "Solid", "Plasma"], c: 2 },
+            { q: "Which state of matter has a fixed volume but does not have a fixed shape?", a: ["Solid", "Liquid", "Gas", "Air"], c: 1 },
+            { q: "In which state of matter can molecules move completely freely in all directions?", a: ["Solid", "Liquid", "Gas", "Ice"], c: 2 },
+            { q: "The process by which a solid changes into a liquid upon heating is called:", a: ["Freezing", "Melting", "Evaporation", "Condensation"], c: 1 },
+            { q: "The process by which a liquid changes into a solid upon cooling is called:", a: ["Melting", "Freezing", "Condensation", "Sublimation"], c: 1 },
+            { q: "What happens to the molecules of a liquid when it is heated to become a gas?", a: ["They stop moving", "They come closer", "They spread far apart", "They become heavy"], c: 2 },
+            { q: "A push or a pull applied on an object is known as a:", a: ["Work", "Energy", "Force", "Matter"], c: 2 },
+            { q: "Which force pulls all objects down toward the center of the Earth?", a: ["Frictional force", "Magnetic force", "Gravitational force", "Muscular force"], c: 2 },
+            { q: "The force that acts between two surfaces in contact and tries to slow down or stop moving objects is:", a: ["Gravity", "Friction", "Magnetism", "Elasticity"], c: 1 },
+            { q: "Why is it easier to slide a box on a smooth glass floor than on a rough playground floor?", a: ["Glass has more friction", "Glass has less friction", "Glass has more gravity", "Glass is heavier"], c: 1 },
+            { q: "The force exerted by our muscles to lift a school bag or kick a ball is called:", a: ["Magnetic force", "Gravitational force", "Mechanical force", "Muscular force"], c: 3 },
+            { q: "In science, work is said to be done only when a force causes an object to:", a: ["Stay completely still", "Change its color", "Move through a distance", "Get hot"], c: 2 },
+            { q: "If you push against a heavy concrete wall for an hour but the wall does not move at all, how much work is done?", a: ["A lot of work", "Zero work", "Maximum work", "Double work"], c: 1 },
+            { q: "The ability or capacity to do work is defined as:", a: ["Force", "Power", "Energy", "Pressure"], c: 2 },
+            { q: "What is the primary and ultimate source of energy for the Earth?", a: ["The Moon", "The Sun", "Coal", "Electricity"], c: 1 },
+            { q: "Energy obtained from moving wind to generate electricity using windmills is called:", a: ["Solar energy", "Wind energy", "Hydro energy", "Geothermal energy"], c: 1 },
+            { q: "Energy produced by flowing or falling water used to turn turbines is called:", a: ["Solar energy", "Hydro energy", "Atomic energy", "Wind energy"], c: 1 },
+            { q: "Which of the following properties belongs uniquely to a solid?", a: ["It flows easily", "It fills its container completely", "It has a fixed shape and volume", "It has no weight"], c: 2 },
+            { q: "When sugar completely dissolves in water, the sugar is called the:", a: ["Solute", "Solvent", "Solution", "Mixture"], c: 0 },
+            { q: "When sugar dissolves completely in water, the water acts as the:", a: ["Solute", "Solvent", "Solution", "Element"], c: 1 },
+            { q: "The uniform liquid obtained when a solute dissolves completely in a solvent is called a:", a: ["Solid", "Gas", "Solution", "Suspension"], c: 2 },
+            { q: "Which type of surface produces the most frictional force?", a: ["A polished mirror", "An icy sheet", "A rough sand paper", "A wet tiled floor"], c: 2 },
+            { q: "What kind of force is used by a magnet to pull iron nails toward itself?", a: ["Muscular force", "Frictional force", "Magnetic force", "Gravitational force"], c: 2 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `Question ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('next-btn').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border-2 border-indigo-200 hover:border-indigo-400 font-medium text-gray-700 bg-indigo-50/50 focus:outline-none";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const correctIndex = questions[currentQuestion].c;
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach((opt, idx) => {
+                opt.disabled = true;
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                document.getElementById('current-score').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleNext() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress').style.width = `100%`;
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('result-score-text').innerText = `You scored ${score} out of ${questions.length} (${Math.round(percentage)}%)`;
+            
+            let title = "";
+            let icon = "";
+            let comment = "";
+
+            if (percentage === 100) {
+                title = "Physics Prodigy!";
+                icon = "⚛️";
+                comment = "Sensational! You have mastered the rules of matter, solute-solvent mechanics, work formulas, and mechanical forces!";
+            } else if (percentage >= 80) {
+                title = "Force Elite!";
+                icon = "⚡";
+                comment = "Fantastic job! You possess deep knowledge about molecules, friction coefficients, and kinetic work definitions.";
+            } else if (percentage >= 50) {
+                title = "Science Enthusiast!";
+                icon = "🧱";
+                comment = "Good score! Review the distinction between scientific 'work' and everyday pushing, plus molecular packing, to secure 100% next time.";
+            } else {
+                title = "Keep Exploring!";
+                icon = "🧪";
+                comment = "Don't give up! Re-read the chapters on states of matter and forces, then try this quiz again to crush it!";
+            }
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-icon').innerText = icon;
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('current-score').innerText = `Score: 0`;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

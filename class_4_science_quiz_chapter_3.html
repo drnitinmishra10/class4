@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science: Animal Life Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fffbeb; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { transform: translateX(5px); }
+        .correct { background-color: #fef3c7 !important; border-color: #f59e0b !important; color: #78350f !important; }
+        .wrong { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div id="quiz-container" class="bg-white w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden border border-amber-100">
+        <!-- Header -->
+        <div class="bg-amber-600 p-6 text-white text-center">
+            <h1 class="text-2xl font-bold">Class 4 Science Quiz</h1>
+            <p class="text-amber-100 mt-1">Chapter 3: Animal Life (Reproduction & Adaptations)</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 h-2">
+            <div id="progress" class="bg-amber-500 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-10">
+                <div class="mb-6 text-5xl">🦁</div>
+                <h2 class="text-2xl font-semibold mb-4">Ready to explore the Animal Kingdom?</h2>
+                <p class="text-gray-600 mb-8">Test your knowledge with 25 fun questions about animal reproduction, life cycles, and amazing survival adaptations!</p>
+                <button onclick="startQuiz()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-10 rounded-full shadow-lg transition-transform active:scale-95">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="question-screen" class="hidden fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold text-amber-600 uppercase tracking-wider" id="question-number">Question 1/25</span>
+                    <span class="text-sm font-semibold text-gray-500" id="current-score">Score: 0</span>
+                </div>
+                
+                <h3 id="question-text" class="text-xl font-bold text-gray-800 mb-6 leading-tight">
+                    Loading question...
+                </h3>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be dynamically generated -->
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-btn" onclick="handleNext()" class="hidden bg-amber-800 hover:bg-amber-950 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                        Next Question →
+                    </button>
+                </div>
+            </div>
+
+            <div id="result-screen" class="hidden text-center py-10 fade-in">
+                <div id="result-icon" class="text-6xl mb-4">🦁</div>
+                <h2 class="text-3xl font-bold mb-2" id="result-title">Well Done!</h2>
+                <p class="text-xl text-gray-600 mb-6" id="result-score-text">You scored 0 out of 25</p>
+                <div class="w-full bg-amber-50 border border-amber-100 rounded-lg p-4 mb-8">
+                    <p id="result-comment" class="italic text-gray-700"></p>
+                </div>
+                <button onclick="restartQuiz()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "Animals that give birth to fully formed active young ones and feed them milk are called:", a: ["Reptiles", "Mammals", "Amphibians", "Birds"], c: 1 },
+            { q: "Which of the following is an example of a mammal that can fly?", a: ["Eagle", "Bat", "Flying Squirrel", "Butterfly"], c: 1 },
+            { q: "Mammals breathe air from the atmosphere through their:", a: ["Gills", "Lungs", "Skin", "Spiracles"], c: 1 },
+            { q: "Animals that lay eggs to reproduce are known as:", a: ["Viviparous", "Oviparous", "Omnivores", "Herbivores"], c: 1 },
+            { q: "The protective white portion inside an egg that surrounds the yellow yolk is the:", a: ["Shell", "Albumen", "Embryo", "Air space"], c: 1 },
+            { q: "The yellow inner part of an egg which provides nourishment to the growing baby is the:", a: ["Shell", "Albumen", "Yolk", "Embryo"], c: 2 },
+            { q: "The process of parents sitting on eggs to keep them warm for hatching is called:", a: ["Incubation", "Hibernation", "Adaptation", "Migration"], c: 0 },
+            { q: "What is the correct order of the stages in a butterfly's life cycle?", a: ["Egg → pupa → larva → adult", "Egg → larva → pupa → adult", "Egg → nymph → adult", "Larva → pupa → egg → adult"], c: 1 },
+            { q: "The active, worm-like larval stage of a butterfly is called a:", a: ["Caterpillar", "Tadpole", "Nymph", "Maggot"], c: 0 },
+            { q: "When a caterpillar stops eating and wraps itself in a hard protective cover, it is a:", a: ["Chrysalis / Pupa", "Egg", "Nymph", "Tadpole"], c: 0 },
+            { q: "The young one of a cockroach that looks very much like the adult but lacks wings is a:", a: ["Tadpole", "Caterpillar", "Nymph", "Larva"], c: 2 },
+            { q: "How many major stages are there in the life cycle of a cockroach or grasshopper?", a: ["Two", "Three", "Four", "Five"], c: 1 },
+            { q: "The process by which young insects shed their old skin to grow a new one is:", a: ["Molting", "Hatching", "Photosynthesis", "Digestion"], c: 0 },
+            { q: "A tadpole is the swimming larval stage of which animal?", a: ["Fish", "Frog", "Butterfly", "Mosquito"], c: 1 },
+            { q: "Young tadpoles breathe underwater using their:", a: ["Lungs", "Moist skin", "Gills", "Fins"], c: 2 },
+            { q: "Adult frogs can breathe through both their lungs and their wet, slippery:", a: ["Gills", "Moist skin", "Scales", "Wings"], c: 1 },
+            { q: "Animals like frogs and toads that can live both on land and in water are called:", a: ["Reptiles", "Mammals", "Amphibians", "Fish"], c: 2 },
+            { q: "The natural home or environment where an animal lives, feeds, and reproduces is its:", a: ["Habitat", "Adaptation", "Coop", "Territory"], c: 0 },
+            { q: "Animals that eat only plants and green grass are classified as:", a: ["Carnivores", "Herbivores", "Omnivores", "Decomposers"], c: 1 },
+            { q: "Which of these animals has sharp, pointed teeth (canines) adapted for tearing meat?", a: ["Cow", "Goat", "Lion", "Rabbit"], c: 2 },
+            { q: "Animals like bears and crows that feed on both plants and meat are called:", a: ["Herbivores", "Carnivores", "Omnivores", "Scavengers"], c: 2 },
+            { q: "A long, deep sleep that some animals go into during cold winters to save energy is:", a: ["Migration", "Estivation", "Hibernation", "Incubation"], c: 2 },
+            { q: "When birds fly thousands of miles to warmer places in winter to find food, it is:", a: ["Hibernation", "Migration", "Molting", "Camouflage"], c: 1 },
+            { q: "An animal’s ability to blend with its natural surroundings to hide from enemies is:", a: ["Hibernation", "Molting", "Camouflage", "Adaptation"], c: 2 },
+            { q: "Which of these is a water-dwelling mammal that breathes air through a blowhole?", a: ["Shark", "Dolphin", "Octopus", "Goldfish"], c: 1 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `Question ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('next-btn').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border-2 border-amber-200 hover:border-amber-400 font-medium text-gray-700 bg-amber-50/50 focus:outline-none";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const correctIndex = questions[currentQuestion].c;
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach((opt, idx) => {
+                opt.disabled = true;
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                document.getElementById('current-score').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleNext() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress').style.width = `100%`;
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('result-score-text').innerText = `You scored ${score} out of ${questions.length} (${Math.round(percentage)}%)`;
+            
+            let title = "";
+            let icon = "";
+            let comment = "";
+
+            if (percentage === 100) {
+                title = "Zoologist Extraordinaire!";
+                icon = "🦁";
+                comment = "Perfect! You have a brilliant master-level understanding of life cycles, habitats, and adaptation traits!";
+            } else if (percentage >= 80) {
+                title = "Great Wildlife Explorer!";
+                icon = "🐯";
+                comment = "Awesome work! You scored extremely high. You really know your insects, amphibians, and mammals!";
+            } else if (percentage >= 50) {
+                title = "Budding Naturalist!";
+                icon = "🦊";
+                comment = "Good effort! Take a quick look back at egg structures and insect stages (like nymph vs. larva) and try again!";
+            } else {
+                title = "Keep Practicing!";
+                icon = "🐢";
+                comment = "Keep trying! Re-read the chapter on animal reproduction and adaptations, and you will score much higher next time!";
+            }
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-icon').innerText = icon;
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('current-score').innerText = `Score: 0`;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

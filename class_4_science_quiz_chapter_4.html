@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Science: Air, Water, and Weather Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f9ff; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { transform: translateX(5px); }
+        .correct { background-color: #e0f2fe !important; border-color: #0284c7 !important; color: #0369a1 !important; }
+        .wrong { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div id="quiz-container" class="bg-white w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden border border-sky-100">
+        <!-- Header -->
+        <div class="bg-sky-600 p-6 text-white text-center">
+            <h1 class="text-2xl font-bold">Class 4 Science Quiz</h1>
+            <p class="text-sky-100 mt-1">Chapter 4: Air, Water, and Weather</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 h-2">
+            <div id="progress" class="bg-sky-400 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-10">
+                <div class="mb-6 text-5xl">☁️</div>
+                <h2 class="text-2xl font-semibold mb-4">Ready to explore Weather and Water?</h2>
+                <p class="text-gray-600 mb-8">Test your knowledge with 25 interactive questions about the atmosphere, the water cycle, winds, and purification methods!</p>
+                <button onclick="startQuiz()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-10 rounded-full shadow-lg transition-transform active:scale-95">
+                    Start Quiz
+                </button>
+            </div>
+
+            <div id="question-screen" class="hidden fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold text-sky-600 uppercase tracking-wider" id="question-number">Question 1/25</span>
+                    <span class="text-sm font-semibold text-gray-500" id="current-score">Score: 0</span>
+                </div>
+                
+                <h3 id="question-text" class="text-xl font-bold text-gray-800 mb-6 leading-tight">
+                    Loading question...
+                </h3>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be dynamically generated -->
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-btn" onclick="handleNext()" class="hidden bg-sky-800 hover:bg-sky-950 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                        Next Question →
+                    </button>
+                </div>
+            </div>
+
+            <div id="result-screen" class="hidden text-center py-10 fade-in">
+                <div id="result-icon" class="text-6xl mb-4">🌦️</div>
+                <h2 class="text-3xl font-bold mb-2" id="result-title">Well Done!</h2>
+                <p class="text-xl text-gray-600 mb-6" id="result-score-text">You scored 0 out of 25</p>
+                <div class="w-full bg-sky-50 border border-sky-100 rounded-lg p-4 mb-8">
+                    <p id="result-comment" class="italic text-gray-700"></p>
+                </div>
+                <button onclick="restartQuiz()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "What is the thick blanket of air that surrounds the Earth called?", a: ["Hydrosphere", "Atmosphere", "Lithosphere", "Biosphere"], c: 1 },
+            { q: "Which gas is most abundant (found in the largest amount) in the air?", a: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"], c: 2 },
+            { q: "Which gas in the air do human beings and animals need to breathe in to survive?", a: ["Nitrogen", "Oxygen", "Carbon dioxide", "Argon"], c: 1 },
+            { q: "The process by which water changes into water vapor upon heating is called:", a: ["Condensation", "Evaporation", "Precipitation", "Filtration"], c: 1 },
+            { q: "The process by which water vapor cools down and changes back into water droplets is:", a: ["Evaporation", "Condensation", "Sedimentation", "Transpiration"], c: 1 },
+            { q: "Rain, snow, sleet, or hail falling from the clouds to the ground is called:", a: ["Condensation", "Evaporation", "Precipitation", "Decantation"], c: 2 },
+            { q: "The continuous movement of water from Earth's surface to the sky and back is the:", a: ["Water Cycle", "Rock Cycle", "Wind Cycle", "Oxygen Cycle"], c: 0 },
+            { q: "What is the main source of heat and light that drives the water cycle on Earth?", a: ["The Moon", "The Sun", "Wind", "Electricity"], c: 1 },
+            { q: "A gently blowing, pleasant wind is called a:", a: ["Storm", "Gale", "Breeze", "Hurricane"], c: 2 },
+            { q: "A very strong, fast-moving wind that can cause damage to trees and houses is a:", a: ["Breeze", "Storm", "Draft", "Current"], c: 1 },
+            { q: "During the day, cool air blows from the sea towards the land. This is known as:", a: ["Land breeze", "Sea breeze", "Storm", "Monsoon"], c: 1 },
+            { q: "At night, cool air blows from the land towards the sea. This is known as:", a: ["Land breeze", "Sea breeze", "Breeze", "Trade wind"], c: 0 },
+            { q: "Tiny droplets of water hanging in the air close to the ground, making it difficult to see, is:", a: ["Frost", "Dew", "Fog", "Hail"], c: 2 },
+            { q: "When water vapor condenses directly onto cold objects like leaves and grass overnight, it forms:", a: ["Frost", "Dew", "Snow", "Rain"], c: 1 },
+            { q: "When it is extremely cold, water vapor freezes directly into white ice crystals on leaves, forming:", a: ["Dew", "Frost", "Fog", "Sleet"], c: 1 },
+            { q: "Frozen balls of ice that fall along with rain during a heavy storm are called:", a: ["Snowflakes", "Dewdrops", "Hailstones", "Frost"], c: 2 },
+            { q: "Water that is perfectly clean, safe, and fit for drinking is called:", a: ["Saline water", "Potable water", "Distilled water", "Rainwater"], c: 1 },
+            { q: "The process of letting insoluble impurities settle down at the bottom of a container is:", a: ["Decantation", "Sedimentation", "Filtration", "Boiling"], c: 1 },
+            { q: "Pouring out clear water from the top after solid impurities have settled at the bottom is:", a: ["Sedimentation", "Decantation", "Chlorination", "Evaporation"], c: 1 },
+            { q: "The process of passing water through a filter paper or fine cloth to separate clean water from impurities is:", a: ["Filtration", "Sedimentation", "Decantation", "Condensation"], c: 0 },
+            { q: "Which chemical is commonly added to water to kill germs and make it safe to drink?", a: ["Salt", "Sugar", "Chlorine", "Iodine"], c: 2 },
+            { q: "At home, what is the simplest and most effective way to kill harmful germs present in water?", a: ["Boiling", "Sedimentation", "Filtration", "Decantation"], c: 0 },
+            { q: "The condition of the atmosphere at a particular time and place is known as:", a: ["Climate", "Weather", "Season", "Temperature"], c: 1 },
+            { q: "Impurities that do not dissolve in water (like sand and stones) are called:", a: ["Soluble impurities", "Insoluble impurities", "Saturated impurities", "Chemical impurities"], c: 1 },
+            { q: "The evaporation of water from the tiny pores of plant leaves into the atmosphere is called:", a: ["Photosynthesis", "Respiration", "Transpiration", "Precipitation"], c: 2 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `Question ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('next-btn').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border-2 border-sky-200 hover:border-sky-400 font-medium text-gray-700 bg-sky-50/50 focus:outline-none";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const correctIndex = questions[currentQuestion].c;
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach((opt, idx) => {
+                opt.disabled = true;
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                document.getElementById('current-score').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleNext() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress').style.width = `100%`;
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('result-score-text').innerText = `You scored ${score} out of ${questions.length} (${Math.round(percentage)}%)`;
+            
+            let title = "";
+            let icon = "";
+            let comment = "";
+
+            if (percentage === 100) {
+                title = "Meteorology Master!";
+                icon = "☀️";
+                comment = "Amazing! You have a flawless understanding of weather, evaporation, wind patterns, and water purification!";
+            } else if (percentage >= 80) {
+                title = "Weather Expert!";
+                icon = "🌦️";
+                comment = "Excellent work! You scored extremely high. You really know your sea breezes, land breezes, and the water cycle!";
+            } else if (percentage >= 50) {
+                title = "Budding Hydrologist!";
+                icon = "💧";
+                comment = "Good effort! Take another look at water purification terms (like decantation vs. sedimentation) and try again!";
+            } else {
+                title = "Keep Practicing!";
+                icon = "☁️";
+                comment = "Keep trying! Re-read the chapter on Air, Water, and Weather, and you will secure a much higher score next time!";
+            }
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-icon').innerText = icon;
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('current-score').innerText = `Score: 0`;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
