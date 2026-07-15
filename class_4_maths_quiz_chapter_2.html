@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Maths: Addition &amp; Subtraction Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #090d16; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { transform: translateX(5px); }
+        .correct { background-color: #064e3b !important; border-color: #10b981 !important; color: #ecfdf5 !important; }
+        .wrong { background-color: #7f1d1d !important; border-color: #ef4444 !important; color: #fef2f2 !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <div class="absolute top-10 left-10 text-rose-500 text-3xl font-bold font-serif">+</div>
+        <div class="absolute top-40 right-20 text-indigo-500 text-4xl font-bold font-serif">−</div>
+        <div class="absolute bottom-20 left-1/4 text-pink-500 text-3xl font-bold font-serif">=</div>
+        <div class="absolute bottom-40 right-1/3 text-rose-500 text-5xl font-bold font-serif">+</div>
+        <div class="absolute top-1/3 left-3/4 text-indigo-500 text-2xl font-bold font-serif">−</div>
+    </div>
+
+    <div id="quiz-container" class="bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden border border-indigo-500/20 z-10 text-slate-100">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-rose-950 p-6 text-center border-b border-indigo-500/20">
+            <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-rose-300">Class 4 Maths Quiz</h1>
+            <p class="text-indigo-200 mt-1">Chapter 2: Addition &amp; Subtraction Quest</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-800 h-2">
+            <div id="progress" class="bg-gradient-to-r from-indigo-500 to-rose-500 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-10">
+                <div class="mb-6 text-6xl animate-bounce">⚡</div>
+                <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-rose-300 mb-4">Master the Operations!</h2>
+                <p class="text-slate-400 mb-8 max-w-md mx-auto">Get ready to tackle 25 math challenges on carrying, borrowing across zeros, missing addends, and real-life word problems!</p>
+                <button onclick="startQuiz()" class="bg-gradient-to-r from-indigo-500 to-rose-500 hover:from-indigo-400 hover:to-rose-400 text-white font-bold py-3 px-10 rounded-full shadow-lg shadow-indigo-500/20 transition-transform active:scale-95">
+                    Start Math Quest 🚀
+                </button>
+            </div>
+
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold text-indigo-400 uppercase tracking-wider" id="question-number">Question 1/25</span>
+                    <span class="text-sm font-semibold text-rose-300" id="current-score">Score: 0</span>
+                </div>
+                
+                <h3 id="question-text" class="text-xl font-bold text-slate-100 mb-6 leading-tight">
+                    Loading question...
+                </h3>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be dynamically generated -->
+                </div>
+
+                <!-- Explanation Area -->
+                <div id="explanation-box" class="hidden mt-6 p-4 rounded-xl border border-indigo-500/30 bg-indigo-950/20 text-sm text-slate-300 fade-in">
+                    <strong class="text-indigo-300 block mb-1">💡 Math Secret:</strong>
+                    <span id="explanation-text">Explanation here...</span>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-btn" onclick="handleNext()" class="hidden bg-gradient-to-r from-indigo-500 to-rose-500 hover:from-indigo-400 hover:to-rose-400 text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-md">
+                        Next Challenge →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden text-center py-10 fade-in">
+                <div id="result-icon" class="text-7xl mb-4">🏆</div>
+                <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-rose-300 mb-2" id="result-title">Amazing Job!</h2>
+                <p class="text-xl text-rose-200 mb-6" id="result-score-text">You scored 0 out of 25</p>
+                <div class="w-full bg-indigo-950/30 border border-indigo-500/20 rounded-xl p-5 mb-8">
+                    <p id="result-comment" class="italic text-slate-300"></p>
+                </div>
+                <button onclick="restartQuiz()" class="bg-gradient-to-r from-indigo-500 to-rose-500 hover:from-indigo-400 hover:to-rose-400 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
+                    Retry Quest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                q: "What is the sum of 24,512 and 13,243?", 
+                a: ["37,755", "37,715", "37,555", "38,755"], 
+                c: 0,
+                e: "Align the numbers by place value and add: 24,512 + 13,243 = 37,755."
+            },
+            { 
+                q: "What is the difference when 12,345 is subtracted from 45,789?", 
+                a: ["33,424", "33,444", "33,044", "32,444"], 
+                c: 1,
+                e: "Subtract each column starting from the ones place: 45,789 − 12,345 = 33,444."
+            },
+            { 
+                q: "If 43,219 + 0 = ? , what is the correct answer?", 
+                a: ["0", "43,219", "4,321", "43,220"], 
+                c: 1,
+                e: "The Identity Property of Addition states that adding 0 to any number leaves that number unchanged."
+            },
+            { 
+                q: "Find the value of: 89,765 − 89,765.", 
+                a: ["1", "89,765", "0", "9,765"], 
+                c: 2,
+                e: "Subtracting a number from itself always results in 0."
+            },
+            { 
+                q: "If 15,200 + 24,800 = 40,000, then what is 24,800 + 15,200?", 
+                a: ["40,000", "39,000", "50,000", "None of these"], 
+                c: 0,
+                e: "The Commutative Property of Addition states that changing the order of the numbers does not change the sum."
+            },
+            { 
+                q: "Mentally add: 34,567 + 1,000. What is the new sum?", 
+                a: ["35,567", "44,567", "34,667", "34,577"], 
+                c: 0,
+                e: "When adding 1,000, increase the digit in the Thousands place by 1 (4 becomes 5), making it 35,567."
+            },
+            { 
+                q: "Mentally subtract: 56,789 − 100. What is the correct difference?", 
+                a: ["56,689", "55,789", "56,779", "56,788"], 
+                c: 0,
+                e: "When subtracting 100, decrease the digit in the Hundreds place by 1 (7 becomes 6), making it 56,689."
+            },
+            { 
+                q: "What number must be added to 4,500 to make it 6,000?", 
+                a: ["1,000", "1,500", "2,500", "2,000"], 
+                c: 1,
+                e: "To find the missing addend, subtract the known addend from the total sum: 6,000 − 4,500 = 1,500."
+            },
+            { 
+                q: "The numbers we add together are called ____________, and the result we get is called the ____________.", 
+                a: ["Subtrahends, Difference", "Addends, Sum", "Minuends, Difference", "Factors, Product"], 
+                c: 1,
+                e: "The numbers being added are called 'addends', and the final result of addition is called the 'sum'."
+            },
+            { 
+                q: "In subtraction, the larger number from which we subtract is called the ____________, and the number being subtracted is the ____________.", 
+                a: ["Minuend, Subtrahend", "Subtrahend, Minuend", "Addend, Sum", "Difference, Minuend"], 
+                c: 0,
+                e: "The number from which we subtract is the 'minuend', and the number we subtract is the 'subtrahend' (Minuend − Subtrahend = Difference)."
+            },
+            { 
+                q: "Rohan saved ₹24,500 in his bank account, and his sister Priya saved ₹18,900. How much did they save altogether?", 
+                a: ["₹42,400", "₹43,400", "₹43,000", "₹33,400"], 
+                c: 1,
+                e: "To find the total saved altogether, add their individual savings: ₹24,500 + ₹18,900 = ₹43,400."
+            },
+            { 
+                q: "A library has 35,400 books. If 12,150 books are issued to students, how many books are left in the library?", 
+                a: ["23,250", "23,350", "22,250", "23,150"], 
+                c: 0,
+                e: "Subtract the issued books from the total books: 35,400 − 12,150 = 23,250."
+            },
+            { 
+                q: "Estimate the sum of 432 and 378 by rounding off both numbers to the nearest 100 first.", 
+                a: ["800", "810", "900", "700"], 
+                c: 0,
+                e: "432 rounded to the nearest 100 is 400. 378 rounded to the nearest 100 is 400. Estimated sum = 400 + 400 = 800."
+            },
+            { 
+                q: "Estimate the difference between 8,924 and 5,190 by rounding to the nearest 1,000.", 
+                a: ["3,000", "4,000", "3,700", "4,500"], 
+                c: 1,
+                e: "8,924 rounds up to 9,000. 5,190 rounds down to 5,000. Estimated difference = 9,000 − 5,000 = 4,000."
+            },
+            { 
+                q: "What is the difference between the largest 5-digit number and the smallest 5-digit number?", 
+                a: ["89,999", "99,999", "89,000", "90,000"], 
+                c: 0,
+                e: "Largest 5-digit number is 99,999. Smallest 5-digit number is 10,000. Their difference is 99,999 − 10,000 = 89,999."
+            },
+            { 
+                q: "Solve the carrying addition challenge: 45,987 + 27,654.", 
+                a: ["73,541", "73,631", "73,641", "72,641"], 
+                c: 2,
+                e: "Carrying over carefully: 7+4=11 (carry 1), 8+5+1=14 (carry 1), 9+6+1=16 (carry 1), 5+7+1=13 (carry 1), 4+2+1=7. Result is 73,641."
+            },
+            { 
+                q: "Find the result of borrowing across zeros: 50,000 − 12,345.", 
+                a: ["37,655", "37,665", "38,655", "37,555"], 
+                c: 0,
+                e: "Borrow sequentially starting from the ten-thousands place to change zeros to 9s. 50,000 − 12,345 = 37,655."
+            },
+            { 
+                q: "School A has 14,230 students. School B has 3,450 more students than School A. How many students does School B have?", 
+                a: ["17,680", "17,580", "10,780", "17,780"], 
+                c: 0,
+                e: "Add the excess number to School A's count: 14,230 + 3,450 = 17,680."
+            },
+            { 
+                q: "If you know that A − B = C, which of the following statements is also true to check your work?", 
+                a: ["C + B = A", "A + C = B", "B − C = A", "C − B = A"], 
+                c: 0,
+                e: "Subtraction can be checked using addition! If you add the difference (C) back to the subtrahend (B), you should get the minuend (A)."
+            },
+            { 
+                q: "A garment factory made 45,120 shirts in January and 38,980 shirts in February. How many total shirts did they make in these two months?", 
+                a: ["84,100", "84,000", "83,100", "85,100"], 
+                c: 0,
+                e: "To find the combined total, add January and February quantities: 45,120 + 38,980 = 84,100."
+            },
+            { 
+                q: "Find the missing digit in the addition: 4[?]5 + 132 = 567.", 
+                a: ["2", "3", "4", "5"], 
+                c: 1,
+                e: "Look at the tens place: [?] + 3 = 6. Therefore, the missing digit [?] must be 6 − 3 = 3."
+            },
+            { 
+                q: "Find the missing digit in the subtraction: 78[?] − 241 = 544.", 
+                a: ["3", "4", "5", "6"], 
+                c: 2,
+                e: "Look at the ones place: [?] − 1 = 4. Therefore, the missing digit [?] must be 4 + 1 = 5."
+            },
+            { 
+                q: "Add three numbers: 1,230 + 4,560 + 2,110. What is the sum?", 
+                a: ["7,900", "7,800", "8,000", "7,910"], 
+                c: 0,
+                e: "Add them step-by-step or column-wise: 1,230 + 4,560 = 5,790. Then 5,790 + 2,110 = 7,900."
+            },
+            { 
+                q: "What number is 15,000 less than 45,000?", 
+                a: ["30,000", "60,000", "25,000", "35,000"], 
+                c: 0,
+                e: "Subtract 15,000 from 45,000: 45,000 − 15,000 = 30,000."
+            },
+            { 
+                q: "What should be added to 35,000 to get the largest 5-digit number?", 
+                a: ["64,999", "64,000", "65,999", "54,999"], 
+                c: 0,
+                e: "The largest 5-digit number is 99,999. To find the amount to add: 99,999 − 35,000 = 64,999."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `Question ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('explanation-box').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-700 hover:border-indigo-500 hover:bg-slate-800/80 font-medium text-slate-200 bg-slate-800/40 focus:outline-none";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const correctIndex = questions[currentQuestion].c;
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach((opt, idx) => {
+                opt.disabled = true;
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                document.getElementById('current-score').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            // Display Explanation Box
+            const expText = document.getElementById('explanation-text');
+            expText.innerText = questions[currentQuestion].e;
+            document.getElementById('explanation-box').classList.remove('hidden');
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleNext() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress').style.width = `100%`;
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('result-score-text').innerText = `You scored ${score} out of ${questions.length} (${Math.round(percentage)}%)`;
+            
+            let title = "";
+            let icon = "";
+            let comment = "";
+
+            if (percentage === 100) {
+                title = "Calculations Commander!";
+                icon = "🏆";
+                comment = "Incredible precision! You executed additions, complex borrowings across zeros, estimations, and word problems flawlessly. A perfect 100%!";
+            } else if (percentage >= 80) {
+                title = "Number Crusader!";
+                icon = "🛡️";
+                comment = "Outstanding effort! You clearly understand carrying over, place-value tracking, and estimation techniques. Keep up the brilliant work!";
+            } else if (percentage >= 50) {
+                title = "Math Scout!";
+                icon = "🎒";
+                comment = "Good progress! You know the basic properties of 0 and simple addition. Be sure to practice multi-digit borrowing across zeros and word problem keywords!";
+            } else {
+                title = "Operation Apprentice!";
+                icon = "✏️";
+                comment = "Keep practicing! Addition and subtraction are the foundations of all mathematics. Review step-by-step borrowing processes and retake the quest to raise your score!";
+            }
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-icon').innerText = icon;
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('current-score').innerText = `Score: 0`;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

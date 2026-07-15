@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Maths: Numbers and Place Value Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { transform: translateX(5px); }
+        .correct { background-color: #064e3b !important; border-color: #10b981 !important; color: #ecfdf5 !important; }
+        .wrong { background-color: #7f1d1d !important; border-color: #ef4444 !important; color: #fef2f2 !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
+    <!-- Mathematical decorative backgrounds -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <div class="absolute top-10 left-10 text-amber-500 text-3xl font-bold font-serif">+</div>
+        <div class="absolute top-40 right-20 text-indigo-500 text-4xl font-bold font-serif">÷</div>
+        <div class="absolute bottom-20 left-1/4 text-purple-500 text-3xl font-bold font-serif">×</div>
+        <div class="absolute bottom-40 right-1/3 text-amber-500 text-5xl font-bold font-serif">=</div>
+        <div class="absolute top-1/3 left-3/4 text-indigo-500 text-2xl font-bold font-serif">−</div>
+    </div>
+
+    <div id="quiz-container" class="bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden border border-amber-500/20 z-10 text-slate-100">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 p-6 text-center border-b border-amber-500/20">
+            <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-200">Class 4 Maths Quiz</h1>
+            <p class="text-amber-200 mt-1">Chapter 1: Numbers &amp; Place Value</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-800 h-2">
+            <div id="progress" class="bg-gradient-to-r from-amber-500 to-yellow-400 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-10">
+                <div class="mb-6 text-6xl animate-bounce">🧮</div>
+                <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-200 mb-4">Become a Number Wizard!</h2>
+                <p class="text-slate-400 mb-8 max-w-md mx-auto">Challenge your skills with 25 interactive math questions on 5-digit numbers, expanded form, rounding off, and Roman numerals!</p>
+                <button onclick="startQuiz()" class="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold py-3 px-10 rounded-full shadow-lg shadow-amber-500/20 transition-transform active:scale-95">
+                    Start Math Quest ⚡
+                </button>
+            </div>
+
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold text-amber-400 uppercase tracking-wider" id="question-number">Question 1/25</span>
+                    <span class="text-sm font-semibold text-amber-300" id="current-score">Score: 0</span>
+                </div>
+                
+                <h3 id="question-text" class="text-xl font-bold text-slate-100 mb-6 leading-tight">
+                    Loading question...
+                </h3>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be dynamically generated -->
+                </div>
+
+                <!-- Explanation Area -->
+                <div id="explanation-box" class="hidden mt-6 p-4 rounded-xl border border-amber-500/30 bg-amber-950/20 text-sm text-slate-300 fade-in">
+                    <strong class="text-amber-400 block mb-1">💡 Math Secret:</strong>
+                    <span id="explanation-text">Explanation here...</span>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-btn" onclick="handleNext()" class="hidden bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold py-2.5 px-6 rounded-xl transition-all shadow-md">
+                        Next Challenge →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden text-center py-10 fade-in">
+                <div id="result-icon" class="text-7xl mb-4">🏆</div>
+                <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-200 mb-2" id="result-title">Amazing Job!</h2>
+                <p class="text-xl text-amber-200 mb-6" id="result-score-text">You scored 0 out of 25</p>
+                <div class="w-full bg-amber-950/30 border border-amber-500/20 rounded-xl p-5 mb-8">
+                    <p id="result-comment" class="italic text-slate-300"></p>
+                </div>
+                <button onclick="restartQuiz()" class="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
+                    Retry Quest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                q: "What is the place value of the digit 5 in the number 45,678?", 
+                a: ["50", "500", "5,000", "50,000"], 
+                c: 2,
+                e: "The digit 5 is in the Thousands place, so its place value is 5 × 1,000 = 5,000."
+            },
+            { 
+                q: "What is the face value of the digit 7 in the number 87,432?", 
+                a: ["7", "7,000", "700", "70"], 
+                c: 0,
+                e: "The face value of a digit is always the digit itself, regardless of its position in the number."
+            },
+            { 
+                q: "What is the standard standard form (numeral) for: 60,000 + 4,000 + 200 + 5?", 
+                a: ["64,250", "64,205", "6,425", "60,425"], 
+                c: 1,
+                e: "Adding 60,000 + 4,000 + 200 + 5 gives 64,205. Notice that there are 0 tens!"
+            },
+            { 
+                q: "How do you write 'Fifty-two thousand eighty-nine' in figures?", 
+                a: ["52,890", "52,809", "52,089", "5,289"], 
+                c: 2,
+                e: "Fifty-two thousand (52,000) and eighty-nine (89) leaves the hundreds place empty (0), giving 52,089."
+            },
+            { 
+                q: "What is the predecessor of the number 1,00,000 (1 Lakh)?", 
+                a: ["99,999", "1,00,001", "9,999", "90,000"], 
+                c: 0,
+                e: "The predecessor of a number is found by subtracting 1. So, 1,00,000 − 1 = 99,999."
+            },
+            { 
+                q: "What is the successor of the number 45,999?", 
+                a: ["45,998", "46,000", "45,000", "50,000"], 
+                c: 1,
+                e: "The successor is found by adding 1. So, 45,999 + 1 = 46,000."
+            },
+            { 
+                q: "Which of these comparisons is correct?", 
+                a: ["87,453 > 87,543", "87,453 = 87,543", "87,453 < 87,543", "87,543 < 87,453"], 
+                c: 2,
+                e: "Comparing digit by digit from left to right, we see that in the hundreds place, 4 is less than 5. Thus, 87,453 < 87,543."
+            },
+            { 
+                q: "What is the smallest 5-digit number you can form using the digits 3, 0, 8, 5, 1 (without repeating any digit)?", 
+                a: ["01,358", "10,358", "13,580", "10,538"], 
+                c: 1,
+                e: "To make the smallest number, put the smallest non-zero digit (1) first, followed by the zero (0), and then the remaining digits in ascending order: 10,358."
+            },
+            { 
+                q: "What is the greatest 5-digit number you can form using the digits 4, 9, 2, 0, 7 (without repeating any digit)?", 
+                a: ["97,420", "97,402", "97,240", "94,720"], 
+                c: 0,
+                e: "To make the greatest number, arrange the digits in descending order: 9, 7, 4, 2, 0 which gives 97,420."
+            },
+            { 
+                q: "Round off the number 4,532 to the nearest 10.", 
+                a: ["4,540", "4,500", "4,530", "4,600"], 
+                c: 2,
+                e: "The ones digit is 2 (less than 5), so we round down to the nearest ten, which is 4,530."
+            },
+            { 
+                q: "Round off the number 8,765 to the nearest 100.", 
+                a: ["8,700", "8,800", "8,760", "9,000"], 
+                c: 1,
+                e: "The tens digit is 6 (which is 5 or more), so we round up the hundreds place to get 8,800."
+            },
+            { 
+                q: "Round off the number 12,499 to the nearest 1000.", 
+                a: ["12,000", "13,000", "12,500", "10,000"], 
+                c: 0,
+                e: "The hundreds digit is 4 (less than 5), so we round down to get 12,000."
+            },
+            { 
+                q: "What is the Roman numeral for 45?", 
+                a: ["VL", "XLV", "XXXXV", "LXV"], 
+                c: 1,
+                e: "40 is written as XL (10 less than 50) and 5 is written as V. Together, they make XLV."
+            },
+            { 
+                q: "What is the Roman numeral for 99?", 
+                a: ["XCIX", "IC", "LXXXXIX", "XCVIIII"], 
+                c: 0,
+                e: "90 is XC (10 less than 100) and 9 is IX (1 less than 10). Together, they are written as XCIX."
+            },
+            { 
+                q: "What is the Hindu-Arabic value of the Roman numeral LXVI?", 
+                a: ["46", "56", "66", "76"], 
+                c: 2,
+                e: "L = 50, X = 10, V = 5, and I = 1. Therefore, 50 + 10 + 5 + 1 = 66."
+            },
+            { 
+                q: "In the number 73,284, which digit is in the Ten-thousands place?", 
+                a: ["3", "2", "7", "8"], 
+                c: 2,
+                e: "Reading the places from right to left: Ones (4), Tens (8), Hundreds (2), Thousands (3), and Ten-thousands (7)."
+            },
+            { 
+                q: "Find the sum of the place value and face value of the digit 3 in 43,512.", 
+                a: ["3,003", "3,000", "33", "303"], 
+                c: 0,
+                e: "The place value of 3 is 3,000. Its face value is 3. Their sum is 3,000 + 3 = 3,003."
+            },
+            { 
+                q: "What is the difference between the place values of the two 4s in 45,409?", 
+                a: ["40,400", "39,600", "4,000", "36,000"], 
+                c: 1,
+                e: "The first 4 has a place value of 40,000. The second 4 has a place value of 400. Their difference is 40,000 − 400 = 39,600."
+            },
+            { 
+                q: "What is the smallest 5-digit number?", 
+                a: ["11,111", "99,999", "10,000", "10,001"], 
+                c: 2,
+                e: "The smallest 5-digit number is 10,000 (Ten thousand)."
+            },
+            { 
+                q: "What is the largest 5-digit number?", 
+                a: ["10,000", "99,999", "90,000", "99,990"], 
+                c: 1,
+                e: "The largest 5-digit number is 99,999 (Ninety-nine thousand nine hundred ninety-nine)."
+            },
+            { 
+                q: "How many Thousands make up 1 Lakh (1,00,000)?", 
+                a: ["10", "100", "1,000", "10,000"], 
+                c: 1,
+                e: "1 Lakh is 1,00,000. Since 100 × 1,000 = 1,00,000, it takes exactly 100 thousands to make 1 Lakh."
+            },
+            { 
+                q: "According to the Indian place value system, where should commas be placed in the number 345678?", 
+                a: ["3,45,678", "34,56,78", "345,678", "3,4,5,678"], 
+                c: 0,
+                e: "In the Indian system, commas are placed after the hundreds place, and then after every two digits: 3,45,678."
+            },
+            { 
+                q: "Find the predecessor of the smallest 6-digit number.", 
+                a: ["1,00,001", "99,999", "9,999", "10,000"], 
+                c: 1,
+                e: "The smallest 6-digit number is 1,00,000. Its predecessor is 1,00,000 − 1 = 99,999."
+            },
+            { 
+                q: "If you add 1 to the largest 5-digit number, what do you get?", 
+                a: ["Smallest 6-digit number", "Largest 6-digit number", "Smallest 5-digit number", "Smallest 4-digit number"], 
+                c: 0,
+                e: "Adding 1 to 99,999 (largest 5-digit) gives 1,00,000, which is the smallest 6-digit number."
+            },
+            { 
+                q: "What is the value of the Roman numeral 'C'?", 
+                a: ["50", "100", "500", "1000"], 
+                c: 1,
+                e: "In Roman numerals, L = 50, C = 100, D = 500, and M = 1,000."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `Question ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('explanation-box').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-700 hover:border-amber-500 hover:bg-slate-800/80 font-medium text-slate-200 bg-slate-800/40 focus:outline-none";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const correctIndex = questions[currentQuestion].c;
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach((opt, idx) => {
+                opt.disabled = true;
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                document.getElementById('current-score').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            // Display Explanation Box
+            const expText = document.getElementById('explanation-text');
+            expText.innerText = questions[currentQuestion].e;
+            document.getElementById('explanation-box').classList.remove('hidden');
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleNext() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress').style.width = `100%`;
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('result-score-text').innerText = `You scored ${score} out of ${questions.length} (${Math.round(percentage)}%)`;
+            
+            let title = "";
+            let icon = "";
+            let comment = "";
+
+            if (percentage === 100) {
+                title = "Grand Math Wizard!";
+                icon = "🧙‍♂️";
+                comment = "Sensational! You calculated every place value, rounded with absolute precision, and translated Roman numerals perfectly. You are a certified number master!";
+            } else if (percentage >= 80) {
+                title = "Number Cruncher!";
+                icon = "🧮";
+                comment = "Fantastic job! You have a robust grasp of 5-digit number operations, predecessor formulas, and place vs. face value rules!";
+            } else if (percentage >= 50) {
+                title = "Apprentice Scholar!";
+                icon = "📝";
+                comment = "Good effort! You clearly know the basics of place values. Re-check Roman numerals and rounding thresholds to easily secure 100% next time.";
+            } else {
+                title = "Math Cadet!";
+                icon = "🎒";
+                comment = "Keep practicing! Review Chapter 1's definitions on commas, predecessor calculations, and place values, then launch this quiz again to improve your rank!";
+            }
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-icon').innerText = icon;
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('current-score').innerText = `Score: 0`;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

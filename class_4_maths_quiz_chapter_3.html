@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 4 Maths: Multiplication Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #064e3b; }
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { transform: translateX(5px); }
+        .correct { background-color: #064e3b !important; border-color: #10b981 !important; color: #ecfdf5 !important; }
+        .wrong { background-color: #7f1d1d !important; border-color: #ef4444 !important; color: #fef2f2 !important; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
+    <!-- Mathematical decorative background -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <div class="absolute top-10 left-10 text-emerald-300 text-3xl font-bold font-serif">×</div>
+        <div class="absolute top-40 right-20 text-teal-300 text-4xl font-bold font-serif">=</div>
+        <div class="absolute bottom-20 left-1/4 text-emerald-200 text-3xl font-bold font-serif">×</div>
+        <div class="absolute bottom-40 right-1/3 text-teal-200 text-5xl font-bold font-serif">×</div>
+    </div>
+
+    <div id="quiz-container" class="bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden border border-emerald-500/20 z-10 text-slate-100">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-950 p-6 text-center border-b border-emerald-500/20">
+            <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Class 4 Maths Quiz</h1>
+            <p class="text-emerald-200 mt-1">Chapter 3: Multiplication</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-800 h-2">
+            <div id="progress" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-2 transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div class="p-8">
+            <!-- Start Screen -->
+            <div id="start-screen" class="text-center py-10">
+                <div class="mb-6 text-6xl animate-bounce">⚡</div>
+                <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-200 mb-4">Master the Multiplication Quest!</h2>
+                <p class="text-slate-400 mb-8 max-w-md mx-auto">Challenge your skills with 25 interactive multiplication questions, word problems, and estimation properties!</p>
+                <button onclick="startQuiz()" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold py-3 px-10 rounded-full shadow-lg shadow-emerald-500/20 transition-transform active:scale-95">
+                    Start Challenge 🧮
+                </button>
+            </div>
+
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-sm font-bold text-emerald-400 uppercase tracking-wider" id="question-number">Question 1/25</span>
+                    <span class="text-sm font-semibold text-emerald-300" id="current-score">Score: 0</span>
+                </div>
+                
+                <h3 id="question-text" class="text-xl font-bold text-slate-100 mb-6 leading-tight">
+                    Loading question...
+                </h3>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be dynamically generated -->
+                </div>
+
+                <!-- Explanation Area -->
+                <div id="explanation-box" class="hidden mt-6 p-4 rounded-xl border border-emerald-500/30 bg-emerald-950/20 text-sm text-slate-300 fade-in">
+                    <strong class="text-emerald-400 block mb-1">💡 Math Secret:</strong>
+                    <span id="explanation-text">Explanation here...</span>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button id="next-btn" onclick="handleNext()" class="hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold py-2.5 px-6 rounded-xl transition-all shadow-md">
+                        Next Challenge →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="hidden text-center py-10 fade-in">
+                <div id="result-icon" class="text-7xl mb-4">🏆</div>
+                <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-teal-200 mb-2" id="result-title">Amazing Job!</h2>
+                <p class="text-xl text-emerald-200 mb-6" id="result-score-text">You scored 0 out of 25</p>
+                <div class="w-full bg-emerald-950/30 border border-emerald-500/20 rounded-xl p-5 mb-8">
+                    <p id="result-comment" class="italic text-slate-300"></p>
+                </div>
+                <button onclick="restartQuiz()" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold py-3 px-8 rounded-full shadow-lg transition-transform active:scale-95">
+                    Retry Quest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                q: "What is the product of 15 × 10?", 
+                a: ["15", "150", "1,500", "105"], 
+                c: 1,
+                e: "When multiplying any number by 10, simply append a zero at the end of the number: 15 × 10 = 150."
+            },
+            { 
+                q: "What is the product of 45 × 100?", 
+                a: ["450", "4,500", "45,000", "405"], 
+                c: 1,
+                e: "To multiply by 100, add two zeros to the end of the number: 45 × 100 = 4,500."
+            },
+            { 
+                q: "What is the product when any number is multiplied by 0?", 
+                a: ["The number itself", "1", "0", "Double the number"], 
+                c: 2,
+                e: "According to the Zero Property of Multiplication, any number multiplied by 0 is always 0."
+            },
+            { 
+                q: "What is the product of 1 × 849?", 
+                a: ["1", "0", "849", "8,490"], 
+                c: 2,
+                e: "According to the Identity Property of Multiplication, any number multiplied by 1 is the number itself: 1 × 849 = 849."
+            },
+            { 
+                q: "If 12 × 15 = 180, then what is the value of 15 × 12?", 
+                a: ["120", "150", "180", "360"], 
+                c: 2,
+                e: "The Commutative Property of Multiplication states that changing the order of the numbers does not change the product: 12 × 15 = 15 × 12 = 180."
+            },
+            { 
+                q: "Which property of multiplication is shown by: 8 × (5 × 3) = (8 × 5) × 3?", 
+                a: ["Commutative Property", "Associative Property", "Zero Property", "Distributive Property"], 
+                c: 1,
+                e: "The Associative Property states that changing the grouping of factors does not change the product."
+            },
+            { 
+                q: "Solve: 23 × 4", 
+                a: ["82", "92", "86", "96"], 
+                c: 1,
+                e: "Multiply step-by-step: 3 × 4 = 12 (write 2, carry 1) and 20 × 4 = 80. Adding the carry: 80 + 12 = 92."
+            },
+            { 
+                q: "Solve: 150 × 6", 
+                a: ["600", "750", "900", "1,500"], 
+                c: 2,
+                e: "Multiplying 15 × 6 = 90. Then append the remaining zero to get 900."
+            },
+            { 
+                q: "Solve: 312 × 3", 
+                a: ["936", "636", "912", "939"], 
+                c: 0,
+                e: "Multiply each digit from right to left: 2 × 3 = 6, 1 × 3 = 3, 3 × 3 = 9. So, the product is 936."
+            },
+            { 
+                q: "What is the product of 125 × 8?", 
+                a: ["800", "900", "1,000", "1,200"], 
+                c: 2,
+                e: "Calculate step-by-step: 5 × 8 = 40, 20 × 8 = 160, 100 × 8 = 800. Summing them: 800 + 160 + 40 = 1,000."
+            },
+            { 
+                q: "Estimate the product of 42 × 58 by rounding each number to the nearest 10.", 
+                a: ["2,000", "2,400", "3,000", "2,500"], 
+                c: 1,
+                e: "Round 42 down to 40, and 58 up to 60. Then multiply: 40 × 60 = 2,400."
+            },
+            { 
+                q: "Estimate the product of 87 × 21 by rounding each number to the nearest 10.", 
+                a: ["1,600", "1,800", "2,700", "2,000"], 
+                c: 1,
+                e: "Round 87 up to 90, and 21 down to 20. Then multiply: 90 × 20 = 1,800."
+            },
+            { 
+                q: "According to the Distributive Property, 5 × (20 + 3) = (5 × 20) + (5 × ?). What is the missing number?", 
+                a: ["5", "20", "3", "23"], 
+                c: 2,
+                e: "The factor 5 is distributed to both addends inside the parentheses: (5 × 20) + (5 × 3). Hence, the missing number is 3."
+            },
+            { 
+                q: "A school bag costs $25. What is the cost of 12 such school bags?", 
+                a: ["$250", "$300", "$275", "$350"], 
+                c: 1,
+                e: "Using multiplication: $25 × 12 = $25 × (10 + 2) = $250 + $50 = $300."
+            },
+            { 
+                q: "There are 24 hours in a day. How many hours are there in 30 days?", 
+                a: ["72 hours", "240 hours", "720 hours", "7,200 hours"], 
+                c: 2,
+                e: "Multiply 24 by 30: 24 × 3 = 72, then append a zero to get 720 hours."
+            },
+            { 
+                q: "A book has 140 pages. How many pages are there in 5 such books?", 
+                a: ["500", "650", "700", "750"], 
+                c: 2,
+                e: "Multiply 140 × 5: 14 × 5 = 70. Append the zero to get 700 pages."
+            },
+            { 
+                q: "What is the product of 20 × 30?", 
+                a: ["50", "600", "60", "6,000"], 
+                c: 1,
+                e: "Multiply the non-zero digits first: 2 × 3 = 6. Then append the total count of zeros (two zeros): 600."
+            },
+            { 
+                q: "What is the product of 400 × 5?", 
+                a: ["200", "2,000", "20,000", "405"], 
+                c: 1,
+                e: "Multiply 4 × 5 = 20. Then append the two zeros from 400 to get 2,000."
+            },
+            { 
+                q: "If a box contains 15 apples, how many apples are there in 200 boxes?", 
+                a: ["300", "3,000", "1,500", "30,000"], 
+                c: 1,
+                e: "Multiply 15 × 200: 15 × 2 = 30. Append the two remaining zeros to get 3,000."
+            },
+            { 
+                q: "Multiply: 612 × 14", 
+                a: ["8,568", "6,120", "7,344", "8,658"], 
+                c: 0,
+                e: "Calculate partial products: (612 × 10) + (612 × 4) = 6,120 + 2,448 = 8,568."
+            },
+            { 
+                q: "Multiply: 45 × 11", 
+                a: ["450", "495", "505", "455"], 
+                c: 1,
+                e: "Split 11 into 10 + 1: (45 × 10) + (45 × 1) = 450 + 45 = 495."
+            },
+            { 
+                q: "A box holds 12 donuts. How many donuts are in 150 boxes?", 
+                a: ["1,512", "1,600", "1,800", "1,500"], 
+                c: 2,
+                e: "Multiply 12 × 150: 12 × 15 = 180. Append the zero to obtain 1,800."
+            },
+            { 
+                q: "Solve: 75 × 4", 
+                a: ["280", "300", "320", "350"], 
+                c: 1,
+                e: "Double of 75 is 150, and double of 150 is 300. Thus, 75 × 4 = 300."
+            },
+            { 
+                q: "What number multiplied by 543 gives 543?", 
+                a: ["0", "1", "10", "543"], 
+                c: 1,
+                e: "Any number multiplied by 1 remains unchanged due to the Identity Property of Multiplication."
+            },
+            { 
+                q: "What is the product of 9 × 800?", 
+                a: ["720", "7,200", "72,000", "809"], 
+                c: 1,
+                e: "Multiply the base digits: 9 × 8 = 72. Then append the two zeros to get 7,200."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('question-screen').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').innerText = `Question ${currentQuestion + 1}/${questions.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('explanation-box').classList.add('hidden');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            
+            q.a.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-4 rounded-xl border border-slate-700 hover:border-emerald-500 hover:bg-slate-800/80 font-medium text-slate-200 bg-slate-800/40 focus:outline-none";
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                container.appendChild(btn);
+            });
+
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function checkAnswer(selectedIndex, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const correctIndex = questions[currentQuestion].c;
+            const options = document.querySelectorAll('.option-btn');
+            
+            options.forEach((opt, idx) => {
+                opt.disabled = true;
+                if (idx === correctIndex) {
+                    opt.classList.add('correct');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                score++;
+                document.getElementById('current-score').innerText = `Score: ${score}`;
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            // Display Explanation Box
+            const expText = document.getElementById('explanation-text');
+            expText.innerText = questions[currentQuestion].e;
+            document.getElementById('explanation-box').classList.remove('hidden');
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function handleNext() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('progress').style.width = `100%`;
+            document.getElementById('question-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            const percentage = (score / questions.length) * 100;
+            document.getElementById('result-score-text').innerText = `You scored ${score} out of ${questions.length} (${Math.round(percentage)}%)`;
+            
+            let title = "";
+            let icon = "";
+            let comment = "";
+
+            if (percentage === 100) {
+                title = "Grand Multiplication Master!";
+                icon = "🧮";
+                comment = "Amazing! You completed the grid and calculated every product with perfect precision. You have mastered multiplication!";
+            } else if (percentage >= 80) {
+                title = "Product Prodigy!";
+                icon = "⚡";
+                comment = "Fantastic job! You have a great grasp of word problems, properties, and double-digit calculations.";
+            } else if (percentage >= 50) {
+                title = "Apprentice Estimator!";
+                icon = "📝";
+                comment = "Nice try! Review multiplication by multiples of 10 and estimation rounding to hit a higher score next time.";
+            } else {
+                title = "Math Apprentice!";
+                icon = "🎒";
+                comment = "Keep practicing! Multiplication gets easier with repetition. Review the properties of zero and identity, and try again!";
+            }
+
+            document.getElementById('result-title').innerText = title;
+            document.getElementById('result-icon').innerText = icon;
+            document.getElementById('result-comment').innerText = comment;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('current-score').innerText = `Score: 0`;
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
