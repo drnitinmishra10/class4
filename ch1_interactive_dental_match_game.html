@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Matchmaster: Interactive Matching Game</title>
+    <!-- Tailwind CSS for modern premium styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for clean aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for interactive feedback icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            user-select: none;
+        }
+        /* Custom smooth transition transitions */
+        .card-transition {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Preventing default scrolling when connecting elements on touch devices */
+        .touch-action-none {
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Navigation Header -->
+    <header class="bg-indigo-900 text-white shadow-md border-b border-indigo-950">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-inner">
+                    <i class="fa-solid fa-circle-nodes text-lg animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-lg font-bold tracking-tight">Dental Matchmaster</h1>
+                    <p class="text-[11px] text-indigo-200">Classroom Edition: 10 Core Dental Concepts</p>
+                </div>
+            </div>
+            
+            <!-- Live Progress Widget -->
+            <div class="flex items-center space-x-3 bg-indigo-950/60 px-3.5 py-1.5 rounded-full border border-indigo-700/50 text-xs font-semibold">
+                <span class="text-indigo-300">Connections:</span>
+                <span id="connections-count" class="text-white bg-indigo-700 px-2.5 py-0.5 rounded-full">0 / 10</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content grid -->
+    <main class="max-w-5xl mx-auto w-full px-4 py-6 flex-grow flex flex-col items-center">
+        
+        <!-- Game Instruction Card -->
+        <div class="w-full bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6">
+            <h2 class="text-sm font-bold text-slate-800 mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-gamepad text-indigo-600"></i> How to Play:
+            </h2>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                1. Tap an item on the <strong>Left Column</strong> (turns blue). <br>
+                2. Tap its correct definition on the <strong>Right Column</strong> to link them together! <br>
+                3. Once all 10 are linked, click <strong>"Verify Matches"</strong> to evaluate. Click on any item again to replace or update its match.
+            </p>
+        </div>
+
+        <!-- Matching Board Area with Responsive Columns and SVG Connector Layer -->
+        <div class="w-full relative bg-slate-50 rounded-2xl border border-slate-200 p-4 md:p-6 min-h-[600px] flex flex-col justify-between">
+            
+            <!-- SVG Overlaid Canvas for Dynamic Line Connections -->
+            <svg id="connector-svg" class="absolute inset-0 w-full h-full pointer-events-none z-10 hidden md:block">
+                <!-- SVG lines will be rendered dynamically via JavaScript -->
+            </svg>
+
+            <!-- Column Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-24 relative z-20">
+                
+                <!-- Left Column (Premises / Terms) -->
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold text-indigo-900 uppercase tracking-wider mb-2 flex items-center justify-between px-2">
+                        <span>Column A: Dental Terms</span>
+                        <span class="text-[10px] bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded">Select First</span>
+                    </h3>
+                    <div id="left-column" class="space-y-3">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Right Column (Targets / Definitions) -->
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2 flex items-center justify-between px-2">
+                        <span>Column B: Definitions</span>
+                        <span class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded">Match Target</span>
+                    </h3>
+                    <div id="right-column" class="space-y-3">
+                        <!-- Filled dynamically by JavaScript -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Score & Controls Panel -->
+            <div class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div id="results-display" class="text-center sm:text-left hidden">
+                    <div class="flex items-center gap-2">
+                        <span id="score-ring" class="text-2xl font-black text-indigo-600">0%</span>
+                        <div>
+                            <p class="font-bold text-xs text-slate-800">Matching Evaluation Complete</p>
+                            <p id="score-details" class="text-[11px] text-slate-500">Correct: 0 / 10 matches</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
+                    <button id="reset-btn" onclick="resetBoard()" class="flex-1 sm:flex-initial bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg text-xs flex items-center justify-center gap-2 transition duration-150">
+                        <i class="fa-solid fa-rotate-left"></i> Reset Board
+                    </button>
+                    <button id="verify-btn" onclick="verifyMatches()" class="flex-grow sm:flex-initial bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg shadow-sm text-xs flex items-center justify-center gap-2 transition duration-150">
+                        <i class="fa-solid fa-clipboard-check"></i> Verify Matches
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Source reference citation -->
+        <div class="w-full mt-6 bg-slate-100 border border-slate-200 rounded-xl p-4 text-[11px] text-slate-500 space-y-1.5">
+            <p class="font-bold text-slate-700"><i class="fa-solid fa-bookmark text-indigo-600 mr-1"></i> Interactive Curriculum Alignment & Citations:</p>
+            <p>This match board links matching definitions sourced verbatim from chapter pages: 
+                <strong class="text-slate-600">3aee327d-8e5f-48b3-a176-df255995546b</strong> (Enamel and Milk teeth limits), 
+                <strong class="text-slate-600">2fef4025-d8b9-4235-a5a7-1799fc83a2e1</strong> (Dentine, Cementum, Pulp structure and Father of Modern Dentistry in India), 
+                <strong class="text-slate-600">f53c1970-480a-4140-9823-77ed81a3d481</strong> (Incisors, Canines structural shapes), 
+                <strong class="text-slate-600">2dbc2c44-9d98-491c-a2da-d9145ab5eb27</strong> (Plaque formulation & World Oral Health Day), and 
+                <strong class="text-slate-600">43d57d06-017b-47ce-a440-b550bc66b309</strong> (Fluoride's application).
+            </p>
+        </div>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 py-4 border-t border-slate-700 text-center text-xs">
+        <p>© 2026 Interactive Science Studio. Dynamic Matching Engine v2.0.</p>
+    </footer>
+
+    <script>
+        // Data arrays representing the 10 concepts extracted from images
+        const terms = [
+            { id: "term1", name: "Incisors", page: "f53c1970-480a-4140-9823-77ed81a3d481" },
+            { id: "term2", name: "Canines", page: "f53c1970-480a-4140-9823-77ed81a3d481" },
+            { id: "term3", name: "Enamel", page: "3aee327d-8e5f-48b3-a176-df255995546b" },
+            { id: "term4", name: "Dentine", page: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1" },
+            { id: "term5", name: "Pulp", page: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1" },
+            { id: "term6", name: "Plaque", page: "2dbc2c44-9d98-491c-a2da-d9145ab5eb27" },
+            { id: "term7", name: "Fluoride", page: "43d57d06-017b-47ce-a440-b550bc66b309" },
+            { id: "term8", name: "Cementum", page: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1" },
+            { id: "term9", name: "Dr. Rafiuddin Ahmed", page: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1" },
+            { id: "term10", name: "20th March", page: "2dbc2c44-9d98-491c-a2da-d9145ab5eb27" }
+        ];
+
+        const definitions = [
+            { id: "def1", text: "Chisel-shaped teeth located at the front of each jaw used for cutting and biting.", matchesTerm: "term1" },
+            { id: "def2", text: "Sharp, pointed teeth located next to the incisors used for tearing food.", matchesTerm: "term2" },
+            { id: "def3", text: "The outer white layer of the tooth which is the hardest substance in the human body.", matchesTerm: "term3" },
+            { id: "def4", text: "A yellow-colored, bone-like layer directly supporting the protective enamel.", matchesTerm: "term4" },
+            { id: "def5", text: "Soft innermost layer containing blood vessels for nourishment and nerve endings.", matchesTerm: "term5" },
+            { id: "def6", text: "A yellowish, sticky layer of germs and trapped food particles forming on teeth.", matchesTerm: "term6" },
+            { id: "def7", text: "An essential ingredient in toothpaste used to prevent cavities and remove plaque.", matchesTerm: "term7" },
+            { id: "def8", text: "A thin layer of hard dental tissue that covers and anchors the tooth root into bone.", matchesTerm: "term8" },
+            { id: "def9", text: "Remembered as the Father of Modern Dentistry in India.", matchesTerm: "term9" },
+            { id: "def10", text: "The annual celebration date of World Oral Health Day to raise hygiene awareness.", matchesTerm: "term10" }
+        ];
+
+        // State Tracking variables
+        let selectedTermId = null;
+        let connections = {}; // format: { "termId": "defId" }
+        let verified = false;
+
+        // Color palette matching variables to assign unique aesthetic colors to lines
+        const matchColors = [
+            "#4f46e5", "#0ea5e9", "#10b981", "#f59e0b", "#ec4899", 
+            "#8b5cf6", "#14b8a6", "#f43f5e", "#84cc16", "#a855f7"
+        ];
+
+        // Scramble lists while maintaining the connection IDs
+        function scrambleArray(array) {
+            let scrambled = [...array];
+            for (let i = scrambled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [scrambled[i], scrambled[j]] = [scrambled[j], scrambled[i]];
+            }
+            return scrambled;
+        }
+
+        function buildGameBoard() {
+            const leftCol = document.getElementById("left-column");
+            const rightCol = document.getElementById("right-column");
+
+            leftCol.innerHTML = "";
+            rightCol.innerHTML = "";
+
+            const scrambledTerms = scrambleArray(terms);
+            const scrambledDefs = scrambleArray(definitions);
+
+            // Render Term Cards
+            scrambledTerms.forEach((term, index) => {
+                leftCol.innerHTML += `
+                    <div id="${term.id}" onclick="selectTerm('${term.id}')" 
+                         class="card-transition relative flex items-center justify-between p-3.5 bg-white rounded-xl border-2 border-slate-200 hover:border-indigo-400 cursor-pointer shadow-sm select-none">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-300" id="bullet-${term.id}"></span>
+                            <span class="font-bold text-xs text-slate-800">${term.name}</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5">
+                            <span id="badge-${term.id}" class="hidden text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-indigo-500">Linked</span>
+                            <div id="dot-left-${term.id}" class="w-3 h-3 rounded-full bg-slate-400 border border-white translate-x-2 hidden md:block"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Render Definition Cards
+            scrambledDefs.forEach((def, index) => {
+                rightCol.innerHTML += `
+                    <div id="${def.id}" onclick="selectDefinition('${def.id}')" 
+                         class="card-transition relative flex items-center justify-between p-3.5 bg-white rounded-xl border-2 border-slate-200 hover:border-slate-400 cursor-pointer shadow-sm select-none">
+                        <div id="dot-right-${def.id}" class="w-3 h-3 rounded-full bg-slate-400 border border-white -translate-x-2 hidden md:block"></div>
+                        <p class="text-[11px] font-medium text-slate-600 flex-1 px-1.5 leading-normal">${def.text}</p>
+                        <span id="badge-${def.id}" class="hidden text-[9px] font-bold px-1.5 py-0.5 rounded text-white bg-indigo-500">Match</span>
+                    </div>
+                `;
+            });
+        }
+
+        function selectTerm(termId) {
+            if (verified) return;
+
+            // Clear previous selection highlight from term column
+            if (selectedTermId) {
+                const prevCard = document.getElementById(selectedTermId);
+                if (prevCard) prevCard.classList.remove("border-indigo-500", "bg-indigo-50/50");
+            }
+
+            // Select new term card
+            selectedTermId = termId;
+            const card = document.getElementById(termId);
+            if (card) {
+                card.classList.add("border-indigo-500", "bg-indigo-50/50");
+            }
+        }
+
+        function selectDefinition(defId) {
+            if (verified) return;
+
+            if (!selectedTermId) {
+                // Flash alert to guide user interaction
+                showMiniBanner("Select a term from Column A (Left) first!");
+                return;
+            }
+
+            // Remove existing connections pointing to this definition
+            for (let termId in connections) {
+                if (connections[termId] === defId) {
+                    delete connections[termId];
+                    // Reset previous matching elements
+                    resetCardStatus(termId);
+                }
+            }
+
+            // Link selection
+            connections[selectedTermId] = defId;
+
+            // Remove selection border
+            const leftCard = document.getElementById(selectedTermId);
+            if (leftCard) {
+                leftCard.classList.remove("border-indigo-500", "bg-indigo-50/50");
+            }
+
+            selectedTermId = null; // Clear active cursor
+
+            // Redraw matches visual state
+            updateVisualConnections();
+        }
+
+        function resetCardStatus(termId) {
+            const badge = document.getElementById(`badge-${termId}`);
+            if (badge) badge.classList.add("hidden");
+            const bullet = document.getElementById(`bullet-${termId}`);
+            if (bullet) {
+                bullet.style.backgroundColor = "";
+                bullet.className = "w-2.5 h-2.5 rounded-full bg-slate-300";
+            }
+        }
+
+        function updateVisualConnections() {
+            const svg = document.getElementById("connector-svg");
+            svg.innerHTML = ""; // Clear canvas
+
+            let count = 0;
+
+            // Iterate active connections
+            Object.entries(connections).forEach(([termId, defId], idx) => {
+                count++;
+                const color = matchColors[idx % matchColors.length];
+
+                // Update Left card indicators
+                const leftCard = document.getElementById(termId);
+                const leftBadge = document.getElementById(`badge-${termId}`);
+                const leftBullet = document.getElementById(`bullet-${termId}`);
+
+                if (leftCard) leftCard.classList.add("border-indigo-300");
+                if (leftBadge) {
+                    leftBadge.classList.remove("hidden");
+                    leftBadge.style.backgroundColor = color;
+                    leftBadge.textContent = `#${count}`;
+                }
+                if (leftBullet) {
+                    leftBullet.classList.remove("bg-slate-300");
+                    leftBullet.style.backgroundColor = color;
+                }
+
+                // Update Right card indicators
+                const rightCard = document.getElementById(defId);
+                const rightBadge = document.getElementById(`badge-${defId}`);
+
+                if (rightCard) rightCard.classList.add("border-indigo-300");
+                if (rightBadge) {
+                    rightBadge.classList.remove("hidden");
+                    rightBadge.style.backgroundColor = color;
+                    rightBadge.textContent = `#${count}`;
+                }
+
+                // Generate SVG paths on desktop screen widths
+                drawConnectionLine(termId, defId, color);
+            });
+
+            // Update header state metric
+            document.getElementById("connections-count").textContent = `${count} / 10`;
+        }
+
+        function drawConnectionLine(termId, defId, color) {
+            const svg = document.getElementById("connector-svg");
+            const svgRect = svg.getBoundingClientRect();
+
+            const dotLeft = document.getElementById(`dot-left-${termId}`);
+            const dotRight = document.getElementById(`dot-right-${defId}`);
+
+            if (!dotLeft || !dotRight) return;
+
+            const rectLeft = dotLeft.getBoundingClientRect();
+            const rectRight = dotRight.getBoundingClientRect();
+
+            // Calculate exact relative coordinates inside the parent SVG
+            const x1 = rectLeft.left - svgRect.left + (rectLeft.width / 2);
+            const y1 = rectLeft.top - svgRect.top + (rectLeft.height / 2);
+            const x2 = rectRight.left - svgRect.left + (rectRight.width / 2);
+            const y2 = rectRight.top - svgRect.top + (rectRight.height / 2);
+
+            // Create smooth organic S-curve for lines instead of direct linear strokes
+            const controlOffset = Math.abs(x2 - x1) * 0.5;
+            const pathData = `M ${x1} ${y1} C ${x1 + controlOffset} ${y1}, ${x2 - controlOffset} ${y2}, ${x2} ${y2}`;
+
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", pathData);
+            path.setAttribute("stroke", color);
+            path.setAttribute("stroke-width", "3");
+            path.setAttribute("fill", "none");
+            path.setAttribute("opacity", "0.85");
+            path.setAttribute("class", "card-transition");
+            
+            svg.appendChild(path);
+        }
+
+        // Monitor sizing changes dynamically to ensure lines update coordinate space
+        window.addEventListener("resize", () => {
+            if (Object.keys(connections).length > 0) {
+                updateVisualConnections();
+            }
+        });
+
+        function verifyMatches() {
+            if (verified) return;
+
+            // Check if user finished mapping the complete board
+            const connectionsCount = Object.keys(connections).length;
+            if (connectionsCount < 10) {
+                showMiniBanner("Please match all 10 concepts before verifying!");
+                return;
+            }
+
+            verified = true;
+            let correctCount = 0;
+
+            const svg = document.getElementById("connector-svg");
+            svg.innerHTML = ""; // Clear for redraw with colored evaluation strokes
+
+            // Check correctness of mappings
+            Object.entries(connections).forEach(([termId, defId]) => {
+                const termDefObj = definitions.find(d => d.id === defId);
+                const isCorrect = (termDefObj && termDefObj.matchesTerm === termId);
+
+                const leftCard = document.getElementById(termId);
+                const rightCard = document.getElementById(defId);
+                const leftBadge = document.getElementById(`badge-${termId}`);
+                const rightBadge = document.getElementById(`badge-${defId}`);
+
+                if (isCorrect) {
+                    correctCount++;
+                    // Apply Green Success Border Theme
+                    if (leftCard) leftCard.className = "card-transition relative flex items-center justify-between p-3.5 bg-emerald-50 rounded-xl border-2 border-emerald-500 shadow-sm select-none";
+                    if (rightCard) rightCard.className = "card-transition relative flex items-center justify-between p-3.5 bg-emerald-50 rounded-xl border-2 border-emerald-500 shadow-sm select-none";
+                    if (leftBadge) {
+                        leftBadge.style.backgroundColor = "#10b981";
+                        leftBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct`;
+                    }
+                    if (rightBadge) {
+                        rightBadge.style.backgroundColor = "#10b981";
+                        rightBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+                    }
+                    // Success Line Stroke (Green)
+                    drawConnectionLine(termId, defId, "#10b981");
+                } else {
+                    // Apply Red Error Border Theme
+                    if (leftCard) leftCard.className = "card-transition relative flex items-center justify-between p-3.5 bg-rose-50 rounded-xl border-2 border-rose-400 shadow-sm select-none";
+                    if (rightCard) rightCard.className = "card-transition relative flex items-center justify-between p-3.5 bg-rose-50 rounded-xl border-2 border-rose-400 shadow-sm select-none";
+                    if (leftBadge) {
+                        leftBadge.style.backgroundColor = "#ef4444";
+                        leftBadge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Wrong`;
+                    }
+                    if (rightBadge) {
+                        rightBadge.style.backgroundColor = "#ef4444";
+                        rightBadge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i>`;
+                    }
+                    // Failure Line Stroke (Red)
+                    drawConnectionLine(termId, defId, "#ef4444");
+                }
+            });
+
+            // Update evaluation results widget
+            const percentage = Math.round((correctCount / 10) * 100);
+            const scoreRing = document.getElementById("score-ring");
+            scoreRing.textContent = `${percentage}%`;
+            
+            if (percentage >= 80) {
+                scoreRing.className = "text-2xl font-black text-emerald-600";
+            } else if (percentage >= 50) {
+                scoreRing.className = "text-2xl font-black text-amber-500";
+            } else {
+                scoreRing.className = "text-2xl font-black text-rose-500";
+            }
+
+            document.getElementById("score-details").textContent = `Correct: ${correctCount} / 10 matches verified`;
+            document.getElementById("results-display").classList.remove("hidden");
+            document.getElementById("verify-btn").disabled = true;
+            document.getElementById("verify-btn").classList.add("opacity-50", "cursor-not-allowed");
+        }
+
+        // Clear State
+        function resetBoard() {
+            connections = {};
+            selectedTermId = null;
+            verified = false;
+
+            // Clear display
+            document.getElementById("results-display").classList.add("hidden");
+            document.getElementById("connections-count").textContent = "0 / 10";
+            
+            const verifyBtn = document.getElementById("verify-btn");
+            verifyBtn.disabled = false;
+            verifyBtn.classList.remove("opacity-50", "cursor-not-allowed");
+
+            // Rebuild elements fresh
+            buildGameBoard();
+            
+            const svg = document.getElementById("connector-svg");
+            svg.innerHTML = "";
+        }
+
+        // Temporary floating notification system (never uses blocked alert method)
+        function showMiniBanner(message) {
+            const banner = document.createElement("div");
+            banner.className = "fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs py-2.5 px-5 rounded-full shadow-2xl z-50 font-semibold animate-[bounce_0.5s_ease-in-out] tracking-wide border border-slate-700";
+            banner.innerHTML = `<i class="fa-solid fa-circle-exclamation text-amber-400 mr-1.5"></i> ${message}`;
+            document.body.appendChild(banner);
+            
+            setTimeout(() => {
+                banner.remove();
+            }, 3000);
+        }
+
+        // Initialize board
+        window.onload = function() {
+            buildGameBoard();
+        };
+    </script>
+</body>
+</html>

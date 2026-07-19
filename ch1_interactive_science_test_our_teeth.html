@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Science Assessment: Our Teeth</title>
+    <!-- Tailwind CSS CDN for premium UI styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for professional look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for interactive Icons (ticks, crosses, and gears) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        /* Custom scrollbar for seamless navigation */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Prevent layout shifts */
+        .option-transition {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Sticky Header Banner with progress indicators -->
+    <header class="sticky top-0 z-40 bg-indigo-900 text-white shadow-md border-b border-indigo-950 no-print">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white shadow-inner">
+                    <i class="fa-solid fa-tooth text-lg animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-lg font-bold tracking-tight">Science Masterclass: Our Teeth</h1>
+                    <p class="text-[11px] text-indigo-200">Interactive Classroom Edition (25 MCQs)</p>
+                </div>
+            </div>
+            
+            <!-- Live Tracker HUD -->
+            <div class="flex items-center space-x-4 bg-indigo-950/60 px-4 py-1.5 rounded-full border border-indigo-700/50 text-xs font-semibold">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-indigo-300">Answered:</span>
+                    <span id="answered-badge" class="text-white bg-indigo-700 px-2 py-0.5 rounded">0/25</span>
+                </div>
+                <div class="h-4 w-[1px] bg-indigo-800"></div>
+                <div id="live-timer" class="flex items-center gap-1 text-emerald-400">
+                    <i class="fa-regular fa-clock"></i>
+                    <span id="timer">30:00</span>
+                </div>
+            </div>
+        </div>
+        <!-- Global visual progress bar -->
+        <div class="w-full bg-indigo-950 h-1.5 overflow-hidden">
+            <div id="global-progress-bar" class="bg-gradient-to-r from-emerald-400 to-indigo-400 h-1.5 w-0 transition-all duration-300"></div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="max-w-7xl mx-auto w-full px-3 py-4 flex-grow grid grid-cols-1 lg:grid-cols-4 gap-4">
+        
+        <!-- Left Panel: Classroom Info & Interactive Dashboard -->
+        <div class="lg:col-span-1 space-y-4">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 sticky lg:top-20">
+                <h2 class="text-sm font-bold text-slate-800 mb-2 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-indigo-600"></i> Assessment Panel
+                </h2>
+                <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+                    Test your comprehensive knowledge of sets of teeth, layers of a tooth, dental structure, functions, and tooth care routines.
+                </p>
+
+                <!-- Student Information Card (Compact) -->
+                <div class="space-y-2.5 bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Student Name:</label>
+                        <input type="text" id="student-name" placeholder="Enter Name" class="w-full px-2 py-1.5 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Roll No:</label>
+                            <input type="text" id="student-roll" placeholder="Roll No" class="w-full px-2 py-1.5 border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Grade:</label>
+                            <input type="text" id="student-class" value="Class 4 / 5 Science" disabled class="w-full px-2 py-1.5 border border-slate-200 rounded bg-slate-100 text-slate-500 font-semibold text-center">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Instant Controls -->
+                <div class="mt-4 pt-4 border-t border-slate-200 space-y-2">
+                    <button onclick="checkAssessmentAnswers()" id="submit-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-lg shadow-sm text-xs flex items-center justify-center gap-2 transition duration-150">
+                        <i class="fa-solid fa-circle-check"></i> Submit & Check Answers
+                    </button>
+                    <button onclick="resetAssessment()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg text-xs flex items-center justify-center gap-2 transition duration-150">
+                        <i class="fa-solid fa-rotate-left"></i> Reset Answer Sheet
+                    </button>
+                </div>
+
+                <!-- Score Board Widget (Initially Hidden details) -->
+                <div id="scoreboard" class="hidden mt-4 pt-4 border-t border-slate-200 space-y-3">
+                    <div class="text-center p-3 rounded-lg bg-indigo-50 border border-indigo-100">
+                        <h3 class="text-[11px] uppercase font-bold text-slate-500 tracking-wider">Final Result Score</h3>
+                        <div id="score-percentage" class="text-3xl font-black text-indigo-700 my-0.5">0%</div>
+                        <p id="score-fraction" class="text-xs font-semibold text-slate-600">Correct: 0 / 25</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-center text-xs">
+                        <div class="p-2 bg-emerald-50 text-emerald-700 rounded border border-emerald-100 font-semibold">
+                            <i class="fa-solid fa-circle-check"></i> Correct: <span id="stats-correct">0</span>
+                        </div>
+                        <div class="p-2 bg-rose-50 text-rose-700 rounded border border-rose-100 font-semibold">
+                            <i class="fa-solid fa-circle-xmark"></i> Wrong: <span id="stats-wrong">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: The 25 MCQs list -->
+        <div class="lg:col-span-3 space-y-3">
+            <div id="questions-container" class="space-y-3">
+                <!-- Dynamically generated using client-side JavaScript to remain highly compact and neat -->
+                <div class="flex items-center justify-center py-20 text-slate-400">
+                    <div class="text-center">
+                        <i class="fa-solid fa-circle-notch fa-spin text-4xl text-indigo-600 mb-3"></i>
+                        <p class="text-sm font-semibold">Loading questions and dental charts...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Compact Evaluation Box -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+                <div class="text-xs text-slate-500">
+                    <i class="fa-solid fa-circle-info text-indigo-500 mr-1"></i> Make sure to select options for all questions before pressing check.
+                </div>
+                <button onclick="checkAssessmentAnswers()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs py-2 px-5 rounded-full transition shadow-sm whitespace-nowrap">
+                    Evaluate Assessment <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Sticky Footer Notification Panel for Score Summary -->
+    <div id="sticky-score-panel" class="hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-indigo-600 shadow-2xl z-50 p-3 no-print animate-[slideUp_0.3s_ease-out]">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-sm">
+            <div class="flex items-center space-x-3">
+                <span id="eval-status-icon" class="text-2xl text-emerald-500">
+                    <i class="fa-solid fa-circle-check"></i>
+                </span>
+                <div>
+                    <h4 class="font-bold text-slate-800 flex items-center gap-1.5">
+                        Evaluation Complete for: <span id="candidate-name" class="text-indigo-600">Student</span>
+                    </h4>
+                    <p class="text-xs text-slate-500">
+                        Check detailed explanations, ticks, and crosses marked on each question card.
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <span class="text-xs text-slate-500 font-medium">Final Percentage:</span>
+                    <div id="sticky-percentage" class="text-xl font-extrabold text-indigo-600">0%</div>
+                </div>
+                <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-bold text-xs py-2 px-4 rounded-lg transition">
+                    <i class="fa-solid fa-arrow-up"></i> Back to Top
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-800 text-slate-400 py-4 border-t border-slate-700 text-center text-xs">
+        <p>© 2026 Interactive Science Studio. Curated according to dental care curricula.</p>
+        <p class="text-[10px] mt-1 text-slate-500">Compliant with reference images including: 3aee327d-8e5f-48b3-a176-df255995546b, 2fef4025-d8b9-4235-a5a7-1799fc83a2e1, and f53c1970-480a-4140-9823-77ed81a3d481.</p>
+    </footer>
+
+    <script>
+        // Interactive Database matching all curriculum items found in the pages
+        const questions = [
+            {
+                id: 1,
+                question: "What are the primary functions of teeth in the human body?",
+                options: [
+                    "Biting and chewing food",
+                    "Helping us speak clearly",
+                    "Giving proper shape to our face",
+                    "All of the above"
+                ],
+                correct: 3,
+                explanation: "According to page 3aee327d-8e5f-48b3-a176-df255995546b, teeth bite and chew food, give proper shape to our face, and help us speak clearly."
+            },
+            {
+                id: 2,
+                question: "At what age does the first tooth usually appear in a human newborn?",
+                options: [
+                    "At birth",
+                    "Around six months old",
+                    "Around one year old",
+                    "Around three years old"
+                ],
+                correct: 1,
+                explanation: "As stated on page 3aee327d-8e5f-48b3-a176-df255995546b, a newborn baby has no teeth. The first tooth appears when the baby is around six months old."
+            },
+            {
+                id: 3,
+                question: "A child of three years generally has a complete set of temporary teeth. How many teeth does this temporary set consist of?",
+                options: [
+                    "16 teeth",
+                    "20 teeth",
+                    "24 teeth",
+                    "32 teeth"
+                ],
+                correct: 1,
+                explanation: "Page 3aee327d-8e5f-48b3-a176-df255995546b notes that a set of twenty teeth grows by the age of three years, known as milk teeth or temporary teeth."
+            },
+            {
+                id: 4,
+                question: "In what age range do children typically start losing their temporary milk teeth one by one?",
+                options: [
+                    "Between ages 3 and 6",
+                    "Between ages 6 and 12",
+                    "Between ages 12 and 16",
+                    "Between ages 16 and 21"
+                ],
+                correct: 1,
+                explanation: "Page 3aee327d-8e5f-48b3-a176-df255995546b specifies that children tend to lose their milk teeth one by one between the ages of 6 and 12."
+            },
+            {
+                id: 5,
+                question: "By the age of 21, how many permanent teeth does an adult human usually possess?",
+                options: [
+                    "20 permanent teeth",
+                    "28 permanent teeth",
+                    "32 permanent teeth",
+                    "36 permanent teeth"
+                ],
+                correct: 2,
+                explanation: "Page 3aee327d-8e5f-48b3-a176-df255995546b notes that by the age of 21, we usually have 32 permanent teeth."
+            },
+            {
+                id: 6,
+                question: "How are the 32 permanent teeth distributed between our upper and lower jaws?",
+                options: [
+                    "20 in the upper jaw, 12 in the lower jaw",
+                    "16 in each jaw (upper and lower)",
+                    "18 in the upper jaw, 14 in the lower jaw",
+                    "Distributed randomly depending on individuals"
+                ],
+                correct: 1,
+                explanation: "An adult has 16 teeth each in the upper and the lower jaws, making a total of 32 permanent teeth (page 3aee327d-8e5f-48b3-a176-df255995546b)."
+            },
+            {
+                id: 7,
+                question: "Which fascinating animal is mentioned as developing a new set of teeth every two weeks?",
+                options: [
+                    "In some sharks",
+                    "In crocodiles",
+                    "In dolphins",
+                    "In human children"
+                ],
+                correct: 0,
+                explanation: "The 'InfoBits' panel on page 3aee327d-8e5f-48b3-a176-df255995546b states: 'In some sharks, a new set of teeth develops every two weeks.'"
+            },
+            {
+                id: 8,
+                question: "What is the visible outer part of the tooth that sits above the gum line called?",
+                options: [
+                    "Root",
+                    "Crown",
+                    "Neck",
+                    "Dentine"
+                ],
+                correct: 1,
+                explanation: "As explained under 'Parts of a Tooth' (page 3aee327d-8e5f-48b3-a176-df255995546b), the visible part of a tooth is called the crown."
+            },
+            {
+                id: 9,
+                question: "The part of the tooth that extends inside the gum and keeps it fixed in the jawbone is known as the:",
+                options: [
+                    "Enamel",
+                    "Neck",
+                    "Crown",
+                    "Root"
+                ],
+                correct: 3,
+                explanation: "The part of the tooth that extends inside the gum is called the root, keeping the tooth fixed in the jaw (page 3aee327d-8e5f-48b3-a176-df255995546b)."
+            },
+            {
+                id: 10,
+                question: "The region where the crown of the tooth meets its root is called the:",
+                options: [
+                    "Pulp",
+                    "Neck",
+                    "Enamel",
+                    "Cementum"
+                ],
+                correct: 1,
+                explanation: "Page 3aee327d-8e5f-48b3-a176-df255995546b outlines that the region where the crown meets the root is called the neck."
+            },
+            {
+                id: 11,
+                question: "What is the hardest substance in the human body, protecting the vital inner tissues of our teeth?",
+                options: [
+                    "Bone marrow",
+                    "Dentine",
+                    "Enamel",
+                    "Cementum"
+                ],
+                correct: 2,
+                explanation: "Enamel is the outer white layer of the tooth and is the hardest substance in our body (pages 3aee327d-8e5f-48b3-a176-df255995546b & 2fef4025-d8b9-4235-a5a7-1799fc83a2e1)."
+            },
+            {
+                id: 12,
+                question: "Which yellow-colored, bone-like layer lies directly below the enamel and supports it?",
+                options: [
+                    "Dentine",
+                    "Pulp",
+                    "Cementum"
+                ],
+                correct: 0,
+                explanation: "Dentine lies just below the enamel, looks like a bone, supports the enamel, and is yellow in color (page 2fef4025-d8b9-4235-a5a7-1799fc83a2e1)."
+            },
+            {
+                id: 13,
+                question: "Which thin layer of hard dental tissue covers the tooth root and anchors it into the bone?",
+                options: [
+                    "Dentine",
+                    "Pulp Cavity",
+                    "Cementum",
+                    "Enamel"
+                ],
+                correct: 2,
+                explanation: "Cementum is a thin layer of hard dental tissue that covers the tooth root and helps anchor it into the bone (page 2fef4025-d8b9-4235-a5a7-1799fc83a2e1)."
+            },
+            {
+                id: 14,
+                question: "Which layer contains blood vessels that provide nourishment and nerves that send signals to the brain?",
+                options: [
+                    "Enamel",
+                    "Dentine",
+                    "Cementum",
+                    "Pulp"
+                ],
+                correct: 3,
+                explanation: "The soft pulp is located inside the dentine at the center of the tooth. It contains nerves and blood vessels providing nourishment (page 2fef4025-d8b9-4235-a5a7-1799fc83a2e1)."
+            },
+            {
+                id: 15,
+                question: "Who founded India's first dental college and is remembered as the 'Father of Modern Dentistry in India'?",
+                options: [
+                    "Dr. Rafiuddin Ahmed",
+                    "Dr. Verghese Kurien",
+                    "Dr. Homi Bhabha",
+                    "Dr. Jagadish Chandra Bose"
+                ],
+                correct: 0,
+                explanation: "Dr. Rafiuddin Ahmed founded the Dr. R. Ahmed Dental College and Hospital and is remembered as the Father of Modern Dentistry in India (page 2fef4025-d8b9-4235-a5a7-1799fc83a2e1)."
+            },
+            {
+                id: 16,
+                question: "Which chisel-shaped teeth are located right at the front of each jaw and are specialized for cutting and biting?",
+                options: [
+                    "Canines",
+                    "Incisors",
+                    "Premolars",
+                    "Molars"
+                ],
+                correct: 1,
+                explanation: "Incisors are chisel-shaped, located at the front of each jaw, and used for cutting and biting food (page 2fef4025-d8b9-4235-a5a7-1799fc83a2e1)."
+            },
+            {
+                id: 17,
+                question: "What is the total number of incisors in a normal adult's full set of permanent teeth?",
+                options: [
+                    "Four (two in each jaw)",
+                    "Eight (four in each jaw)",
+                    "Twelve (six in each jaw)",
+                    "Sixteen (eight in each jaw)"
+                ],
+                correct: 1,
+                explanation: "Page f53c1970-480a-4140-9823-77ed81a3d481 states: 'There are a total of eight incisors, four in each jaw.'"
+            },
+            {
+                id: 18,
+                question: "Which sharp, pointed teeth are located next to the incisors and are used for tearing food?",
+                options: [
+                    "Canines",
+                    "Premolars",
+                    "Molars",
+                    "Bicuspids"
+                ],
+                correct: 0,
+                explanation: "Canines are sharp and pointed, located next to the incisors on each side, and used for tearing food (page f53c1970-480a-4140-9823-77ed81a3d481)."
+            },
+            {
+                id: 19,
+                question: "How many canines does an adult human have in total, and how are they positioned?",
+                options: [
+                    "2 canines, 1 in each jaw",
+                    "4 canines, 2 in each jaw",
+                    "6 canines, 3 in each jaw",
+                    "8 canines, 4 in each jaw"
+                ],
+                correct: 1,
+                explanation: "Page f53c1970-480a-4140-9823-77ed81a3d481 states: 'There are four canines, two in each jaw.'"
+            },
+            {
+                id: 20,
+                question: "Which teeth are flat, broad, situated next to the canines, and are used for crushing and cracking food?",
+                options: [
+                    "Incisors",
+                    "Premolars",
+                    "Molars",
+                    "Canines"
+                ],
+                correct: 1,
+                explanation: "Premolars are situated next to canines. They are flat and broad, used for crushing and cracking food (page f53c1970-480a-4140-9823-77ed81a3d481)."
+            },
+            {
+                id: 21,
+                question: "What are the largest, flattest teeth located at the very back of the mouth, used for grinding and chewing food thoroughly?",
+                options: [
+                    "Incisors",
+                    "Canines",
+                    "Premolars",
+                    "Molars"
+                ],
+                correct: 3,
+                explanation: "Molars are located at the back, bigger and flatter than premolars, and are the largest teeth used for chewing and grinding (page f53c1970-480a-4140-9823-77ed81a3d481)."
+            },
+            {
+                id: 22,
+                question: "How many molars does a full adult permanent dentition contain in total?",
+                options: [
+                    "8 molars",
+                    "10 molars",
+                    "12 molars",
+                    "16 molars"
+                ],
+                correct: 2,
+                explanation: "As specified on page f53c1970-480a-4140-9823-77ed81a3d481: 'There are twelve molars in all, six in each jaw.'"
+            },
+            {
+                id: 23,
+                question: "What is the yellowish, sticky layer of germs and trapped food particles that forms on teeth if they are not cleaned?",
+                options: [
+                    "Saliva",
+                    "Plaque",
+                    "Enamel",
+                    "Dentine"
+                ],
+                correct: 1,
+                explanation: "A sticky, yellowish layer of germs and food particles on the teeth is called plaque (page 2dbc2c44-9d98-491c-a2da-d9145ab5eb27)."
+            },
+            {
+                id: 24,
+                question: "On which date is World Oral Health Day celebrated every year to spread dental hygiene awareness?",
+                options: [
+                    "1st January",
+                    "20th March",
+                    "5th June",
+                    "14th November"
+                ],
+                correct: 1,
+                explanation: "The InfoBits box on page 2dbc2c44-9d98-491c-a2da-d9145ab5eb27 notes that World Oral Health Day is celebrated on 20th March."
+            },
+            {
+                id: 25,
+                question: "Which chemical ingredient is mentioned in toothpaste as a tool to prevent cavities and remove plaque?",
+                options: [
+                    "Sodium chloride",
+                    "Fluoride",
+                    "Calcium carbonate",
+                    "Baking soda"
+                ],
+                correct: 1,
+                explanation: "Page 43d57d06-017b-47ce-a440-b550bc66b309 lists: 'Use a toothpaste with fluoride to prevent cavities and remove plaque.'"
+            }
+        ];
+
+        // Track student responses
+        let studentAnswers = {};
+        let evaluationDone = false;
+        let timerSeconds = 1800; // 30 minutes
+        let timerInterval;
+
+        // Start countdown timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').textContent = "Time's Up!";
+                    document.getElementById('live-timer').className = "flex items-center gap-1 text-rose-500 animate-bounce";
+                    checkAssessmentAnswers();
+                    return;
+                }
+                timerSeconds--;
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }, 1000);
+        }
+
+        // Render 25 MCQs to HTML
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = ''; // Clear fallback loader
+
+            questions.forEach((q, qIndex) => {
+                const card = document.createElement('div');
+                card.id = `q-card-${q.id}`;
+                // High density compact cards
+                card.className = "bg-white p-3 md:p-4 rounded-xl shadow-sm border border-slate-200 hover:border-slate-300 transition duration-150 relative overflow-hidden";
+                
+                // Question Header structure
+                let optionsMarkup = '';
+                q.options.forEach((opt, optIndex) => {
+                    optionsMarkup += `
+                        <label id="label-q${q.id}-${optIndex}" class="option-transition relative flex items-center p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-xs font-medium text-slate-700">
+                            <input type="radio" name="q${q.id}" value="${optIndex}" 
+                                   onclick="selectAnswer(${q.id}, ${optIndex})" 
+                                   class="mr-2 h-4 w-4 text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                            <span class="flex-1">${opt}</span>
+                            <span id="feedback-icon-q${q.id}-${optIndex}" class="hidden ml-2 text-sm"></span>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Q${qIndex + 1}</span>
+                                <span id="card-badge-q${q.id}" class="hidden text-[10px] font-bold px-2 py-0.5 rounded-full uppercase"></span>
+                            </div>
+                            <h3 class="text-xs md:text-sm font-semibold text-slate-800 mb-2.5">${q.question}</h3>
+                        </div>
+                        <!-- Float Tick/Cross inside the card dynamically -->
+                        <div id="float-mark-q${q.id}" class="hidden text-xl font-bold mt-1"></div>
+                    </div>
+                    
+                    <!-- High density horizontal grid or stack based on screen -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-1">
+                        ${optionsMarkup}
+                    </div>
+
+                    <!-- Explanatory Panel shown only after evaluating -->
+                    <div id="explanation-q${q.id}" class="hidden mt-3 p-2.5 bg-indigo-50/50 rounded-lg border border-indigo-100/50 text-xs text-slate-600">
+                        <p class="font-bold text-indigo-800 mb-0.5"><i class="fa-solid fa-graduation-cap"></i> Concept Mastery & Explanation:</p>
+                        <p>${q.explanation}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Selection Logic
+        function selectAnswer(questionId, optionIndex) {
+            if (evaluationDone) return; // Prevent altering answers post evaluation
+            
+            studentAnswers[questionId] = optionIndex;
+            
+            // Highlight container
+            const label = document.getElementById(`label-q${questionId}-${optionIndex}`);
+            // Reset brothers
+            for (let i = 0; i < 4; i++) {
+                const siblingLabel = document.getElementById(`label-q${questionId}-${i}`);
+                if (siblingLabel) {
+                    siblingLabel.className = "option-transition relative flex items-center p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer text-xs font-medium text-slate-700 bg-white";
+                }
+            }
+            // Highlight selected
+            if (label) {
+                label.className = "option-transition relative flex items-center p-2 rounded-lg border border-indigo-500 bg-indigo-50/40 cursor-pointer text-xs font-bold text-indigo-900";
+            }
+
+            // Update Header progress metric
+            const totalAnswered = Object.keys(studentAnswers).length;
+            document.getElementById('answered-badge').textContent = `${totalAnswered}/25`;
+            document.getElementById('global-progress-bar').style.width = `${(totalAnswered / 25) * 100}%`;
+        }
+
+        // Check answers, calculate score, mark ticks and crosses
+        function checkAssessmentAnswers() {
+            if (evaluationDone) return;
+            evaluationDone = true;
+
+            clearInterval(timerInterval); // stop countdown
+            let correctCount = 0;
+
+            // Gather candidate values
+            const name = document.getElementById('student-name').value.trim() || 'Student';
+            document.getElementById('candidate-name').textContent = name;
+
+            questions.forEach((q) => {
+                const userChoice = studentAnswers[q.id];
+                const card = document.getElementById(`q-card-${q.id}`);
+                const floatMark = document.getElementById(`float-mark-q${q.id}`);
+                const badge = document.getElementById(`card-badge-q${q.id}`);
+                const explanation = document.getElementById(`explanation-q${q.id}`);
+
+                // Turn off standard inputs to lock form state
+                for (let i = 0; i < q.options.length; i++) {
+                    const rInput = document.getElementsByName(`q${q.id}`)[i];
+                    if (rInput) rInput.disabled = true;
+                }
+
+                // Show explanations panel
+                explanation.classList.remove('hidden');
+
+                if (userChoice === q.correct) {
+                    correctCount++;
+                    // Green Border for correct card
+                    card.className = "bg-white p-3 md:p-4 rounded-xl shadow-sm border-2 border-emerald-500 hover:border-emerald-500 transition duration-150 relative overflow-hidden bg-emerald-50/10";
+                    
+                    // Set Floating Tick
+                    floatMark.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500"></i>`;
+                    floatMark.classList.remove('hidden');
+
+                    // Highlight selected as Correct
+                    const selectedLabel = document.getElementById(`label-q${q.id}-${userChoice}`);
+                    if (selectedLabel) {
+                        selectedLabel.className = "option-transition relative flex items-center p-2 rounded-lg border-2 border-emerald-500 bg-emerald-50 text-xs font-bold text-emerald-900";
+                    }
+                    
+                    badge.textContent = "Correct";
+                    badge.className = "bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase";
+                    badge.classList.remove('hidden');
+
+                } else {
+                    // Red Border for incorrect / missed card
+                    card.className = "bg-white p-3 md:p-4 rounded-xl shadow-sm border-2 border-rose-400 hover:border-rose-400 transition duration-150 relative overflow-hidden bg-rose-50/5";
+                    
+                    // Set Floating Cross
+                    floatMark.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500"></i>`;
+                    floatMark.classList.remove('hidden');
+
+                    // Highlight chosen option as red / incorrect
+                    if (userChoice !== undefined) {
+                        const selectedLabel = document.getElementById(`label-q${q.id}-${userChoice}`);
+                        if (selectedLabel) {
+                            selectedLabel.className = "option-transition relative flex items-center p-2 rounded-lg border-2 border-rose-500 bg-rose-50 text-xs font-bold text-rose-900";
+                        }
+                    }
+
+                    // Highlight exact correct answer choice in bright green as corrective guide
+                    const correctLabel = document.getElementById(`label-q${q.id}-${q.correct}`);
+                    if (correctLabel) {
+                        correctLabel.className = "option-transition relative flex items-center p-2 rounded-lg border border-emerald-600 bg-emerald-50/50 text-xs font-bold text-emerald-900 animate-pulse";
+                        const feedbackIcon = document.getElementById(`feedback-icon-q${q.id}-${q.correct}`);
+                        if (feedbackIcon) {
+                            feedbackIcon.innerHTML = `<i class="fa-solid fa-arrow-left text-emerald-600 mr-1"></i> <span class="text-[10px] bg-emerald-600 text-white px-1.5 py-0.5 rounded font-bold uppercase">Correct Answer</span>`;
+                            feedbackIcon.classList.remove('hidden');
+                        }
+                    }
+
+                    badge.textContent = userChoice === undefined ? "Unanswered" : "Incorrect";
+                    badge.className = "bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase";
+                    badge.classList.remove('hidden');
+                }
+            });
+
+            // Calculate final percentage metric
+            const percentage = Math.round((correctCount / 25) * 100);
+
+            // Populate score dashboard widgets
+            document.getElementById('score-percentage').textContent = `${percentage}%`;
+            document.getElementById('score-fraction').textContent = `Correct: ${correctCount} / 25`;
+            document.getElementById('stats-correct').textContent = correctCount;
+            document.getElementById('stats-wrong').textContent = 25 - correctCount;
+
+            // Reveal local panel statistics
+            document.getElementById('scoreboard').classList.remove('hidden');
+
+            // Set Sticky Score Panel parameters at the bottom
+            document.getElementById('sticky-percentage').textContent = `${percentage}%`;
+            const iconSpan = document.getElementById('eval-status-icon');
+            if (percentage >= 80) {
+                iconSpan.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500"></i>`;
+            } else if (percentage >= 50) {
+                iconSpan.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-500"></i>`;
+            } else {
+                iconSpan.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500"></i>`;
+            }
+
+            // Slide up the global score board drawer
+            document.getElementById('sticky-score-panel').classList.remove('hidden');
+
+            // Scroll to top automatically so candidates can see their total statistics straightaway
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Complete state wipe to retry the interactive sheet
+        function resetAssessment() {
+            // Re-initialize state fields
+            studentAnswers = {};
+            evaluationDone = false;
+            timerSeconds = 1800; // Reset to 30 mins
+
+            // Update interactive UI elements back to starting state
+            document.getElementById('answered-badge').textContent = `0/25`;
+            document.getElementById('global-progress-bar').style.width = `0%`;
+            document.getElementById('scoreboard').classList.add('hidden');
+            document.getElementById('sticky-score-panel').classList.add('hidden');
+            document.getElementById('timer').textContent = "30:00";
+            document.getElementById('live-timer').className = "flex items-center gap-1 text-emerald-400";
+            
+            // Re-render empty cards clean
+            renderQuestions();
+
+            // Restart timer afresh
+            clearInterval(timerInterval);
+            startTimer();
+        }
+
+        // On window startup
+        window.onload = function () {
+            renderQuestions();
+            startTimer();
+        };
+    </script>
+</body>
+</html>
