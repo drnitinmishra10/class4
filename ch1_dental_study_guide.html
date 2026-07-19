@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Study Guide: Our Teeth</title>
+    <!-- Tailwind CSS for clean presentation -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Custom stylings for smooth interactions */
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+        details[open] summary i {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header Banner -->
+    <header class="bg-indigo-900 text-white shadow-md border-b border-indigo-950">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3 text-center sm:text-left">
+                <div class="bg-indigo-600 p-2.5 rounded-lg text-white shadow-inner">
+                    <i class="fa-solid fa-book-open text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-extrabold tracking-tight">Our Teeth: Complete Study Companion</h1>
+                    <p class="text-xs text-indigo-200">Interactive Topic-by-Topic Q&A Library</p>
+                </div>
+            </div>
+            
+            <!-- Quick Progress Tracker -->
+            <div class="bg-indigo-950/60 px-4 py-2 rounded-full border border-indigo-700/50 text-xs font-semibold flex items-center gap-2">
+                <span class="text-indigo-300">Total Study Cards:</span>
+                <span class="text-white bg-indigo-700 px-2.5 py-0.5 rounded-full">31 Items</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="max-w-5xl mx-auto w-full px-4 py-6 flex-grow flex flex-col md:flex-row gap-6">
+        
+        <!-- Left Sidebar: Filter Navigation Panel -->
+        <div class="w-full md:w-1/4 space-y-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm sticky top-6">
+                <h2 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                    <i class="fa-solid fa-filter text-indigo-600"></i> Filter Topics
+                </h2>
+                
+                <!-- Category Selectors -->
+                <div class="space-y-1" id="category-filters">
+                    <button onclick="filterCategory('all')" id="btn-all" class="w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition bg-indigo-50 text-indigo-700">
+                        <i class="fa-solid fa-layer-group mr-1.5"></i> All Topics
+                    </button>
+                    <button onclick="filterCategory('functions-sets')" id="btn-functions-sets" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-tooth mr-1.5"></i> 1. Functions & Sets
+                    </button>
+                    <button onclick="filterCategory('parts-layers')" id="btn-parts-layers" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-diagram-project mr-1.5"></i> 2. Parts & Layers
+                    </button>
+                    <button onclick="filterCategory('types')" id="btn-types" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-shapes mr-1.5"></i> 3. Types of Teeth
+                    </button>
+                    <button onclick="filterCategory('care')" id="btn-care" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-shield-halved mr-1.5"></i> 4. Tooth Care
+                    </button>
+                    <button onclick="filterCategory('facts')" id="btn-facts" class="w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 transition">
+                        <i class="fa-solid fa-lightbulb mr-1.5"></i> 5. Facts & History
+                    </button>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-slate-200">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Search Keywords:</label>
+                    <div class="relative">
+                        <input type="text" id="search-input" oninput="searchCards()" placeholder="Type to search..." 
+                               class="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-slate-50">
+                        <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-slate-200 space-y-2">
+                    <button onclick="toggleAllCards(true)" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1.5 rounded-lg text-xs flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-square-plus"></i> Expand All
+                    </button>
+                    <button onclick="toggleAllCards(false)" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-1.5 rounded-lg text-xs flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-square-minus"></i> Collapse All
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Interactive Study Cards List -->
+        <div class="flex-grow space-y-4 md:w-3/4">
+            
+            <div id="cards-container" class="space-y-3">
+                <!-- Data cards populated by JS below for maximum structural clean-up and filter speed -->
+            </div>
+
+            <!-- Empty State Display -->
+            <div id="empty-state" class="hidden bg-white rounded-xl border border-slate-200 p-12 text-center">
+                <i class="fa-solid fa-circle-question text-4xl text-slate-300 mb-3"></i>
+                <p class="text-sm font-semibold text-slate-600">No match found for that query.</p>
+                <p class="text-xs text-slate-400 mt-1">Try another search keyword or select a different filter category.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Interactive Source Citation Card -->
+    <div class="max-w-5xl mx-auto w-full px-4 mb-6">
+        <div class="bg-slate-100 border border-slate-200 rounded-xl p-4 text-[11px] text-slate-500 leading-relaxed">
+            <p class="font-bold text-slate-700 mb-1 flex items-center gap-1">
+                <i class="fa-solid fa-bookmark text-indigo-600"></i> Academic Curriculum Concordance Table:
+            </p>
+            <p>
+                Each study card links directly to historical textbook pages mapped strictly to their respective identifier codes:
+                <strong class="text-slate-600">3aee327d-8e5f-48b3-a176-df255995546b</strong> (Sets of teeth &amp; Enamel), 
+                <strong class="text-slate-600">2fef4025-d8b9-4235-a5a7-1799fc83a2e1</strong> (Anatomical layers &amp; Indian Dentistry), 
+                <strong class="text-slate-600">f53c1970-480a-4140-9823-77ed81a3d481</strong> (Structural classification and formula ratios), 
+                <strong class="text-slate-600">2dbc2c44-9d98-491c-a2da-d9145ab5eb27</strong> (Plaque formulation and World Oral Health Day), and 
+                <strong class="text-slate-600">43d57d06-017b-47ce-a440-b550bc66b309</strong> (Preventive routines &amp; Fluoride).
+            </p>
+        </div>
+    </div>
+
+    <!-- Sticky Footer -->
+    <footer class="bg-slate-800 text-slate-400 py-4 border-t border-slate-700 text-center text-xs">
+        <p>© 2026 Interactive Science Studio. Comprehensive Class FAQ Engine.</p>
+    </footer>
+
+    <script>
+        // Database of all small Q&As explicitly containing LaTeX format for numbers and parameters
+        const studyData = [
+            // TOPIC 1: Functions & Sets
+            {
+                id: 1,
+                category: "functions-sets",
+                topicLabel: "1. Functions & Sets",
+                q: "What are the primary functions of teeth in our bodies?",
+                a: "Teeth serve three major purposes: <ol class='list-decimal pl-5 mt-1 space-y-1 font-normal text-slate-600'><li><strong>Chewing:</strong> To bite and chew food into tiny digestible pieces.</li><li><strong>Facial Shape:</strong> To give proper structural shape and form to our faces.</li><li><strong>Clear Speech:</strong> To help us articulate and speak words clearly.</li></ol>",
+                source: "3aee327d-8e5f-48b3-a176-df255995546b"
+            },
+            {
+                id: 2,
+                category: "functions-sets",
+                topicLabel: "1. Functions & Sets",
+                q: "Do newborn human babies have teeth when they are born?",
+                a: "No, a newborn baby has no teeth inside their mouth at birth. The first tooth typically starts to erupt out of the gums when the baby reaches around $6$ months of age.",
+                source: "3aee327d-8e5f-48b3-a176-df255995546b"
+            },
+            {
+                id: 3,
+                category: "functions-sets",
+                topicLabel: "1. Functions & Sets",
+                q: "What are temporary teeth, and how many does a child have?",
+                a: "Temporary teeth (also called <strong>milk teeth</strong>) are the first set of teeth that grow in a human child. By the age of $3$ years, a child generally develops a complete temporary set containing exactly $20$ teeth.",
+                source: "3aee327d-8e5f-48b3-a176-df255995546b"
+            },
+            {
+                id: 4,
+                category: "functions-sets",
+                topicLabel: "1. Functions & Sets",
+                q: "When do children lose their milk teeth?",
+                a: "Children start losing their milk teeth one by one between the ages of $6$ and $12$ years. Underneath, a new set of teeth grows to replace them.",
+                source: "3aee327d-8e5f-48b3-a176-df255995546b"
+            },
+            {
+                id: 5,
+                category: "functions-sets",
+                topicLabel: "1. Functions & Sets",
+                q: "What are permanent teeth, and how many are there in an adult set?",
+                a: "Permanent teeth are the second set of teeth that replace the fallen milk teeth. By the age of $21$, humans usually develop a total of $32$ permanent teeth.",
+                source: "3aee327d-8e5f-48b3-a176-df255995546b"
+            },
+            {
+                id: 6,
+                category: "functions-sets",
+                topicLabel: "1. Functions & Sets",
+                q: "How are the $32$ permanent teeth divided inside our jaws?",
+                a: "They are divided equally between the jaws: exactly $16$ permanent teeth are located in the upper jaw, and exactly $16$ are in the lower jaw.",
+                source: "3aee327d-8e5f-48b3-a176-df255995546b"
+            },
+
+            // TOPIC 2: Parts & Layers
+            {
+                id: 7,
+                category: "parts-layers",
+                topicLabel: "2. Parts & Layers",
+                q: "What are the three main structural parts of a single tooth?",
+                a: "A single tooth is divided into: <ol class='list-decimal pl-5 mt-1 space-y-1 font-normal text-slate-600'><li><strong>Crown:</strong> The visible part of the tooth situated above the gums.</li><li><strong>Root:</strong> The part that extends inside the gum to keep it fixed to the jaw.</li><li><strong>Neck:</strong> The meeting region where the crown joins the root.</li></ol>",
+                source: "3aee327d-8e5f-48b3-a176-df255995546b"
+            },
+            {
+                id: 8,
+                category: "parts-layers",
+                topicLabel: "2. Parts & Layers",
+                q: "What is enamel, and why is it special?",
+                a: "<strong>Enamel</strong> is the outer white, visible layer covering the crown of the tooth. It is the protective shield of the tooth and is famous for being the <strong>hardest substance in the human body</strong>.",
+                source: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1"
+            },
+            {
+                id: 9,
+                category: "parts-layers",
+                topicLabel: "2. Parts & Layers",
+                q: "Describe the dentine layer of a tooth.",
+                a: "<strong>Dentine</strong> is a yellow-colored, hard, bone-like layer situated directly below the outer enamel. It acts as the physical support structure for the enamel.",
+                source: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1"
+            },
+            {
+                id: 10,
+                category: "parts-layers",
+                topicLabel: "2. Parts & Layers",
+                q: "What is cementum?",
+                a: "<strong>Cementum</strong> is a thin, outer layer of hard dental tissue that covers the tooth root. Its function is to bind and anchor the root firmly into the jawbone.",
+                source: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1"
+            },
+            {
+                id: 11,
+                category: "parts-layers",
+                topicLabel: "2. Parts & Layers",
+                q: "What is the pulp, and what does it contain?",
+                a: "The <strong>pulp</strong> is the soft innermost layer at the center of the tooth. It contains vital <strong>blood vessels</strong> (which supply nourishment) and <strong>nerves</strong> (which send signals to the brain).",
+                source: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1"
+            },
+            {
+                id: 12,
+                category: "parts-layers",
+                topicLabel: "2. Parts & Layers",
+                q: "Why are gums important, and what happens as we get older?",
+                a: "<strong>Gums</strong> fit tightly around the base of the teeth and help keep them stable and strong. When people grow old, they tend to lose teeth due to weak gums.",
+                source: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1"
+            },
+
+            // TOPIC 3: Types of Teeth
+            {
+                id: 13,
+                category: "types",
+                topicLabel: "3. Types of Teeth",
+                q: "How many types of teeth do adult humans have?",
+                a: "Adult humans have exactly $4$ different types of teeth: <strong>Incisors</strong>, <strong>Canines</strong>, <strong>Premolars</strong>, and <strong>Molars</strong>. Each type has a unique shape and function.",
+                source: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1"
+            },
+            {
+                id: 14,
+                category: "types",
+                topicLabel: "3. Types of Teeth",
+                q: "What are incisors, and how many do we have?",
+                a: "<strong>Incisors</strong> are chisel-shaped teeth located right at the front of each jaw. They are used for cutting and biting food and are called <strong>cutting teeth</strong>. There are a total of $8$ incisors ($4$ in each jaw).",
+                source: "f53c1970-480a-4140-9823-77ed81a3d481"
+            },
+            {
+                id: 15,
+                category: "types",
+                topicLabel: "3. Types of Teeth",
+                q: "What are canines, and what is their function?",
+                a: "<strong>Canines</strong> are sharp, pointed teeth positioned next to the incisors. They are used for tearing food and are known as <strong>tearing teeth</strong>. There are exactly $4$ canines in total ($2$ in each jaw).",
+                source: "f53c1970-480a-4140-9823-77ed81a3d481"
+            },
+            {
+                id: 16,
+                category: "types",
+                topicLabel: "3. Types of Teeth",
+                q: "What are premolars, and what do they do?",
+                a: "<strong>Premolars</strong> are flat, broad teeth located next to the canines. They crush and crack food, which is why they are called <strong>cracking teeth</strong>. There are exactly $8$ premolars in total ($4$ in each jaw).",
+                source: "f53c1970-480a-4140-9823-77ed81a3d481"
+            },
+            {
+                id: 17,
+                category: "types",
+                topicLabel: "3. Types of Teeth",
+                q: "What are molars, and what is their total count?",
+                a: "<strong>Molars</strong> are the biggest, flattest teeth situated at the back of the mouth next to premolars. They are used for chewing and grinding food and are called <strong>grinding teeth</strong>. There are $12$ molars in all ($6$ in each jaw).",
+                source: "f53c1970-480a-4140-9823-77ed81a3d481"
+            },
+
+            // TOPIC 4: Tooth Care
+            {
+                id: 18,
+                category: "care",
+                topicLabel: "4. Tooth Care",
+                q: "What is plaque and how does it form on our teeth?",
+                a: "When we eat, tiny bits of food can get stuck between our teeth. If not cleaned, germs feed on these particles, forming a sticky, yellowish layer over the teeth called <strong>plaque</strong>.",
+                source: "2dbc2c44-9d98-491c-a2da-d9145ab5eb27"
+            },
+            {
+                id: 19,
+                category: "care",
+                topicLabel: "4. Tooth Care",
+                q: "How do germs make holes (cavities) in our teeth?",
+                a: "The germs inside plaque break down trapped food sugars into <strong>acids</strong>. These acids slowly eat away and decay the protective white enamel, creating holes called <strong>cavities</strong>.",
+                source: "2dbc2c44-9d98-491c-a2da-d9145ab5eb27"
+            },
+            {
+                id: 20,
+                category: "care",
+                topicLabel: "4. Tooth Care",
+                q: "What happens when a cavity reaches the inner pulp of a tooth?",
+                a: "When a cavity grows deep enough to reach the nerves inside the sensitive inner pulp, it leads to severe, painful toothaches, infections, and can cause the tooth to fall out.",
+                source: "2dbc2c44-9d98-491c-a2da-d9145ab5eb27"
+            },
+            {
+                id: 21,
+                category: "care",
+                topicLabel: "4. Tooth Care",
+                q: "How often should we brush our teeth, and what is the best technique?",
+                a: "We should brush our teeth twice a day: once in the morning after waking up, and once before going to bed. We must brush in <strong>up-down and circular motions</strong> and make sure to clean our tongue too.",
+                source: "2dbc2c44-9d98-491c-a2da-d9145ab5eb27"
+            },
+            {
+                id: 22,
+                category: "care",
+                topicLabel: "4. Tooth Care",
+                q: "Why is fluoride added to toothpaste?",
+                a: "<strong>Fluoride</strong> is a helpful chemical ingredient in toothpaste that strengthens the tooth enamel, removes sticky plaque, and prevents cavities from forming.",
+                source: "43d57d06-017b-47ce-a440-b550bc66b309"
+            },
+            {
+                id: 23,
+                category: "care",
+                topicLabel: "4. Tooth Care",
+                q: "What is dental floss and why is it useful?",
+                a: "<strong>Dental floss</strong> is a special, strong thread used to clean the narrow gaps between our teeth. It removes trapped food particles and plaque that a normal toothbrush cannot reach.",
+                source: "43d57d06-017b-47ce-a440-b550bc66b309"
+            },
+            {
+                id: 24,
+                category: "care",
+                topicLabel: "4. Tooth Care",
+                q: "What dietary habits help make our teeth stronger?",
+                a: "Eating healthy food, especially <strong>milk and calcium-rich dairy products</strong>, strengthens teeth. We should also avoid eating too many sugary sweets, sodas, candies, and chocolates.",
+                source: "43d57d06-017b-47ce-a440-b550bc66b309"
+            },
+            {
+                id: 25,
+                category: "care",
+                topicLabel: "4. Tooth Care",
+                q: "What are some practical tips to prevent chipping your teeth?",
+                a: "Avoid chewing hard items like ice, hard candy, nutshells, popcorn kernels, or bones. Never use your teeth as tools to open bottles or packets, and wear a mouth guard when playing sports.",
+                source: "43d57d06-017b-47ce-a440-b550bc66b309"
+            },
+
+            // TOPIC 5: Facts & History
+            {
+                id: 26,
+                category: "facts",
+                topicLabel: "5. Facts & History",
+                q: "What is the interesting shark tooth fact mentioned in the chapter?",
+                a: "While humans only get two sets of teeth in their lifetime, some species of <strong>sharks develop a brand-new set of teeth every two weeks</strong>!",
+                source: "3aee327d-8e5f-48b3-a176-df255995546b"
+            },
+            {
+                id: 27,
+                category: "facts",
+                topicLabel: "5. Facts & History",
+                q: "Who is Dr. Rafiuddin Ahmed?",
+                a: "<strong>Dr. Rafiuddin Ahmed</strong> was a legendary Indian dentist who founded the first dental college of India (Dr. R. Ahmed Dental College and Hospital). He is celebrated as the <strong>'Father of Modern Dentistry in India'</strong>.",
+                source: "2fef4025-d8b9-4235-a5a7-1799fc83a2e1"
+            },
+            {
+                id: 28,
+                category: "facts",
+                topicLabel: "5. Facts & History",
+                q: "When is World Oral Health Day celebrated, and why?",
+                a: "World Oral Health Day is celebrated globally every year on <strong>$20\text{th}$ March</strong> to raise awareness about maintaining good oral hygiene and taking care of our teeth.",
+                source: "2dbc2c44-9d98-491c-a2da-d9145ab5eb27"
+            },
+            {
+                id: 29,
+                category: "facts",
+                topicLabel: "5. Facts & History",
+                q: "Does having pure white teeth always mean they are healthy?",
+                a: "No, perfectly white teeth do not always mean they are healthy. Healthy teeth can naturally be slightly pale or yellowish in color. Teeth should be judged by their strength and absence of decay, not just by their appearance.",
+                source: "43d57d06-017b-47ce-a440-b550bc66b309"
+            },
+            {
+                id: 30,
+                category: "facts",
+                topicLabel: "5. Facts & History",
+                q: "What are dentures?",
+                a: "Dentures are artificial, false sets of teeth used by people (often elderly) who have lost their natural teeth, helping them chew food and speak properly.",
+                source: "de4c1755-1881-4d5d-b0c2-4acebb8b8b92"
+            },
+            {
+                id: 31,
+                category: "facts",
+                topicLabel: "5. Facts & History",
+                q: "Why is it important to rinse our mouth with water after every meal?",
+                a: "Rinsing with water washes away loose food particles stuck on and between the teeth. This prevents germs from finding food to feed on, stopping the creation of plaque and harmful acids.",
+                source: "de4c1755-1881-4d5d-b0c2-4acebb8b8b92"
+            }
+        ];
+
+        let activeCategory = "all";
+
+        // Render Q&A details tags dynamically
+        function renderStudyCards() {
+            const container = document.getElementById("cards-container");
+            const emptyState = document.getElementById("empty-state");
+            const searchQuery = document.getElementById("search-input").value.toLowerCase().trim();
+
+            container.innerHTML = "";
+
+            // Filter data by active category and search keyword
+            const filtered = studyData.filter(item => {
+                const matchesCat = (activeCategory === "all" || item.category === activeCategory);
+                const matchesSearch = (
+                    item.q.toLowerCase().includes(searchQuery) || 
+                    item.a.toLowerCase().includes(searchQuery) ||
+                    item.source.toLowerCase().includes(searchQuery)
+                );
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove("hidden");
+                return;
+            }
+            emptyState.classList.add("hidden");
+
+            filtered.forEach((item, idx) => {
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-xl border border-slate-200 hover:border-indigo-300 shadow-sm transition duration-150 overflow-hidden";
+                card.innerHTML = `
+                    <details class="group" id="details-${item.id}">
+                        <summary class="flex items-center justify-between p-4 cursor-pointer select-none bg-white hover:bg-slate-50/50">
+                            <div class="flex items-start gap-3 flex-1">
+                                <span class="bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5 whitespace-nowrap">
+                                    Q${idx + 1}
+                                </span>
+                                <h3 class="text-xs md:text-sm font-semibold text-slate-800 leading-tight pr-4">
+                                    ${item.q}
+                                </h3>
+                            </div>
+                            <span class="text-slate-400 group-hover:text-indigo-600 transition duration-150">
+                                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200"></i>
+                            </span>
+                        </summary>
+                        <div class="px-4 pb-4 pt-1 border-t border-slate-100 bg-slate-50/30 text-xs text-slate-700 leading-relaxed space-y-2.5">
+                            <div class="font-medium">
+                                ${item.a}
+                            </div>
+                            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-2 border-t border-dashed border-slate-200">
+                                <span class="font-bold text-slate-500 uppercase tracking-wider">
+                                    <i class="fa-solid fa-tags text-indigo-500/80 mr-1"></i> ${item.topicLabel}
+                                </span>
+                                <span>
+                                    Page Ref: <strong class="text-slate-500">${item.source}</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </details>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Toggle categorization filter states
+        function filterCategory(catId) {
+            activeCategory = catId;
+            
+            // Clear all filter highlights
+            const buttons = document.querySelectorAll("#category-filters button");
+            buttons.forEach(btn => {
+                btn.className = "w-full text-left px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 transition";
+            });
+
+            // Set active color layout
+            const activeBtn = document.getElementById(`btn-${catId}`);
+            if (activeBtn) {
+                activeBtn.className = "w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition bg-indigo-50 text-indigo-700";
+            }
+
+            renderStudyCards();
+        }
+
+        // Search engine keyup action
+        function searchCards() {
+            renderStudyCards();
+        }
+
+        // Helper to expand or collapse all visual details components at once
+        function toggleAllCards(openState) {
+            const detailsElements = document.querySelectorAll("#cards-container details");
+            detailsElements.forEach(detail => {
+                detail.open = openState;
+            });
+        }
+
+        // Startup window hook
+        window.onload = function() {
+            renderStudyCards();
+        };
+    </script>
+</body>
+</html>
